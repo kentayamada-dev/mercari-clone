@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: "app"
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+      - extensions:/root/.vscode-server/extensions
+      - ~/.ssh:/root/.ssh
+    init: true
+    command: sleep infinity
+    network_mode: host
+  db-dev:
+    container_name: "db_dev"
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - postgres-data-dev:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: dev
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+  db-test:
+    container_name: "db_test"
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - postgres-data-test:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: test
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5433:5432
+volumes:
+  postgres-data-dev:
+  postgres-data-test:
+  extensions:
