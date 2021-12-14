@@ -1,0 +1,29 @@
+name: EAS build
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/**"
+
+jobs:
+  build:
+    name: Build preview app for android and ios
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+      - uses: actions/setup-node@v2.4.1
+        with:
+          node-version: 16.13.0
+      - uses: expo/expo-github-action@6.0.0
+        with:
+          expo-version: latest
+          expo-cache: true
+          token: ${{ secrets.EXPO_TOKEN }}
+      - run: npm install -g eas-cli
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: yarn install
+      - name: Build App
+        working-directory: ./frontend
+        run: eas build -p all --profile preview --non-interactive
