@@ -1,0 +1,13 @@
+{
+  "common": {
+    "home": "Home",
+    "notifications": "Notifications",
+    "selling": "Selling",
+    "paying": "Paying",
+    "myPage": "My Page"
+  },
+  "home": {
+    "recommends": "Recommends",
+    "savedQueries": "Saved Queries"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "license": "MIT",
+  "scripts": {
+    "lint": "tsc",
+    "dev": "expo start",
+    "dev:android": "yarn dev --android",
+    "dev:ios": "yarn dev --ios",
+    "dev:web": "yarn dev --web",
+    "build": "eas build --profile preview",
+    "build:android": "yarn build --platform android",
+    "build:ios": "yarn build --platform ios",
+    "generate": "swagger-typescript-api -p http://localhost:8000/openapi.json -o ./src/generated/",
+    "prestorybook": "rnstl",
+    "storybook": "start-storybook -p 7007"
+  },
+  "dependencies": {
+    "@expo/config": "^6.0.9",
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "@react-native-masked-view/masked-view": "0.2.5",
+    "@react-navigation/bottom-tabs": "^6.0.9",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
+    "@react-navigation/stack": "^6.0.11",
+    "@reduxjs/toolkit": "^1.6.2",
+    "dotenv": "^10.0.0",
+    "expo": "~43.0.2",
+    "expo-dev-client": "~0.6.3",
+    "expo-localization": "~11.0.0",
+    "expo-status-bar": "~1.1.0",
+    "i18next": "^21.6.0",
+    "native-base": "^3.2.2",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-i18next": "^11.15.0",
+    "react-native": "0.64.3",
+    "react-native-gesture-handler": "~1.10.2",
+    "react-native-pager-view": "5.4.6",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.8.0",
+    "react-native-svg": "12.1.1",
+    "react-native-tab-view": "^3.1.1",
+    "react-native-web": "0.17.1",
+    "react-redux": "^7.2.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@storybook/addon-actions": "^5.3",
+    "@storybook/addon-knobs": "^5.3",
+    "@storybook/addon-links": "^5.3",
+    "@storybook/addon-ondevice-actions": "^5.3.23",
+    "@storybook/addon-ondevice-knobs": "^5.3.25",
+    "@storybook/react-native": "^5.3.25",
+    "@storybook/react-native-server": "^5.3.23",
+    "@types/faker": "^5.5.9",
+    "@types/react": "~17.0.21",
+    "@types/react-native": "~0.64.12",
+    "babel-loader": "^8.2.3",
+    "faker": "^5.5.3",
+    "react-native-storybook-loader": "^2.0.4",
+    "swagger-typescript-api": "^9.3.1",
+    "typescript": "~4.3.5"
+  },
+  "config": {
+    "react-native-storybook-loader": {
+      "searchDir": [
+        "./src/components"
+      ],
+      "pattern": "**/*.stories.tsx",
+      "outputFile": "./storybook/storyLoader.js"
+    }
+  }
+}

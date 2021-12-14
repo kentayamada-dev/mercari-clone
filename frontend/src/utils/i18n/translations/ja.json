@@ -1,0 +1,13 @@
+{
+  "common": {
+    "home": "ホーム",
+    "notifications": "お知らせ",
+    "selling": "出品",
+    "paying": "メルペイ",
+    "myPage": "マイページ"
+  },
+  "home": {
+    "recommends": "おすすめ",
+    "savedQueries": "保存した検索条件"
+  }
+}
