@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+SQLAlchemy
+psycopg2
+pydantic[email]
+types-requests
+requests
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+pydantic[dotenv]
+gunicorn
+cloudinary

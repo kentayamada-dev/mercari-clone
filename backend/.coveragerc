@@ -1,0 +1,5 @@
+[run]
+omit = app/test/* 
+       app/db/*
+       */__init__.py
+       app/main.py

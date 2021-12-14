@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python (Integrated Terminal)",
+      "type": "python",
+      "request": "launch",
+      "program": "dev_server.py",
+      "console": "integratedTerminal"
+    }
+  ]
+}
