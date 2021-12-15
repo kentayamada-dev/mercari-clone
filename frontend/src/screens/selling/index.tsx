@@ -5,6 +5,6 @@ import { HomeStackParamList } from "../../types";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Selling">;
 
-export const Selling: React.VFC<Props> = ({ navigation }) => {
+export const Selling: React.VFC<Props> = () => {
   return <Text>Selling</Text>;
 };

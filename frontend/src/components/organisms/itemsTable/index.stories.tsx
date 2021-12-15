@@ -1,4 +1,5 @@
 import { action } from "@storybook/addon-actions";
+import { object } from "@storybook/addon-knobs";
 import { storiesOf } from "@storybook/react-native";
 import faker from "faker";
 import React from "react";
@@ -17,7 +18,7 @@ const items: ItemRead[] = new Array(10)
 
 storiesOf("Organisms", module).add("ItemsTable", () => (
   <ItemsTable
-    items={items}
+    items={object("items", items)}
     itemNavigationHandler={action("itemNavigationHandler")}
   />
 ));

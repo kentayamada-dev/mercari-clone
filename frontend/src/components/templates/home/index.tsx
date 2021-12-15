@@ -1,18 +1,10 @@
 import { Center } from "native-base";
 import React from "react";
-import { Item } from "../../../generated/Api";
 import { AppBar } from "../../organisms/appBar";
 import { HomeTabs } from "./tabs";
+import { HomeTemplateProps } from "./types";
 
-type Props = {
-  isItemsFetching: boolean;
-  items: Item[];
-  itemNavigationHandler: (itemId: string) => void;
-  refetchItems: () => void;
-  todoNavigationHandler: () => void;
-};
-
-export const HomeTemplate: React.VFC<Props> = ({
+export const HomeTemplate: React.VFC<HomeTemplateProps> = ({
   todoNavigationHandler,
   ...itemsTableProps
 }) => {

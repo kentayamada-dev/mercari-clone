@@ -1,14 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Box, IconButton, Input, useColorMode } from "native-base";
+import { Box, IconButton, Input } from "native-base";
 import React from "react";
+import { typedUseColorModeValue } from "../../../utils/modules";
+import { AppBarProps } from "./types";
 
-type Props = {
-  todoNavigationHandler: () => void;
-};
-
-export const AppBar: React.VFC<Props> = React.memo<Props>(
+export const AppBar: React.VFC<AppBarProps> = React.memo<AppBarProps>(
   ({ todoNavigationHandler }) => {
-    const { colorMode } = useColorMode();
+    const color = typedUseColorModeValue("black", "white");
 
     return (
       <Box
@@ -41,13 +39,7 @@ export const AppBar: React.VFC<Props> = React.memo<Props>(
           justifyContent="center"
           alignItems="center"
           colorScheme="muted"
-          icon={
-            <Ionicons
-              name="checkmark"
-              size={30}
-              color={colorMode === "dark" ? "white" : "black"}
-            />
-          }
+          icon={<Ionicons name="checkmark" size={30} color={`${color}`} />}
         />
       </Box>
     );

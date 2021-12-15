@@ -1,14 +1,9 @@
 import { Box, Image, Text } from "native-base";
 import React from "react";
 import { useWindowDimensions } from "react-native";
+import { ItemCardProps } from "./types";
 
-type Props = {
-  isPressed: boolean;
-  price: number;
-  imageUrl: string;
-};
-
-export const ItemCard: React.VFC<Props> = React.memo<Props>(
+export const ItemCard: React.VFC<ItemCardProps> = React.memo<ItemCardProps>(
   ({ isPressed, price, imageUrl }) => {
     const { width } = useWindowDimensions();
 

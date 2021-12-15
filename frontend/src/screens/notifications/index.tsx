@@ -5,6 +5,6 @@ import { HomeStackParamList } from "../../types";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Notifications">;
 
-export const Notifications: React.VFC<Props> = ({ navigation }) => {
+export const Notifications: React.VFC<Props> = () => {
   return <Text>Notification</Text>;
 };

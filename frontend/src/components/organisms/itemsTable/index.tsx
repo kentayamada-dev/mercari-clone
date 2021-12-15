@@ -1,18 +1,13 @@
 import { Pressable, SimpleGrid } from "native-base";
 import React from "react";
-import { ItemRead } from "../../../generated/Api";
 import { ItemCard } from "../../molecules/itemCard";
+import { ItemsTableProps } from "./types";
 
-type Props = {
-  items: ItemRead[];
-  itemNavigationHandler: (itemId: string) => void;
-};
-
-export const ItemsTable: React.VFC<Props> = React.memo<Props>(
-  ({ items, itemNavigationHandler }) => {
+export const ItemsTable: React.VFC<ItemsTableProps> =
+  React.memo<ItemsTableProps>(({ items, itemNavigationHandler }) => {
     return (
       <SimpleGrid columns={3} space={1}>
-        {items.map((item, index) => (
+        {items?.map((item, index) => (
           <Pressable onPress={() => itemNavigationHandler(item.id)} key={index}>
             {({ isPressed }) => (
               <ItemCard
@@ -25,5 +20,4 @@ export const ItemsTable: React.VFC<Props> = React.memo<Props>(
         ))}
       </SimpleGrid>
     );
-  }
-);
+  });

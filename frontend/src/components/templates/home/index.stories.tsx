@@ -1,4 +1,4 @@
-import { boolean } from "@storybook/addon-knobs";
+import { boolean, object } from "@storybook/addon-knobs";
 import { storiesOf } from "@storybook/react-native";
 import React from "react";
 import { HomeTemplate } from "./index";
@@ -24,7 +24,7 @@ storiesOf("Templates", module).add("HomeTemplate", () => (
     isItemsFetching={boolean("isItemsFetching", false)}
     todoNavigationHandler={action("todoNavigationHandler")}
     itemNavigationHandler={action("itemNavigationHandler")}
-    items={items}
+    items={object("items", items)}
     refetchItems={action("refetchItems")}
   />
 ));

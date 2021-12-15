@@ -1,9 +1,9 @@
 import { action } from "@storybook/addon-actions";
 import { boolean } from "@storybook/addon-knobs";
 import { storiesOf } from "@storybook/react-native";
+import { Text } from "native-base";
 import React from "react";
 import { ToggleButtonGroup } from "./index";
-import { Text } from "native-base";
 
 const RightButtonContent: React.VFC = () => <Text>Right Buton</Text>;
 const MiddleButtonContent: React.VFC = () => <Text>Middle Button</Text>;
