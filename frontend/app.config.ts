@@ -9,6 +9,7 @@ export default ({ config }: ConfigContext): ExtendedExpoConfig => ({
   version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
+  privacy: "public",
   splash: {
     image: "./assets/splash.png",
     resizeMode: "contain",
