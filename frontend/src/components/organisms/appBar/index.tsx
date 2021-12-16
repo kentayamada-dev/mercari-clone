@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Box, IconButton, Input } from "native-base";
 import React from "react";
-import { typedUseColorModeValue } from "../../../utils/modules";
+import { typedUseColorModeValue } from "../../../theme/modules";
 import { AppBarProps } from "./types";
 
 export const AppBar: React.VFC<AppBarProps> = React.memo<AppBarProps>(

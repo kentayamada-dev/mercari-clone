@@ -32,9 +32,6 @@ export default ({ config }: ConfigContext): ExtendedExpoConfig => ({
     userInterfaceStyle: "automatic",
     package: "com.kenta_yamada.mercari_clone",
   },
-  web: {
-    favicon: "./assets/favicon.png",
-  },
   extra: {
     API_URL: process.env.API_URL,
     NODE_ENV: process.env.NODE_ENV,

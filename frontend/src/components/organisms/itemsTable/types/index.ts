@@ -1,4 +1,4 @@
-import { ItemRead } from "../../../../generated/Api";
+import { ItemRead } from "../../../../types/generated";
 
 export type ItemsTableProps = {
   items: ItemRead[];

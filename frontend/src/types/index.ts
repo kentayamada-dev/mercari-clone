@@ -30,3 +30,5 @@ export type Extra = {
 export interface ExtendedExpoConfig extends ExpoConfig {
   extra: Extra;
 }
+
+export type CustomQueryKey = "items";

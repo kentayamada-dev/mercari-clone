@@ -5,11 +5,10 @@
     "dev": "expo start",
     "dev:android": "yarn dev --android",
     "dev:ios": "yarn dev --ios",
-    "dev:web": "yarn dev --web",
     "build": "eas build --profile preview",
     "build:android": "yarn build --platform android",
     "build:ios": "yarn build --platform ios",
-    "generate": "swagger-typescript-api -p http://localhost:8000/openapi.json -o ./src/generated/",
+    "generate": "swagger-typescript-api -p http://localhost:8000/openapi.json -o ./src/types/ -n generated.ts",
     "prestorybook": "rnstl",
     "storybook": "start-storybook -p 7007"
   },
@@ -21,11 +20,13 @@
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "@react-navigation/stack": "^6.0.11",
-    "@reduxjs/toolkit": "^1.6.2",
     "dotenv": "^10.0.0",
     "expo": "~43.0.2",
+    "expo-app-loading": "~1.2.1",
+    "expo-asset": "~8.4.3",
     "expo-dev-client": "~0.6.3",
     "expo-localization": "~11.0.0",
+    "expo-splash-screen": "~0.13.5",
     "expo-status-bar": "~1.1.0",
     "i18next": "^21.6.0",
     "native-base": "^3.2.2",
@@ -40,7 +41,7 @@
     "react-native-svg": "12.1.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "0.17.1",
-    "react-redux": "^7.2.6"
+    "react-query": "^3.34.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

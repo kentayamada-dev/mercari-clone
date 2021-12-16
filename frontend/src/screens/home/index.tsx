@@ -1,10 +1,14 @@
 import React from "react";
 import { HomeTemplate } from "../../components/templates/home";
-import { useGetItemsQuery } from "../../services/itemsApi";
+import { useQueryClientWrapper } from "../../hooks/modules";
+import { useQueryItems } from "../../hooks/useQueryItems";
+import { wait } from "../../modules";
 import { HomeProps } from "./types";
 
 export const Home: React.VFC<HomeProps> = ({ navigation }) => {
-  const { data: items, isFetching, refetch } = useGetItemsQuery();
+  const { invalidateQueries } = useQueryClientWrapper();
+  const [refreshing, setRefreshing] = React.useState(false);
+  const { data: items, isFetching } = useQueryItems();
   const itemNavigationHandler = React.useCallback((itemId: string) => {
     navigation.navigate("Detail", { itemId: itemId });
   }, []);
@@ -12,10 +16,17 @@ export const Home: React.VFC<HomeProps> = ({ navigation }) => {
     navigation.navigate("Todo", { userId: "userId" });
   }, []);
 
+  const onInvalidate = React.useCallback(async () => {
+    invalidateQueries("items");
+    setRefreshing(true);
+    await wait(1000);
+    setRefreshing(false);
+  }, []);
+
   return (
     <HomeTemplate
-      refetchItems={refetch}
-      isItemsFetching={isFetching}
+      refetchItems={onInvalidate}
+      isItemsFetching={refreshing || isFetching}
       items={items}
       itemNavigationHandler={itemNavigationHandler}
       todoNavigationHandler={todoNavigationHandler}

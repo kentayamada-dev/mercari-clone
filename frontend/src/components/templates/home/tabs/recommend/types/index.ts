@@ -1,11 +1,11 @@
-import { Item } from "../../../../../../generated/Api";
+import { ItemRead } from "../../../../../../types/generated";
 import { ItemsTableProps } from "../../../../../organisms/itemsTable/types";
 
 export type RecommendTabProps = Pick<
   ItemsTableProps,
   "itemNavigationHandler"
 > & {
-  items?: Item[];
+  items?: ItemRead[];
   isItemsFetching: boolean;
   refetchItems: () => void;
 };

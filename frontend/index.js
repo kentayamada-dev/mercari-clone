@@ -1,7 +1,8 @@
 import { registerRootComponent } from "expo";
-import { App } from "./src/App";
+import { Root } from "./src/Root";
 import { CONSTANTS } from "./src/constants";
 import { StorybookUIRoot } from "./storybook/index";
 
-const Root = CONSTANTS.NODE_ENV === "storybook" ? StorybookUIRoot : App;
-registerRootComponent(Root);
+const RootComponent =
+  CONSTANTS.ENV.NODE_ENV === "storybook" ? StorybookUIRoot : Root;
+registerRootComponent(RootComponent);

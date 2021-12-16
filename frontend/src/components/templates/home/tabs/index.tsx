@@ -6,7 +6,7 @@ import { TabBar, TabView } from "react-native-tab-view";
 import {
   typedUseColorModeValue,
   typedUseColorToken,
-} from "../../../../utils/modules";
+} from "../../../../theme/modules";
 import { RecommendTab } from "./recommend";
 import { SavedTab } from "./saved";
 import { HomeTabsProps } from "./types";

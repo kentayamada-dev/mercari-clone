@@ -2,7 +2,7 @@ import { Button, HStack, useColorModeValue } from "native-base";
 import { ColorType } from "native-base/lib/typescript/components/types";
 import React from "react";
 import { useWindowDimensions } from "react-native";
-import { typedUseColorModeValue } from "../../../utils/modules";
+import { typedUseColorModeValue } from "../../../theme/modules";
 import { ToggleButtonGroupProps } from "./types";
 
 export const ToggleButtonGroup: React.VFC<ToggleButtonGroupProps> =
@@ -60,7 +60,7 @@ export const ToggleButtonGroup: React.VFC<ToggleButtonGroupProps> =
             width={width / 3.3}
             borderLeftRadius="lg"
             borderRightRadius="none"
-            borderWidth={getStateOnLeftButtonFocused("2", "0.2")}
+            borderWidth={getStateOnLeftButtonFocused("2", "1")}
             borderColor={getStateOnLeftButtonFocused(
               primaryColor,
               invertedSecondaryColor
@@ -78,16 +78,14 @@ export const ToggleButtonGroup: React.VFC<ToggleButtonGroupProps> =
             height="12"
             width={width / 3.3}
             borderRadius="none"
-            borderWidth={getStateOnMiddleButtonFocused("2", "0.2")}
+            borderWidth={getStateOnMiddleButtonFocused("2", "1")}
             borderLeftWidth={
-              isLeftButtoFocused
-                ? "0"
-                : getStateOnMiddleButtonFocused("2", "0.2")
+              isLeftButtoFocused ? "0" : getStateOnMiddleButtonFocused("2", "1")
             }
             borderRightWidth={
               isRightButtoFocused
                 ? "0"
-                : getStateOnMiddleButtonFocused("2", "0.2")
+                : getStateOnMiddleButtonFocused("2", "1")
             }
             borderColor={getStateOnMiddleButtonFocused(
               primaryColor,
@@ -106,7 +104,7 @@ export const ToggleButtonGroup: React.VFC<ToggleButtonGroupProps> =
             width={width / 3.3}
             borderLeftRadius="none"
             borderRightRadius="lg"
-            borderWidth={getStateOnRightButtonFocused("2", "0.2")}
+            borderWidth={getStateOnRightButtonFocused("2", "1")}
             borderColor={getStateOnRightButtonFocused(
               primaryColor,
               invertedSecondaryColor

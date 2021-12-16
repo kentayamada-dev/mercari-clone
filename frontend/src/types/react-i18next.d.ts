@@ -1,4 +1,4 @@
-import { resources, defaultNS } from "../utils/i18n";
+import { resources, defaultNS } from "../i18n";
 
 declare module "react-i18next" {
   interface CustomTypeOptions {

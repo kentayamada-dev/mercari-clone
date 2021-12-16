@@ -4,7 +4,7 @@ import { Box, useColorModeValue } from "native-base";
 import React from "react";
 import { RootNavigator } from "../navigators";
 import { NavigationThemeDark, NavigationThemeLight } from "../theme";
-import { typedUseColorModeValue } from "../utils/modules";
+import { typedUseColorModeValue } from "../theme/modules";
 
 export const RootComponet: React.VFC = () => {
   const bgColor = typedUseColorModeValue(

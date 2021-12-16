@@ -3,7 +3,7 @@ import { object } from "@storybook/addon-knobs";
 import { storiesOf } from "@storybook/react-native";
 import faker from "faker";
 import React from "react";
-import { ItemRead } from "../../../generated/Api";
+import { ItemRead } from "../../../types/generated";
 import { ItemsTable } from "./index";
 
 const item = (index: number): ItemRead => ({
