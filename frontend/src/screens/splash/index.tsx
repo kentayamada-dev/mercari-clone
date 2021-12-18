@@ -2,8 +2,10 @@ import AppLoading from "expo-app-loading";
 import { Asset } from "expo-asset";
 import Constants from "expo-constants";
 import * as SplashScreen from "expo-splash-screen";
-import React from "react";
-import { Animated, ImageURISource, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { Animated, ImageURISource, StyleSheet, Text, View } from "react-native";
+import * as Progress from "react-native-progress";
+import { wait } from "../../modules";
 
 type Props = {
   children: React.ReactNode;
@@ -45,6 +47,7 @@ export const AnimatedSplashScreen: React.VFC<Props> = ({
   prepare,
 }) => {
   const animation = React.useMemo(() => new Animated.Value(1), []);
+  const [isTakingLonger, setIsTakingLonger] = useState(false);
   const [isAppReady, setIsAppReady] = React.useState(false);
   const [isSplashAnimationComplete, setAnimationComplete] =
     React.useState(false);
@@ -67,36 +70,72 @@ export const AnimatedSplashScreen: React.VFC<Props> = ({
     }
   }, [isAppReady]);
 
+  React.useEffect(() => {
+    const measureLoadingTime = async () => {
+      await wait(3000);
+      setIsTakingLonger(true);
+    };
+    measureLoadingTime();
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
       {isAppReady && children}
       {!isSplashAnimationComplete && (
-        <Animated.View
-          pointerEvents="none"
-          style={[
-            StyleSheet.absoluteFill,
-            {
-              backgroundColor: Constants.manifest?.splash?.backgroundColor,
-              opacity: animation,
-            },
-          ]}
-        >
-          <Animated.Image
-            style={{
-              width: "100%",
-              height: "100%",
-              resizeMode: Constants.manifest?.splash?.resizeMode,
-              transform: [
-                {
-                  scale: animation,
-                },
-              ],
-            }}
-            source={image}
-            onLoadEnd={onImageLoaded}
-            fadeDuration={0}
-          />
-        </Animated.View>
+        <>
+          <Animated.View
+            pointerEvents="none"
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                backgroundColor: Constants.manifest?.splash?.backgroundColor,
+                opacity: animation,
+              },
+            ]}
+          >
+            <Animated.Image
+              style={{
+                width: "100%",
+                height: "100%",
+                resizeMode: Constants.manifest?.splash?.resizeMode,
+                transform: [
+                  {
+                    scale: animation,
+                  },
+                ],
+              }}
+              source={image}
+              onLoadEnd={onImageLoaded}
+              fadeDuration={0}
+            />
+          </Animated.View>
+
+          {!isAppReady && isTakingLonger && (
+            <View
+              style={{ flex: 1, position: "relative", alignItems: "center" }}
+            >
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: 200,
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                  }}
+                >
+                  最新のデータに更新しています
+                </Text>
+                <Progress.Bar
+                  indeterminate={true}
+                  width={250}
+                  color="#30b2ff"
+                />
+              </View>
+            </View>
+          )}
+        </>
       )}
     </View>
   );

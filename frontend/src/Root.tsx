@@ -5,7 +5,7 @@ import { App } from "./App";
 import { CONSTANTS } from "./constants";
 import { LogBox } from "react-native";
 
-LogBox.ignoreLogs(["Setting a timer"]);
+LogBox.ignoreLogs(["Setting a timer", "NativeBase: The contrast ratio of"]);
 
 const queryClient = new QueryClient({
   defaultOptions: {

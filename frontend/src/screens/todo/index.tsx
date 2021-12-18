@@ -1,14 +1,14 @@
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { HStack, Text, useColorMode, useColorModeValue } from "native-base";
+import { locale } from "expo-localization";
+import { Box, HStack, Text, useColorMode } from "native-base";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ColorSchemeName, useColorScheme } from "react-native";
-import { HomeStackParamList } from "../../types";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { locale } from "expo-localization";
 import { ToggleButtonGroup } from "../../components/organisms/toggleButtonGroup";
+import { typedUseColorToken } from "../../theme/modules";
+import { HomeStackParamList } from "../../types";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "Todo">;
 
@@ -16,11 +16,16 @@ type Locale = "ja" | "en" | null;
 
 export const Todo: React.VFC<Props> = () => {
   const { i18n } = useTranslation("common");
+  const { t: translation } = useTranslation("settings");
   const { setColorMode } = useColorMode();
   const [colorModeState, setColorModeState] =
     React.useState<ColorSchemeName>(null);
   const [localeState, setLocaleState] = React.useState<Locale>(null);
   const colorScheme = useColorScheme();
+  const secondaryColor = typedUseColorToken(
+    "brand.secondary.dark",
+    "brand.secondary.light"
+  );
 
   React.useEffect(() => {
     const getData = async () => {
@@ -35,17 +40,13 @@ export const Todo: React.VFC<Props> = () => {
   const LeftButtonContentOnColorChange: React.VFC = React.useCallback(
     () => (
       <HStack alignItems="center" space={2}>
-        <Ionicons
-          name="md-moon-outline"
-          size={24}
-          color={useColorModeValue("#222", "#fff")}
-        />
+        <Ionicons name="md-moon-outline" size={24} color={secondaryColor} />
         <Text fontSize="md" fontWeight="bold">
-          Dark
+          {translation("darkTheme")}
         </Text>
       </HStack>
     ),
-    []
+    [translation, secondaryColor]
   );
 
   const MiddleButtonContentOnColorChange: React.VFC = React.useCallback(
@@ -54,30 +55,26 @@ export const Todo: React.VFC<Props> = () => {
         <MaterialCommunityIcons
           name="theme-light-dark"
           size={24}
-          color={useColorModeValue("#222", "#fff")}
+          color={secondaryColor}
         />
         <Text fontSize="md" fontWeight="bold">
-          System
+          {translation("systemTheme")}
         </Text>
       </HStack>
     ),
-    []
+    [translation, secondaryColor]
   );
 
   const RightButtonContentOnColorChange: React.VFC = React.useCallback(
     () => (
       <HStack alignItems="center" space={2}>
-        <Ionicons
-          name="sunny"
-          size={24}
-          color={useColorModeValue("#222", "#fff")}
-        />
+        <Ionicons name="sunny" size={24} color={secondaryColor} />
         <Text fontSize="md" fontWeight="bold">
-          Light
+          {translation("lightTheme")}
         </Text>
       </HStack>
     ),
-    []
+    [translation, secondaryColor]
   );
 
   const leftButtonHandlerOnColorChange = React.useCallback(async () => {
@@ -104,23 +101,19 @@ export const Todo: React.VFC<Props> = () => {
         日本語
       </Text>
     ),
-    []
+    [secondaryColor]
   );
 
   const MiddleButtonContentOnLocaleChange: React.VFC = React.useCallback(
     () => (
       <HStack alignItems="center" space={2}>
-        <Ionicons
-          name="ios-language"
-          size={24}
-          color={useColorModeValue("#222", "#fff")}
-        />
+        <Ionicons name="ios-language" size={24} color={secondaryColor} />
         <Text fontSize="md" fontWeight="bold">
           System
         </Text>
       </HStack>
     ),
-    []
+    [secondaryColor]
   );
 
   const RightButtonContentOnLocaleChange: React.VFC = React.useCallback(
@@ -129,7 +122,7 @@ export const Todo: React.VFC<Props> = () => {
         English
       </Text>
     ),
-    []
+    [secondaryColor]
   );
 
   const leftButtonHandlerOnLocaleChange = React.useCallback(async () => {
@@ -163,6 +156,7 @@ export const Todo: React.VFC<Props> = () => {
         MiddleButtonContent={MiddleButtonContentOnColorChange}
         RightButtonContent={RightButtonContentOnColorChange}
       />
+      <Box height="2" />
       <ToggleButtonGroup
         isLeftButtoFocused={localeState === "ja"}
         isMiddleButtoFocused={localeState === null}

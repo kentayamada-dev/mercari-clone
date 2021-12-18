@@ -9,5 +9,10 @@
   "home": {
     "recommends": "おすすめ",
     "savedQueries": "保存した検索条件"
+  },
+  "settings": {
+    "systemTheme": "システム",
+    "darkTheme": "ダーク",
+    "lightTheme": "ライト"
   }
 }

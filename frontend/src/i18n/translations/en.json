@@ -9,5 +9,10 @@
   "home": {
     "recommends": "Recommends",
     "savedQueries": "Saved Queries"
+  },
+  "settings": {
+    "systemTheme": "System",
+    "darkTheme": "Dark",
+    "lightTheme": "Light"
   }
 }

@@ -1,5 +1,4 @@
 import { Button, HStack, useColorModeValue } from "native-base";
-import { ColorType } from "native-base/lib/typescript/components/types";
 import React from "react";
 import { useWindowDimensions } from "react-native";
 import { typedUseColorModeValue } from "../../../theme/modules";
@@ -19,25 +18,9 @@ export const ToggleButtonGroup: React.VFC<ToggleButtonGroupProps> =
       RightButtonContent,
     }) => {
       const { width } = useWindowDimensions();
-
-      const invertedSecondaryColor = typedUseColorModeValue(
-        "brand.secondary.dark",
-        "brand.secondary.light"
-      );
-
-      const secondaryColor = typedUseColorModeValue(
-        "brand.secondary.light",
-        "brand.secondary.dark"
-      );
-
       const primaryColor = typedUseColorModeValue(
-        "brand.primary.light",
-        "brand.primary.dark"
-      );
-
-      const rgbColor: ColorType = useColorModeValue(
-        "rgb(255, 240, 240)",
-        "rgba(255, 51, 51, 0.16)"
+        "buttonLight.50",
+        "buttonDark.600"
       );
 
       const getStateOnLeftButtonFocused = <T,>(onFocused: T, notOnFocused: T) =>
@@ -58,63 +41,44 @@ export const ToggleButtonGroup: React.VFC<ToggleButtonGroupProps> =
           <Button
             height="12"
             width={width / 3.3}
-            borderLeftRadius="lg"
-            borderRightRadius="none"
-            borderWidth={getStateOnLeftButtonFocused("2", "1")}
-            borderColor={getStateOnLeftButtonFocused(
-              primaryColor,
-              invertedSecondaryColor
-            )}
-            borderRightWidth={getStateOnLeftButtonFocused("2", "0")}
-            backgroundColor={getStateOnLeftButtonFocused(
-              rgbColor,
-              secondaryColor
-            )}
+            variant="outline"
             onPress={leftButtonHandler}
+            colorScheme={useColorModeValue("buttonLight", "buttonDark")}
+            borderRightRadius="none"
+            borderRightWidth={0}
+            backgroundColor={getStateOnLeftButtonFocused(
+              primaryColor,
+              undefined
+            )}
           >
             <LeftButtonContent />
           </Button>
           <Button
             height="12"
             width={width / 3.3}
-            borderRadius="none"
-            borderWidth={getStateOnMiddleButtonFocused("2", "1")}
-            borderLeftWidth={
-              isLeftButtoFocused ? "0" : getStateOnMiddleButtonFocused("2", "1")
-            }
-            borderRightWidth={
-              isRightButtoFocused
-                ? "0"
-                : getStateOnMiddleButtonFocused("2", "1")
-            }
-            borderColor={getStateOnMiddleButtonFocused(
-              primaryColor,
-              invertedSecondaryColor
-            )}
-            backgroundColor={getStateOnMiddleButtonFocused(
-              rgbColor,
-              secondaryColor
-            )}
+            variant="outline"
+            colorScheme={useColorModeValue("buttonLight", "buttonDark")}
             onPress={middleButtonHandler}
+            borderRadius="none"
+            backgroundColor={getStateOnMiddleButtonFocused(
+              primaryColor,
+              undefined
+            )}
           >
             <MiddleButtonContent />
           </Button>
           <Button
             height="12"
             width={width / 3.3}
-            borderLeftRadius="none"
-            borderRightRadius="lg"
-            borderWidth={getStateOnRightButtonFocused("2", "1")}
-            borderColor={getStateOnRightButtonFocused(
-              primaryColor,
-              invertedSecondaryColor
-            )}
-            borderLeftWidth={getStateOnRightButtonFocused("2", "0")}
-            backgroundColor={getStateOnRightButtonFocused(
-              rgbColor,
-              secondaryColor
-            )}
+            variant="outline"
+            colorScheme={useColorModeValue("buttonLight", "buttonDark")}
             onPress={rightButtonHandler}
+            borderLeftRadius="none"
+            borderLeftWidth={0}
+            backgroundColor={getStateOnRightButtonFocused(
+              primaryColor,
+              undefined
+            )}
           >
             <RightButtonContent />
           </Button>

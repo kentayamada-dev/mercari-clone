@@ -40,7 +40,7 @@ i18n
       return "en";
     },
     defaultNS,
-    ns: ["common", "home"],
+    ns: ["common", "home", "settings"],
     resources,
     interpolation: {
       escapeValue: false,
