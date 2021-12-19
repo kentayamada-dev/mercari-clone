@@ -3,7 +3,6 @@ import React from "react";
 import { RefreshControl } from "react-native";
 import { typedUseColorToken } from "../../../../../theme/modules";
 import { ItemsTable } from "../../../../organisms/itemsTable";
-import { SkeletonTable } from "../../../../organisms/skeletonTable";
 import { RecommendTabProps } from "./types";
 
 export const RecommendTab: React.VFC<RecommendTabProps> =
@@ -13,8 +12,6 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
         "brand.secondary.dark",
         "brand.secondary.light"
       );
-
-      if (!items) return <SkeletonTable numbers={10} />;
 
       return (
         <ScrollView

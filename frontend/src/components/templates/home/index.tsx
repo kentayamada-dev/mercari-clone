@@ -9,7 +9,7 @@ export const HomeTemplate: React.VFC<HomeTemplateProps> = ({
   ...itemsTableProps
 }) => {
   return (
-    <Center height="full">
+    <Center flex={1}>
       <AppBar todoNavigationHandler={todoNavigationHandler} />
       <HomeTabs {...itemsTableProps} />
     </Center>

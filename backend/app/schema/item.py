@@ -31,6 +31,7 @@ class Item(ItemBase):
 
 
 class ItemRead(BaseModel):
+    name: str
     id: UUID
     price: int
     image_url: str

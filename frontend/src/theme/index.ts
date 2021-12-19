@@ -1,11 +1,14 @@
+import type { Theme } from "@react-navigation/native";
+import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import type { ColorModeOptions } from "native-base";
 import { extendTheme } from "native-base";
-import { DarkTheme, DefaultTheme } from "@react-navigation/native";
-import type { Theme } from "@react-navigation/native";
 
 const config: ColorModeOptions = {
   useSystemColorMode: true,
 };
+
+const BG_THEME_LIGHT = "#fff";
+const BG_THEME_DARK = "#222";
 
 export const customTheme = extendTheme({
   colors: {
@@ -39,12 +42,16 @@ export const customTheme = extendTheme({
         dark: "#da3e50",
       },
       secondary: {
-        light: "#fff",
-        dark: "#222",
+        light: BG_THEME_LIGHT,
+        dark: BG_THEME_DARK,
       },
       tertiary: {
         light: "#30b2ff",
         dark: "#0073cc",
+      },
+      quaternary: {
+        light: "#f5f5f5",
+        dark: "#2d2d2d",
       },
     },
   },
@@ -62,8 +69,8 @@ export const NavigationThemeDark: Theme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    primary: "#fff",
-    background: "#222",
+    primary: BG_THEME_LIGHT,
+    background: BG_THEME_DARK,
   },
 };
 
@@ -71,7 +78,7 @@ export const NavigationThemeLight: Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: "#222",
-    background: "#fff",
+    primary: BG_THEME_DARK,
+    background: BG_THEME_LIGHT,
   },
 };

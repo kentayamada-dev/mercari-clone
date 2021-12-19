@@ -98,6 +98,9 @@ export interface ItemCreate {
 }
 
 export interface ItemRead {
+  /** Name */
+  name: string;
+
   /**
    * Id
    * @format uuid

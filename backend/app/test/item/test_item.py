@@ -37,8 +37,10 @@ def test_read_items() -> None:
     assert response.status_code == status.HTTP_200_OK
     assert item_1_raw.image_url == created_item_1.image_url
     assert item_1_raw.price == created_item_1.price
+    assert item_1_raw.name == created_item_1.name
     assert item_2_raw.image_url == created_item_2.image_url
     assert item_2_raw.price == created_item_2.price
+    assert item_2_raw.name == created_item_2.name
 
 
 @temp_db

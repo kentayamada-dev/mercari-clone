@@ -1,12 +1,23 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Box, IconButton, Input } from "native-base";
 import React from "react";
-import { typedUseColorModeValue } from "../../../theme/modules";
+import {
+  typedUseColorModeValue,
+  typedUseColorToken,
+} from "../../../theme/modules";
 import { AppBarProps } from "./types";
 
 export const AppBar: React.VFC<AppBarProps> = React.memo<AppBarProps>(
   ({ todoNavigationHandler }) => {
-    const color = typedUseColorModeValue("black", "white");
+    const color = typedUseColorToken(
+      "brand.secondary.dark",
+      "brand.secondary.light"
+    );
+
+    const backgroundColor = typedUseColorModeValue(
+      "brand.quaternary.light",
+      "brand.quaternary.dark"
+    );
 
     return (
       <Box
@@ -15,22 +26,16 @@ export const AppBar: React.VFC<AppBarProps> = React.memo<AppBarProps>(
         justifyContent="space-around"
         p="2"
         width="100%"
+        height="12"
       >
         <Input
           variant="search"
           placeholder="なにをお探しですか?"
           borderRadius="25"
           width="80%"
-          _light={{
-            bg: "muted.200",
-            color: "black",
-            selectionColor: "black",
-          }}
-          _dark={{
-            bg: "muted.700",
-            color: "white",
-            selectionColor: "white",
-          }}
+          backgroundColor={backgroundColor}
+          color={color}
+          selectionColor={`${color}`}
         />
         <IconButton
           width="10%"
@@ -38,8 +43,10 @@ export const AppBar: React.VFC<AppBarProps> = React.memo<AppBarProps>(
           padding="0"
           justifyContent="center"
           alignItems="center"
-          colorScheme="muted"
           icon={<Ionicons name="checkmark" size={30} color={`${color}`} />}
+          _pressed={{
+            bg: backgroundColor,
+          }}
         />
       </Box>
     );

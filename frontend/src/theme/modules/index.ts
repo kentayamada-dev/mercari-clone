@@ -9,7 +9,7 @@ export const typedUseColorModeValue = (
 export const typedUseColorToken = (
   lightTheme: ColorType,
   darkTheme: ColorType
-) => {
+): string => {
   const [colorContrastDark, colorContrastLight] = useToken("colors", [
     `${darkTheme}`,
     `${lightTheme}`,

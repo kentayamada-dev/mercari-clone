@@ -6,16 +6,22 @@
 function loadStories() {
   require("../src/components/molecules/itemCard/index.stories");
   require("../src/components/organisms/appBar/index.stories");
+  require("../src/components/organisms/headerBar/index.stories");
   require("../src/components/organisms/itemsTable/index.stories");
+  require("../src/components/organisms/skeletonTable/index.stories");
   require("../src/components/organisms/toggleButtonGroup/index.stories");
+  require("../src/components/templates/detail/index.stories");
   require("../src/components/templates/home/index.stories");
 }
 
 const stories = [
   "../src/components/molecules/itemCard/index.stories",
   "../src/components/organisms/appBar/index.stories",
+  "../src/components/organisms/headerBar/index.stories",
   "../src/components/organisms/itemsTable/index.stories",
+  "../src/components/organisms/skeletonTable/index.stories",
   "../src/components/organisms/toggleButtonGroup/index.stories",
+  "../src/components/templates/detail/index.stories",
   "../src/components/templates/home/index.stories",
 ];
 

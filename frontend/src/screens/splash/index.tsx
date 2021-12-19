@@ -2,10 +2,12 @@ import AppLoading from "expo-app-loading";
 import { Asset } from "expo-asset";
 import Constants from "expo-constants";
 import * as SplashScreen from "expo-splash-screen";
+import { Box, Center, Text } from "native-base";
 import React, { useState } from "react";
-import { Animated, ImageURISource, StyleSheet, Text, View } from "react-native";
+import { Animated, ImageURISource, StyleSheet } from "react-native";
 import * as Progress from "react-native-progress";
 import { wait } from "../../modules";
+import { typedUseColorToken } from "../../theme/modules";
 
 type Props = {
   children: React.ReactNode;
@@ -49,6 +51,14 @@ export const AnimatedSplashScreen: React.VFC<Props> = ({
   const animation = React.useMemo(() => new Animated.Value(1), []);
   const [isTakingLonger, setIsTakingLonger] = useState(false);
   const [isAppReady, setIsAppReady] = React.useState(false);
+  const backgroundColor = typedUseColorToken(
+    "brand.secondary.light",
+    "brand.secondary.dark"
+  );
+  const progressBarColor = typedUseColorToken(
+    "brand.tertiary.light",
+    "brand.tertiary.dark"
+  );
   const [isSplashAnimationComplete, setAnimationComplete] =
     React.useState(false);
   const onImageLoaded = React.useMemo(
@@ -79,7 +89,7 @@ export const AnimatedSplashScreen: React.VFC<Props> = ({
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <Box flex={1}>
       {isAppReady && children}
       {!isSplashAnimationComplete && (
         <>
@@ -88,7 +98,7 @@ export const AnimatedSplashScreen: React.VFC<Props> = ({
             style={[
               StyleSheet.absoluteFill,
               {
-                backgroundColor: Constants.manifest?.splash?.backgroundColor,
+                backgroundColor: backgroundColor,
                 opacity: animation,
               },
             ]}
@@ -109,34 +119,20 @@ export const AnimatedSplashScreen: React.VFC<Props> = ({
               fadeDuration={0}
             />
           </Animated.View>
-
           {!isAppReady && isTakingLonger && (
-            <View
-              style={{ flex: 1, position: "relative", alignItems: "center" }}
-            >
-              <View
-                style={{
-                  position: "absolute",
-                  bottom: 200,
-                }}
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  最新のデータに更新しています
-                </Text>
+            <Center flex={1} position="relative">
+              <Box position="absolute" bottom={200}>
+                <Text textAlign="center">最新のデータに更新しています</Text>
                 <Progress.Bar
                   indeterminate={true}
                   width={250}
-                  color="#30b2ff"
+                  color={progressBarColor}
                 />
-              </View>
-            </View>
+              </Box>
+            </Center>
           )}
         </>
       )}
-    </View>
+    </Box>
   );
 };

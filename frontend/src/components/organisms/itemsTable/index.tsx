@@ -8,7 +8,10 @@ export const ItemsTable: React.VFC<ItemsTableProps> =
     return (
       <SimpleGrid columns={3} space={1}>
         {items?.map((item, index) => (
-          <Pressable onPress={() => itemNavigationHandler(item.id)} key={index}>
+          <Pressable
+            onPress={() => itemNavigationHandler(item.id, item.name)}
+            key={index}
+          >
             {({ isPressed }) => (
               <ItemCard
                 isPressed={isPressed}

@@ -13,7 +13,6 @@ export default ({ config }: ConfigContext): ExtendedExpoConfig => ({
   splash: {
     image: "./assets/splash.png",
     resizeMode: "contain",
-    backgroundColor: "#ffffff",
   },
   updates: {
     fallbackToCacheTimeout: 0,
@@ -27,7 +26,6 @@ export default ({ config }: ConfigContext): ExtendedExpoConfig => ({
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
-      backgroundColor: "#FFFFFF",
     },
     userInterfaceStyle: "automatic",
     package: "com.kenta_yamada.mercari_clone",

@@ -16,7 +16,9 @@ def add_item(db: Session, dto: ItemCreate, seller_id: UUID) -> Item:
 
 def get_all_items(db: Session) -> List[ItemRead]:
     db_data: List[ItemRead] = (
-        db.query(Item).with_entities(Item.id, Item.price, Item.image_url).all()
+        db.query(Item)
+        .with_entities(Item.id, Item.price, Item.image_url, Item.name)
+        .all()
     )
     return db_data
 

@@ -10,6 +10,7 @@ const item = (index: number): ItemRead => ({
   id: `navigate_to_item[${index}]`,
   image_url: faker.image.imageUrl(),
   price: Number(faker.commerce.price()),
+  name: faker.name.lastName(),
 });
 
 const items: ItemRead[] = new Array(10)

@@ -16,7 +16,7 @@ export const RootComponet: React.VFC = () => {
       theme={useColorModeValue(NavigationThemeLight, NavigationThemeDark)}
     >
       <StatusBar style={useColorModeValue("dark", "light")} />
-      <Box height="full" safeAreaTop bgColor={bgColor}>
+      <Box flex={1} safeAreaTop bgColor={bgColor}>
         <RootNavigator />
       </Box>
     </NavigationContainer>

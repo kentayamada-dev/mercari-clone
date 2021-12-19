@@ -2,28 +2,34 @@ from app.core.utils.auth import auth
 from app.db.database import SessionLocal, init_db
 from app.model.item import Item
 from app.model.seller import Seller
+from faker import Faker
+import random
 
 db = SessionLocal()
+fake = Faker(["ja_JP"])
 
 
 def seed() -> None:
     init_db()
-    for i in range(1, 5):
-        hashed_password = auth.generate_hashed_password(f"seller_{i}_password")
+    for _ in range(1, 5):
+        email = fake.email()
+        hashed_password = auth.generate_hashed_password(email)
         seller = Seller(
-            name=f"seller_{i}_name",
-            email=f"seller_{i}_email@gmail.com",
+            name=fake.name(),
+            email=email,
             password=hashed_password,
         )
         seller.items = [
             Item(
-                name=f"seller_{i}_item_{j}_name",
-                price=f"{i+j}",
-                description=f"seller_{i}_item_{j}_description",
+                name=fake.text(max_nb_chars=10),
+                price=random.randint(500, 99999),
+                description=fake.sentence(nb_words=10),
                 seller_id=seller.id,
-                image_url="http://res.cloudinary.com/kentayamada/image/upload/v1637835327/ua444mvckcs0ohjpuavr.jpg",
+                image_url=(
+                    f"https://i.pravatar.cc/150?img={random.randint(1, 20)}"
+                ),
             )
-            for j in range(1, 3)
+            for j in range(1, 5)
         ]
         db.add(seller)
         db.commit()

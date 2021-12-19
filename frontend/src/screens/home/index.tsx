@@ -1,7 +1,7 @@
 import React from "react";
 import { HomeTemplate } from "../../components/templates/home";
+import { useQueryItems } from "../../hooks/item";
 import { useQueryClientWrapper } from "../../hooks/modules";
-import { useQueryItems } from "../../hooks/useQueryItems";
 import { wait } from "../../modules";
 import { HomeProps } from "./types";
 
@@ -9,9 +9,12 @@ export const Home: React.VFC<HomeProps> = ({ navigation }) => {
   const { invalidateQueries } = useQueryClientWrapper();
   const [refreshing, setRefreshing] = React.useState(false);
   const { data: items, isFetching } = useQueryItems();
-  const itemNavigationHandler = React.useCallback((itemId: string) => {
-    navigation.navigate("Detail", { itemId: itemId });
-  }, []);
+  const itemNavigationHandler = React.useCallback(
+    (itemId: string, itemName: string) => {
+      navigation.navigate("Detail", { itemId: itemId, itemName: itemName });
+    },
+    []
+  );
   const todoNavigationHandler = React.useCallback(() => {
     navigation.navigate("Todo", { userId: "userId" });
   }, []);

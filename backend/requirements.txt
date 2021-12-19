@@ -11,3 +11,4 @@ passlib[bcrypt]
 pydantic[dotenv]
 gunicorn
 cloudinary
+Faker

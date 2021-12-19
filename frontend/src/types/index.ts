@@ -2,7 +2,7 @@ import { ExpoConfig } from "@expo/config";
 
 export type HomeStackParamList = {
   Home: undefined;
-  Detail: { itemId: string };
+  Detail: { itemId: string; itemName: string };
   Todo: { userId: string };
   Notifications: undefined;
   Selling: undefined;
