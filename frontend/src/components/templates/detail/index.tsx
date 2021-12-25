@@ -50,7 +50,7 @@ export const DetailTemplate: React.VFC<DetailTemplateProps> = ({ item }) => {
         {item?.image_url ? (
           <Image
             _android={{
-              size: 430,
+              size: 450,
             }}
             _ios={{
               size: 500,
@@ -60,13 +60,13 @@ export const DetailTemplate: React.VFC<DetailTemplateProps> = ({ item }) => {
               uri: item.image_url,
             }}
             backgroundColor={backgroundColor}
-            alt="Alternate Text"
+            alt="商品画像"
           />
         ) : (
           <Skeleton
             width="full"
             _android={{
-              height: 430,
+              height: 450,
             }}
             _ios={{
               height: 500,
@@ -177,7 +177,7 @@ export const DetailTemplate: React.VFC<DetailTemplateProps> = ({ item }) => {
               fontSize: "2xl",
             }}
             bold
-            color="white"
+            color="brand.secondary.light"
           >
             購入手続きへ
           </Text>

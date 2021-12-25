@@ -41,6 +41,7 @@ export const Root = () => {
       await AsyncStorage.setItem("@colorMode", value || "");
     },
   };
+
   return (
     <QueryClientProvider client={queryClient}>
       <NativeBaseProvider
