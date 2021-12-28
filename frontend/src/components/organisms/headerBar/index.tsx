@@ -1,5 +1,5 @@
 import { Feather } from "@expo/vector-icons";
-import { HStack, IconButton, Text } from "native-base";
+import { Box, HStack, IconButton, Text } from "native-base";
 import React from "react";
 import {
   typedUseColorModeValue,
@@ -19,20 +19,26 @@ export const HeaderBar: React.VFC<HeaderBarProps> = React.memo<HeaderBarProps>(
     );
 
     return (
-      <HStack space={10} alignItems="center" padding={2}>
-        <IconButton
-          width={10}
-          height={10}
-          _pressed={{
-            bg: backgroundColor,
-          }}
-          onPress={goBackHandler}
-          icon={<Feather name="arrow-left" size={24} color={color} />}
-          borderRadius="full"
-        />
-        <Text fontSize="2xl" isTruncated width="60%">
-          {title}
-        </Text>
+      <HStack alignItems="center" padding="2">
+        <Box width={goBackHandler ? "15%" : "5%"}>
+          {goBackHandler && (
+            <IconButton
+              width={10}
+              height={10}
+              _pressed={{
+                bg: backgroundColor,
+              }}
+              onPress={goBackHandler}
+              icon={<Feather name="arrow-left" size={24} color={color} />}
+              borderRadius="full"
+            />
+          )}
+        </Box>
+        <Box width={goBackHandler ? "85%" : "95%"}>
+          <Text fontSize="2xl" isTruncated>
+            {title}
+          </Text>
+        </Box>
       </HStack>
     );
   }

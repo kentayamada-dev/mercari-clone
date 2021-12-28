@@ -47,6 +47,7 @@ export const HomeTabs: React.VFC<HomeTabsProps> = ({
           )}
           activeColor={color}
           inactiveColor={`${inactiveColor}`}
+          pressColor={"transparent"}
         />
       )}
       navigationState={{ index, routes }}

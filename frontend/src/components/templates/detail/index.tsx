@@ -14,9 +14,9 @@ import {
   typedUseColorModeValue,
   typedUseColorToken,
 } from "../../../theme/modules";
-import { DetailTemplateProps } from "./types";
+import { ItemDetailTemplateProps } from "./types";
 
-export const DetailTemplate: React.VFC<DetailTemplateProps> = ({ item }) => {
+export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({ item }) => {
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
     "brand.quaternary.dark"
@@ -38,10 +38,7 @@ export const DetailTemplate: React.VFC<DetailTemplateProps> = ({ item }) => {
     "brand.secondary.dark"
   );
 
-  const borderColor = typedUseColorModeValue("gray.300", "gray.600");
-
   const buttonColor = typedUseColorModeValue("buttonLight", "buttonDark");
-
   const [isLiked, setIsLiked] = React.useState(false);
 
   return (
@@ -50,7 +47,7 @@ export const DetailTemplate: React.VFC<DetailTemplateProps> = ({ item }) => {
         {item?.image_url ? (
           <Image
             _android={{
-              size: 450,
+              size: 400,
             }}
             _ios={{
               size: 500,
@@ -66,7 +63,7 @@ export const DetailTemplate: React.VFC<DetailTemplateProps> = ({ item }) => {
           <Skeleton
             width="full"
             _android={{
-              height: 450,
+              height: 400,
             }}
             _ios={{
               height: 500,
@@ -131,8 +128,6 @@ export const DetailTemplate: React.VFC<DetailTemplateProps> = ({ item }) => {
           height: "32",
         }}
         bgColor={bgColor}
-        borderTopColor={borderColor}
-        borderTopWidth="1"
         alignItems="center"
       >
         <Button

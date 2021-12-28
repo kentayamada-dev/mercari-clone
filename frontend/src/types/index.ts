@@ -2,10 +2,12 @@ import { ExpoConfig } from "@expo/config";
 
 export type HomeStackParamList = {
   Home: undefined;
-  Detail: { itemId: string; itemName: string };
+  ItemDetail: { itemId: string; itemName: string };
   Todo: { userId: string };
   Notifications: undefined;
   Selling: undefined;
+  MyPage: undefined;
+  Settings: undefined;
 };
 
 export type NotificationStackParamList = {
@@ -16,10 +18,22 @@ export type SellingStackParamList = {
   Selling: undefined;
 };
 
+export type MyPageStackParamList = {
+  MyPage: undefined;
+  Signup: undefined;
+  SellerDetail: undefined;
+};
+
+export type SettingsStackParamList = {
+  Settings: undefined;
+};
+
 export type RootParamList = {
   HomeStackNavigator: undefined;
   NotificationsStackNavigator: undefined;
   SellingStackNavigator: undefined;
+  MyPageStackNavigator: undefined;
+  SettingsStackNavigator: undefined;
 };
 
 export type Extra = {
@@ -31,4 +45,4 @@ export interface ExtendedExpoConfig extends ExpoConfig {
   extra: Extra;
 }
 
-export type CustomQueryKey = "items";
+export type CustomQueryKey = "items" | "sellers" | "sellers/me/";

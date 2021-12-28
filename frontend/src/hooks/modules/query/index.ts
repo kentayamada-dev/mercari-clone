@@ -1,36 +1,41 @@
 import { InvalidateQueryFilters, useQuery, useQueryClient } from "react-query";
 import React from "react";
-import { CustomQueryKey } from "../../types";
+import { CustomQueryKey } from "../../../types";
 
-export const useQueryWrapper = <T>(queryKey: CustomQueryKey, id?: string) => {
-  if (id) {
-    return useQuery<T, Error>([queryKey, id]);
-  }
-  return useQuery<T, Error>(queryKey);
-};
+export const useQueryWrapper = <T>(
+  queryKey: CustomQueryKey,
+  id?: string,
+  token?: string
+) => useQuery<T, Error>(id || token ? [queryKey, id, token] : queryKey);
 
 export const useQueryClientWrapper = (): {
   invalidateQueries: (
     queryKey: [CustomQueryKey, string] | CustomQueryKey,
     filters?: InvalidateQueryFilters
   ) => void;
-  prefetchQuery: (queryKey: CustomQueryKey) => Promise<void>;
+  prefetchQuery: (
+    queryKey: CustomQueryKey,
+    id?: string,
+    token?: string
+  ) => Promise<void>;
 } => {
   const queryClient = useQueryClient();
   const invalidateQueries = React.useCallback(
     (
       queryKey: [CustomQueryKey, string] | CustomQueryKey,
       filters?: InvalidateQueryFilters
-    ) => {
-      if (!queryKey[1]) queryClient.invalidateQueries(queryKey[0], filters);
-      queryClient.invalidateQueries(queryKey, filters);
-    },
+    ) =>
+      queryClient.invalidateQueries(
+        !queryKey[1] ? queryKey[0] : queryKey,
+        filters
+      ),
     [queryClient]
   );
   const prefetchQuery = React.useCallback(
-    async (queryKey: CustomQueryKey) => {
-      await queryClient.prefetchQuery(queryKey);
-    },
+    async (queryKey: CustomQueryKey, id?: string, token?: string) =>
+      await queryClient.prefetchQuery(
+        id || token ? [queryKey, id, token] : queryKey
+      ),
     [queryClient]
   );
 

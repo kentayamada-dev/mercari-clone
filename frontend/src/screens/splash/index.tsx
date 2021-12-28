@@ -82,7 +82,7 @@ export const AnimatedSplashScreen: React.VFC<Props> = ({
 
   React.useEffect(() => {
     const measureLoadingTime = async () => {
-      await wait(3000);
+      await wait(3);
       setIsTakingLonger(true);
     };
     measureLoadingTime();

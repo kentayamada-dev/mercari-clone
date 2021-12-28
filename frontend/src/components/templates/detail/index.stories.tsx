@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react-native";
 import faker from "faker";
 import React from "react";
 import { Item } from "../../../types/generated";
-import { DetailTemplate } from "./index";
+import { ItemDetailTemplate } from "./index";
 
 const item: Item = {
   id: "item_id",
@@ -16,6 +16,6 @@ const item: Item = {
   seller_id: "seller_id",
 };
 
-storiesOf("Templates", module).add("DetailTemplate", () => (
-  <DetailTemplate item={object("item", item)} />
+storiesOf("Templates", module).add("ItemDetailTemplate", () => (
+  <ItemDetailTemplate item={object("item", item)} />
 ));

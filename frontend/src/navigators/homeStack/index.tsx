@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { HeaderBar } from "../../components/organisms/headerBar";
-import { Detail } from "../../screens/detail";
+import { ItemDetail } from "../../screens/itemDetail";
 import { Home } from "../../screens/home";
 import { Todo } from "../../screens/todo";
 import { HomeStackParamList } from "../../types";
@@ -23,8 +23,8 @@ export const HomeStackNavigator: React.VFC = () => {
         }}
       />
       <HomeStack.Screen
-        name="Detail"
-        component={Detail}
+        name="ItemDetail"
+        component={ItemDetail}
         options={({ route }) => ({
           header: (props) => (
             <HeaderBar

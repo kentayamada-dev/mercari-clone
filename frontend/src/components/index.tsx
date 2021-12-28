@@ -11,6 +11,7 @@ export const RootComponet: React.VFC = () => {
     "brand.secondary.light",
     "brand.secondary.dark"
   );
+
   return (
     <NavigationContainer
       theme={useColorModeValue(NavigationThemeLight, NavigationThemeDark)}

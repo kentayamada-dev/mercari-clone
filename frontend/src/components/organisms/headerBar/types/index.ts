@@ -1,4 +1,4 @@
 export type HeaderBarProps = {
-  goBackHandler: () => void;
+  goBackHandler?: () => void;
   title: string;
 };

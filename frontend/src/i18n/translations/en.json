@@ -3,16 +3,29 @@
     "home": "Home",
     "notifications": "Notifications",
     "selling": "Selling",
-    "paying": "Paying",
-    "myPage": "My Page"
+    "myPage": "My Page",
+    "settings": "Settings"
   },
   "home": {
     "recommends": "Recommends",
+    "recommendProducts": "Recommend Products",
     "savedQueries": "Saved Queries"
   },
   "settings": {
     "systemTheme": "System",
     "darkTheme": "Dark",
     "lightTheme": "Light"
+  },
+  "signup": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "register": "Register",
+    "registering": "Registering...",
+    "invalidEmail": "Invalid Email Address"
+  },
+  "myPage": {
+    "signup": "Signup",
+    "sellerDetail": "SellerDetail"
   }
 }

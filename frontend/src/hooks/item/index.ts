@@ -1,5 +1,5 @@
 import { Item, ItemRead } from "../../types/generated";
-import { useQueryWrapper } from "../modules";
+import { useQueryWrapper } from "../modules/query";
 
 export const useQueryItems = () => useQueryWrapper<ItemRead[]>("items");
 

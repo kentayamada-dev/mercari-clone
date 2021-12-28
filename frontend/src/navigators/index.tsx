@@ -6,14 +6,16 @@ import { useTranslation } from "react-i18next";
 import { typedUseColorToken } from "../theme/modules";
 import { RootParamList } from "../types";
 import { HomeStackNavigator } from "./homeStack";
+import { MyPageStackNavigator } from "./myPageStack";
 import { NotificationsStackNavigator } from "./notificationsStack";
 import { SellingStackNavigator } from "./sellingStack";
+import { SettingsStackNavigator } from "./settingsStack";
 
 const getTabBarStyle = (
   route: Partial<Route<string, object | undefined>>
 ): "flex" | "none" => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
-  if (routeName === "Detail") return "none";
+  if (routeName === "ItemDetail") return "none";
 
   return "flex";
 };
@@ -37,8 +39,8 @@ export const RootNavigator: React.VFC = () => {
         headerShown: false,
         tabBarInactiveTintColor: color,
         tabBarStyle: {
-          backgroundColor: bgColor,
-          borderTopColor: color,
+          backgroundColor: "transparent",
+          borderTopWidth: 0,
         },
       }}
     >
@@ -49,7 +51,7 @@ export const RootNavigator: React.VFC = () => {
           tabBarStyle: {
             display: getTabBarStyle(route),
             backgroundColor: bgColor,
-            borderTopColor: color,
+            borderTopWidth: 0,
           },
           tabBarLabel: t("home"),
           tabBarIcon: ({ color, size, focused }) => (
@@ -83,6 +85,34 @@ export const RootNavigator: React.VFC = () => {
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? "camera-sharp" : "camera-outline"}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="MyPageStackNavigator"
+        component={MyPageStackNavigator}
+        options={{
+          tabBarLabel: t("myPage"),
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="SettingsStackNavigator"
+        component={SettingsStackNavigator}
+        options={{
+          tabBarLabel: t("settings"),
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "settings" : "settings-outline"}
               size={size}
               color={color}
             />

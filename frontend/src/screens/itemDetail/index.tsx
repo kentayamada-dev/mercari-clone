@@ -1,17 +1,17 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { DetailTemplate } from "../../components/templates/detail";
+import { ItemDetailTemplate } from "../../components/templates/detail";
 import { useQueryItem } from "../../hooks/item";
 import { HomeStackParamList } from "../../types";
 
-type Props = NativeStackScreenProps<HomeStackParamList, "Detail">;
+type Props = NativeStackScreenProps<HomeStackParamList, "ItemDetail">;
 
-export const Detail: React.VFC<Props> = ({
+export const ItemDetail: React.VFC<Props> = ({
   route: {
     params: { itemId },
   },
 }) => {
   const { data: item } = useQueryItem(itemId);
 
-  return <DetailTemplate item={item} />;
+  return <ItemDetailTemplate item={item} />;
 };

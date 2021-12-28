@@ -1,5 +1,5 @@
 import { Item } from "../../../../types/generated";
 
-export type DetailTemplateProps = {
+export type ItemDetailTemplateProps = {
   item?: Item;
 };

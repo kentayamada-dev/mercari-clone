@@ -1,9 +1,9 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { locale } from "expo-localization";
 import i18n, { LanguageDetectorAsyncModule } from "i18next";
+import { initReactI18next } from "react-i18next";
 import en from "./translations/en.json";
 import ja from "./translations/ja.json";
-import { initReactI18next } from "react-i18next";
-import { locale } from "expo-localization";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const defaultNS = "common";
 export const resources = {
@@ -40,7 +40,7 @@ i18n
       return "en";
     },
     defaultNS,
-    ns: ["common", "home", "settings"],
+    ns: ["common", "home", "settings", "signup", "myPage"],
     resources,
     interpolation: {
       escapeValue: false,

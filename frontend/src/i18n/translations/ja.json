@@ -3,16 +3,29 @@
     "home": "ホーム",
     "notifications": "お知らせ",
     "selling": "出品",
-    "paying": "メルペイ",
-    "myPage": "マイページ"
+    "myPage": "マイページ",
+    "settings": "設定"
   },
   "home": {
     "recommends": "おすすめ",
+    "recommendProducts": "おすすめの商品",
     "savedQueries": "保存した検索条件"
   },
   "settings": {
     "systemTheme": "システム",
     "darkTheme": "ダーク",
     "lightTheme": "ライト"
+  },
+  "signup": {
+    "name": "名前",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "register": "登録",
+    "registering": "登録中...",
+    "invalidEmail": "メールアドレスが不正です。"
+  },
+  "myPage": {
+    "signup": "会員登録",
+    "sellerDetail": "ユーザー詳細"
   }
 }

@@ -7,6 +7,7 @@ import { LogBox, useColorScheme } from "react-native";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { App } from "./App";
 import { CONSTANTS } from "./constants";
+import { AuthProvider } from "./hooks/auth/useAuth";
 import { customTheme } from "./theme";
 
 LogBox.ignoreLogs(["Setting a timer", "NativeBase: The contrast ratio of"]);
@@ -15,12 +16,16 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: Infinity,
-      queryFn: async ({ queryKey: [path, id] }) => {
+      queryFn: async ({ queryKey: [path, id, token] }) => {
         let url = `${CONSTANTS.BASE_URL}${path}`;
         if (id) {
           url = url.concat(`/${id}`);
         }
-        const { data } = await axios.get(url);
+        const { data } = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         return data;
       },
     },
@@ -48,7 +53,9 @@ export const Root = () => {
         theme={customTheme}
         colorModeManager={colorModeManager}
       >
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </NativeBaseProvider>
     </QueryClientProvider>
   );
