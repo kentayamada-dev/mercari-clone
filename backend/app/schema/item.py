@@ -1,14 +1,14 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, Extra, HttpUrl
 
 
 class ItemBase(BaseModel):
     name: str
     price: int
     description: str
-    image_url: str
+    image_url: HttpUrl
 
     class Config:
         extra = Extra.forbid

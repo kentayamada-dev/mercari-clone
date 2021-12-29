@@ -18,6 +18,7 @@ def seed() -> None:
             name=fake.name(),
             email=email,
             password=hashed_password,
+            image_url=f"https://i.pravatar.cc/150?img={random.randint(1, 20)}",
         )
         seller.items = [
             Item(
@@ -29,7 +30,7 @@ def seed() -> None:
                     f"https://i.pravatar.cc/150?img={random.randint(1, 20)}"
                 ),
             )
-            for j in range(1, 5)
+            for _ in range(1, 5)
         ]
         db.add(seller)
         db.commit()

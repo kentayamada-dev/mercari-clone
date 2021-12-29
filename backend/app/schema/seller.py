@@ -3,12 +3,13 @@ from typing import List
 from uuid import UUID
 
 from app.schema.item import Item
-from pydantic import BaseModel, EmailStr, Extra, SecretStr
+from pydantic import BaseModel, EmailStr, Extra, SecretStr, HttpUrl
 
 
 class SellerBase(BaseModel):
     name: str
     email: EmailStr
+    image_url: HttpUrl
 
     class Config:
         extra = Extra.forbid

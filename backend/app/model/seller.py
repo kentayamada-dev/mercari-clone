@@ -14,6 +14,7 @@ class Seller(Base):  # type: ignore
     email = Column(String, unique=True)
     name = Column(String)
     password = Column(String)
+    image_url = Column(String)
     items = relationship("Item", back_populates="seller")
     is_active = Column(Boolean, default=True)
     created_at = Column(

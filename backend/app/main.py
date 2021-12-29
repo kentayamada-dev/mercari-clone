@@ -4,10 +4,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.error.http_exception import custom_http_exception_handler
 from app.core.error.validation import custom_validation_exception_handler
 from app.core.schema.config import settings
-from app.db.database import create_table
+from app.db.database import init_db
 from app.router import auth, image, item, seller
 
-create_table()
+init_db()
 
 if settings.ENVIRONMENT == "production":
     app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)

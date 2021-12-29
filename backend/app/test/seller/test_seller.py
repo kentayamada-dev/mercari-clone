@@ -17,13 +17,18 @@ def test_create_seller() -> None:
     assert response.status_code == status.HTTP_201_CREATED
     assert seller_1_raw_get.items() <= response.json().items()
     assert created_seller_1.is_active is True
-    assert created_seller_1.items == []
+    assert not created_seller_1.items
 
 
 @temp_db
 def test_create_seller_bad_body() -> None:
     response = client.post(
-        "/sellers", json={"name": "name_1", "email": "email_1@gmail.com"}
+        "/sellers",
+        json={
+            "name": "name_1",
+            "email": "email_1@gmail.com",
+            "image_url": "http://image.com/seller_1.jpg",
+        },
     )
 
     assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
@@ -39,6 +44,7 @@ def test_create_existing_seller() -> None:
             "name": "name_2",
             "email": "email_1@gmail.com",
             "password": "password_2",
+            "image_url": "http://image.com/seller_1.jpg",
         },
     )
 
@@ -58,10 +64,10 @@ def test_read_sellers() -> None:
     assert response.status_code == status.HTTP_200_OK
     assert seller_1_raw_get.items() <= response_data[0].items()
     assert created_seller_1.is_active is True
-    assert created_seller_1.items == []
+    assert not created_seller_1.items
     assert seller_2_raw_get.items() <= response_data[1].items()
     assert created_seller_2.is_active is True
-    assert created_seller_2.items == []
+    assert not created_seller_2.items
 
 
 @temp_db
@@ -75,7 +81,7 @@ def test_read_seller() -> None:
     assert response.status_code == status.HTTP_200_OK
     assert seller_1_raw_get.items() <= response.json().items()
     assert created_seller.is_active is True
-    assert created_seller.items == []
+    assert not created_seller.items
 
 
 @temp_db
@@ -106,7 +112,7 @@ def test_inactivate_seller() -> None:
     assert response.status_code == status.HTTP_200_OK
     assert seller_1_raw_get.items() <= response.json().items()
     assert seller.is_active is False
-    assert seller.items == []
+    assert not seller.items
 
 
 @temp_db
@@ -177,4 +183,4 @@ def test_read_me() -> None:
     assert response.status_code == status.HTTP_200_OK
     assert seller_1_raw_get.items() <= response.json().items()
     assert seller.is_active is True
-    assert seller.items == []
+    assert not seller.items

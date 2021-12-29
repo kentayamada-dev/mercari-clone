@@ -42,6 +42,7 @@ def add_seller(db: Session, dto: SellerCreate) -> Seller:
         name=dto.name,
         email=dto.email,
         password=hashed_password,
+        image_url=dto.image_url,
     )
     db.add(data)
     db.commit()

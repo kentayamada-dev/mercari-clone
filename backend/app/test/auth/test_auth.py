@@ -42,6 +42,7 @@ def test_read_token_invalid_password() -> None:
         data={
             "username": seller_1_typed.email,
             "password": seller_2_typed.password.get_secret_value(),
+            "image_url": seller_1_typed.image_url,
         },
     )
 
