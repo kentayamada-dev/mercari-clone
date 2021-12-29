@@ -55,7 +55,10 @@ export interface Item {
   /** Description */
   description: string;
 
-  /** Image Url */
+  /**
+   * Image Url
+   * @format uri
+   */
   image_url: string;
 
   /**
@@ -93,7 +96,10 @@ export interface ItemCreate {
   /** Description */
   description: string;
 
-  /** Image Url */
+  /**
+   * Image Url
+   * @format uri
+   */
   image_url: string;
 }
 
@@ -138,6 +144,12 @@ export interface Seller {
   email: string;
 
   /**
+   * Image Url
+   * @format uri
+   */
+  image_url: string;
+
+  /**
    * Id
    * @format uuid
    */
@@ -171,6 +183,12 @@ export interface SellerCreate {
    * @format email
    */
   email: string;
+
+  /**
+   * Image Url
+   * @format uri
+   */
+  image_url: string;
 
   /**
    * Password
