@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AxiosRequestConfig } from "axios";
+import { CONSTANTS } from "../../../constants";
 
 export const axiosPostWrapper = <T>(
   path: string,
@@ -7,5 +8,5 @@ export const axiosPostWrapper = <T>(
   config?: AxiosRequestConfig
 ) =>
   axios
-    .post(`http://localhost:8000/${path}`, dto, config)
+    .post(`${CONSTANTS.BASE_URL}${path}`, dto, config)
     .then((data) => data.data);
