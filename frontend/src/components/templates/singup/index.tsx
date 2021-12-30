@@ -6,6 +6,7 @@ import {
   Input,
   useColorModeValue,
   VStack,
+  Avatar,
 } from "native-base";
 import React from "react";
 import { Controller } from "react-hook-form";
@@ -15,6 +16,8 @@ import {
   typedUseColorToken,
 } from "../../../theme/modules";
 import { SignupTemplateProps } from "./types";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 
 export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
   isLoading,
@@ -22,6 +25,8 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
   control,
   isValid,
   addSeller,
+  mutateAsyncImage,
+  imageUrl,
 }) => {
   const [isVisibile, setIsVisibile] = React.useState(false);
   const backgroundColor = typedUseColorModeValue(
@@ -34,8 +39,49 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
   );
   const { t } = useTranslation("signup");
 
+  const getFileInfo = async (fileURI: string) => {
+    const fileInfo = await FileSystem.getInfoAsync(fileURI);
+    return fileInfo;
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      const fileInfo = await getFileInfo(result.uri);
+      if (fileInfo && fileInfo.size && fileInfo.size < 10000000) {
+        const formData = new FormData();
+        const filename =
+          result.uri.split("/")[result.uri.split("/").length - 1];
+        const type = `${result.type}/${
+          result.uri.split(".")[result.uri.split(".").length - 1]
+        }`;
+
+        formData.append("file", {
+          // @ts-ignore
+          uri: result.uri,
+          name: filename,
+          type: type,
+        });
+        await mutateAsyncImage(formData);
+      }
+    }
+  };
+
   return (
     <VStack space={4}>
+      <Button onPress={pickImage}>画像選択</Button>
+      <Avatar
+        alignSelf="center"
+        size="2xl"
+        key={imageUrl}
+        source={{
+          uri: imageUrl,
+        }}
+      />
       <FormControl isInvalid={"name" in errors}>
         <FormControl.Label>{t("name")}</FormControl.Label>
         <Controller

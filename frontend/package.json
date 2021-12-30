@@ -25,6 +25,8 @@
     "expo-app-loading": "~1.2.1",
     "expo-asset": "~8.4.3",
     "expo-dev-client": "~0.6.3",
+    "expo-file-system": "~13.0.3",
+    "expo-image-picker": "~11.0.3",
     "expo-localization": "~11.0.0",
     "expo-secure-store": "~11.0.3",
     "expo-splash-screen": "~0.13.5",

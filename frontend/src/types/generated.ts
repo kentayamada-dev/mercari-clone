@@ -45,6 +45,11 @@ export interface HTTPValidationError {
   message?: string;
 }
 
+export interface ImageModel {
+  /** Url */
+  url: string;
+}
+
 export interface Item {
   /** Name */
   name: string;
@@ -430,7 +435,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/image/upload
      */
     createUploadImageImageUploadPost: (data: BodyCreateUploadImageImageUploadPost, params: RequestParams = {}) =>
-      this.request<any, HTTPValidationError>({
+      this.request<ImageModel, HTTPValidationError>({
         path: `/image/upload`,
         method: "POST",
         body: data,

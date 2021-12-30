@@ -41,6 +41,7 @@ export const RootNavigator: React.VFC = () => {
         tabBarStyle: {
           backgroundColor: "transparent",
           borderTopWidth: 0,
+          elevation: 0,
         },
       }}
     >
@@ -52,6 +53,7 @@ export const RootNavigator: React.VFC = () => {
             display: getTabBarStyle(route),
             backgroundColor: bgColor,
             borderTopWidth: 0,
+            elevation: 0,
           },
           tabBarLabel: t("home"),
           tabBarIcon: ({ color, size, focused }) => (

@@ -10,7 +10,7 @@ import { CONSTANTS } from "./constants";
 import { AuthProvider } from "./hooks/auth/useAuth";
 import { customTheme } from "./theme";
 
-LogBox.ignoreLogs(["Setting a timer", "NativeBase: The contrast ratio of"]);
+LogBox.ignoreAllLogs();
 
 const queryClient = new QueryClient({
   defaultOptions: {

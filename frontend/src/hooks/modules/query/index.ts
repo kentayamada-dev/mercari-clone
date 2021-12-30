@@ -1,12 +1,13 @@
 import { InvalidateQueryFilters, useQuery, useQueryClient } from "react-query";
 import React from "react";
 import { CustomQueryKey } from "../../../types";
+import { AxiosError } from "axios";
 
 export const useQueryWrapper = <T>(
   queryKey: CustomQueryKey,
   id?: string,
   token?: string
-) => useQuery<T, Error>(id || token ? [queryKey, id, token] : queryKey);
+) => useQuery<T, AxiosError>(id || token ? [queryKey, id, token] : queryKey);
 
 export const useQueryClientWrapper = (): {
   invalidateQueries: (

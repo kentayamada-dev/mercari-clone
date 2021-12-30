@@ -70,9 +70,12 @@ def get_current_seller(
         )
         email = payload.get("email")
         token_data = TokenData(email=email)
+        current_seller = get_seller_by_email(db, email=token_data.email)
+        if current_seller is None:
+            raise credentials_exception
     except JWTError as jwt_error:
         raise credentials_exception from jwt_error
-    return get_seller_by_email(db, email=token_data.email)
+    return current_seller
 
 
 def authenticate_seller(

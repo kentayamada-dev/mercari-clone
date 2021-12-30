@@ -9,7 +9,7 @@ type Props = NativeStackScreenProps<MyPageStackParamList, "MyPage">;
 
 export const MyPage: React.VFC<Props> = ({ navigation }) => {
   const { state } = useAuth();
-  const { data: seller } = useQueryMe(state.userToken);
+  const { data: seller, error } = useQueryMe(state.userToken);
   const signupNavigationHandler = React.useCallback(() => {
     navigation.navigate(state.userToken ? "SellerDetail" : "Signup");
   }, []);
