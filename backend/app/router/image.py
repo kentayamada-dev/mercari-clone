@@ -1,7 +1,9 @@
+import cloudinary.exceptions
 import cloudinary.uploader
-from fastapi import APIRouter, File, UploadFile
-from app.schema.image import Image
 from app.core.schema.image import ImageModel
+from app.core.schema.message import Message
+from app.schema.image import Image
+from fastapi import APIRouter, File, HTTPException, UploadFile, status
 
 router = APIRouter()
 
@@ -9,9 +11,16 @@ router = APIRouter()
 @router.post(
     "/image/upload",
     response_model=ImageModel,
+    responses={status.HTTP_413_REQUEST_ENTITY_TOO_LARGE: {"model": Message}},
 )
 def create_upload_image(file: UploadFile = File(...)) -> Image:
-    cloudinary_response = cloudinary.uploader.upload(file.file)
-    image_url = cloudinary_response.get("url")
-    data = Image(url=image_url)
-    return data
+    try:
+        cloudinary_response = cloudinary.uploader.upload(file.file)
+        image_url = cloudinary_response.get("url")
+        data = Image(url=image_url)
+        return data
+    except cloudinary.exceptions.Error as error:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail=f"{error}",
+        ) from error
