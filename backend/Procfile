@@ -1,2 +1,2 @@
-release: python3 seed.py
-web: gunicorn --worker-class uvicorn.workers.UvicornWorker app.main:app
+release: make seed
+web: make prod
