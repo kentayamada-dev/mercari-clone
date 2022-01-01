@@ -21,7 +21,7 @@ export type SellingStackParamList = {
 export type MyPageStackParamList = {
   MyPage: undefined;
   Signup: undefined;
-  SellerDetail: undefined;
+  SellerDetail: { sellerName?: string };
 };
 
 export type SettingsStackParamList = {
@@ -44,5 +44,3 @@ export type Extra = {
 export interface ExtendedExpoConfig extends ExpoConfig {
   extra: Extra;
 }
-
-export type CustomQueryKey = "items" | "sellers" | "sellers/me/";

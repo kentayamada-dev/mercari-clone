@@ -3,19 +3,24 @@ import * as SecureStore from "expo-secure-store";
 import React from "react";
 import { RootComponet } from "./components";
 import { useAuth } from "./hooks/auth/useAuth";
-import { useQueryClientWrapper } from "./hooks/modules/query";
 import "./i18n";
 import { AnimatedAppLoader } from "./screens/splash";
+import { prefetchQueryItems } from "./hooks/items";
+import { useQueryClient } from "react-query";
+import { prefetchQueryMe } from "./hooks/sellers/query";
 
 export const App = () => {
-  const { prefetchQuery } = useQueryClientWrapper();
-  const { dispatch } = useAuth();
-
+  const { setToken } = useAuth();
+  const queryClient = useQueryClient();
   const prepare = React.useCallback(async () => {
     const userToken = (await SecureStore.getItemAsync("userToken")) || "";
-    dispatch({ type: "RESTORE_TOKEN", token: userToken });
-    await prefetchQuery("items");
-    await prefetchQuery("sellers/me/", undefined, userToken);
+    await prefetchQueryItems(queryClient);
+    await prefetchQueryMe({
+      onError: () => setToken(""),
+      onSuccess: () => setToken(userToken),
+      queryClient,
+      userToken,
+    });
   }, []);
 
   return (

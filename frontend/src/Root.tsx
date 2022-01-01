@@ -1,12 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import type { StorageManager } from "native-base";
 import { ColorMode, NativeBaseProvider } from "native-base";
 import React from "react";
 import { LogBox, useColorScheme } from "react-native";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { App } from "./App";
-import { CONSTANTS } from "./constants";
 import { AuthProvider } from "./hooks/auth/useAuth";
 import { customTheme } from "./theme";
 
@@ -16,18 +14,6 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: Infinity,
-      queryFn: async ({ queryKey: [path, id, token] }) => {
-        let url = `${CONSTANTS.BASE_URL}${path}`;
-        if (id) {
-          url = url.concat(`/${id}`);
-        }
-        const { data } = await axios.get(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        return data;
-      },
     },
   },
 });

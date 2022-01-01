@@ -6,7 +6,10 @@ import {
   Input,
   useColorModeValue,
   VStack,
-  Avatar,
+  Image,
+  Pressable,
+  Skeleton,
+  Box,
 } from "native-base";
 import React from "react";
 import { Controller } from "react-hook-form";
@@ -24,9 +27,10 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
   errors,
   control,
   isValid,
+  imageUrl,
+  isLoadingImage,
   addSeller,
   mutateAsyncImage,
-  imageUrl,
 }) => {
   const [isVisibile, setIsVisibile] = React.useState(false);
   const backgroundColor = typedUseColorModeValue(
@@ -73,15 +77,39 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
 
   return (
     <VStack space={4}>
-      <Button onPress={pickImage}>画像選択</Button>
-      <Avatar
-        alignSelf="center"
-        size="2xl"
+      <Pressable
         key={imageUrl}
-        source={{
-          uri: imageUrl,
+        onPress={pickImage}
+        _pressed={{
+          opacity: 0.5,
         }}
-      />
+      >
+        {isLoadingImage ? (
+          <Skeleton
+            width="40"
+            height="40"
+            borderRadius="full"
+            alignSelf="center"
+          />
+        ) : (
+          <Box
+            width="40"
+            height="40"
+            rounded="full"
+            overflow="hidden"
+            alignSelf="center"
+          >
+            <Image
+              source={{
+                uri: imageUrl,
+              }}
+              alt="商品画像"
+              width="full"
+              height="full"
+            />
+          </Box>
+        )}
+      </Pressable>
       <FormControl isInvalid={"name" in errors}>
         <FormControl.Label>{t("name")}</FormControl.Label>
         <Controller

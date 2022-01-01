@@ -3,6 +3,7 @@ import { UseMutateAsyncFunction } from "react-query";
 import { ImageModel } from "../../../../types/generated";
 
 export type SignupTemplateProps = {
+  isLoadingImage: boolean;
   isValid: boolean;
   isLoading: boolean;
   addSeller: () => void;

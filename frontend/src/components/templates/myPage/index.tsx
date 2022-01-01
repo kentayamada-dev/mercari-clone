@@ -1,5 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Box, Center, Icon, Pressable, ScrollView, Text } from "native-base";
+import {
+  Box,
+  Center,
+  Icon,
+  Pressable,
+  ScrollView,
+  Text,
+  Image,
+} from "native-base";
 import React from "react";
 import { typedUseColorToken } from "../../../theme/modules";
 import { ItemsList } from "../../organisms/itemsList";
@@ -35,6 +43,8 @@ const items: Item[] = [
 
 export const MyPageTemplate: React.VFC<MyPageTemplateProps> = ({
   signupNavigationHandler,
+  avaterUrl,
+  sellerName,
 }) => {
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
@@ -55,9 +65,28 @@ export const MyPageTemplate: React.VFC<MyPageTemplateProps> = ({
               padding="5"
               opacity="1"
             >
-              <Icon as={Ionicons} name="person-circle-outline" size="16" />
+              {avaterUrl ? (
+                <Box
+                  width="20"
+                  height="20"
+                  rounded="full"
+                  overflow="hidden"
+                  alignSelf="center"
+                >
+                  <Image
+                    source={{
+                      uri: avaterUrl,
+                    }}
+                    alt="商品画像"
+                    width="full"
+                    height="full"
+                  />
+                </Box>
+              ) : (
+                <Icon as={Ionicons} name="person-circle-outline" size="20" />
+              )}
               <Text fontSize="xl" bold>
-                会員登録・ログインへ
+                {sellerName ? sellerName : "会員登録・ログインへ"}
               </Text>
             </Center>
           )}

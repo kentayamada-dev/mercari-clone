@@ -25,7 +25,6 @@
     "invalidEmail": "メールアドレスが不正です。"
   },
   "myPage": {
-    "signup": "会員登録",
-    "sellerDetail": "ユーザー詳細"
+    "signup": "会員登録"
   }
 }

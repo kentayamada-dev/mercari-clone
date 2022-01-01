@@ -25,7 +25,6 @@
     "invalidEmail": "Invalid Email Address"
   },
   "myPage": {
-    "signup": "Signup",
-    "sellerDetail": "SellerDetail"
+    "signup": "Signup"
   }
 }

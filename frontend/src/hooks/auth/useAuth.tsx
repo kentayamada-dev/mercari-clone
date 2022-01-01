@@ -1,56 +1,21 @@
 import React from "react";
 
-type Action =
-  | { type: "RESTORE_TOKEN"; token: string }
-  | { type: "SIGN_IN"; token: string }
-  | { type: "SIGN_OUT" };
-
-type State = {
-  isLoading: boolean;
-  isSignout: boolean;
-  userToken: string;
+type Auth = {
+  token: string;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
 };
 
 type Props = {
   children: React.ReactNode;
 };
 
-const AuthContext = React.createContext(
-  {} as { state: State; dispatch: React.Dispatch<Action> }
-);
+const AuthContext = React.createContext({} as Auth);
 
 export const AuthProvider: React.VFC<Props> = ({ children }) => {
-  const [state, dispatch] = React.useReducer(
-    (prevState: State, action: Action): State => {
-      switch (action.type) {
-        case "RESTORE_TOKEN":
-          return {
-            ...prevState,
-            userToken: action.token,
-            isLoading: false,
-          };
-        case "SIGN_IN":
-          return {
-            ...prevState,
-            isSignout: false,
-            userToken: action.token,
-          };
-        case "SIGN_OUT":
-          return {
-            ...prevState,
-            isSignout: true,
-            userToken: "",
-          };
-      }
-    },
-    {
-      isLoading: true,
-      isSignout: false,
-      userToken: "",
-    }
-  );
+  const [token, setToken] = React.useState("");
+
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={{ token, setToken }}>
       {children}
     </AuthContext.Provider>
   );

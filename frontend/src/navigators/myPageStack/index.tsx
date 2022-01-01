@@ -12,7 +12,7 @@ const MyPageStack = createStackNavigator<MyPageStackParamList>();
 
 export const MyPageStackNavigator: React.VFC = () => {
   const { t } = useTranslation(["common", "myPage"]);
-  const { state } = useAuth();
+  const { token } = useAuth();
 
   return (
     <MyPageStack.Navigator
@@ -33,13 +33,13 @@ export const MyPageStackNavigator: React.VFC = () => {
         name="MyPage"
         component={MyPage}
       />
-      {state.userToken ? (
+      {token ? (
         <MyPageStack.Screen
-          options={() => ({
+          options={({ route }) => ({
             header: (props) => (
               <HeaderBar
                 goBackHandler={props.back ? props.navigation.goBack : undefined}
-                title={t("myPage:sellerDetail")}
+                title={route.params.sellerName || ""}
               />
             ),
           })}
