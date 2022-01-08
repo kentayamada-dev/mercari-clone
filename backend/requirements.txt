@@ -12,3 +12,4 @@ pydantic[dotenv]
 gunicorn
 cloudinary
 Faker
+slowapi
