@@ -5,6 +5,7 @@ from app.core.schema.message import Message
 from app.schema.image import Image
 from fastapi import APIRouter, File, HTTPException, UploadFile, status
 
+# router = APIRouter(route_class=LoggingContextRoute)
 router = APIRouter()
 
 
@@ -15,7 +16,9 @@ router = APIRouter()
 )
 def create_upload_image(file: UploadFile = File(...)) -> Image:
     try:
-        cloudinary_response = cloudinary.uploader.upload(file.file)
+        cloudinary_response = cloudinary.uploader.upload(
+            file=file.file, folder="mercari-clone"
+        )
         image_url = cloudinary_response.get("url")
         data = Image(url=image_url)
         return data

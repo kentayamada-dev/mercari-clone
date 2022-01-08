@@ -1,9 +1,9 @@
-from datetime import datetime
-from typing import List
+from typing import Any, List
 from uuid import UUID
 
-from app.schema.item import Item
-from pydantic import BaseModel, EmailStr, Extra, SecretStr, HttpUrl
+from app.schema.common import Seller
+from app.schema.item import ItemRead
+from pydantic import BaseModel, EmailStr, Extra, HttpUrl, SecretStr, validator
 
 
 class SellerBase(BaseModel):
@@ -11,34 +11,34 @@ class SellerBase(BaseModel):
     email: EmailStr
     image_url: HttpUrl
 
+    @validator("email", pre=True, always=True)
+    def username_alphanumeric(cls: Any, v: Any) -> Any:
+        assert v.islower(), "must be lowercase"
+        return v
+
     class Config:
         extra = Extra.forbid
         orm_mode = True
+
+
+class SellerRead(SellerBase):
+    id: UUID
+    items: List[ItemRead]
 
 
 class SellerCreate(SellerBase):
     password: SecretStr
 
-    class Config:
-        extra = Extra.forbid
-        orm_mode = True
-
-
-class Seller(SellerBase):
-    id: UUID
-    items: List[Item] = []
-    is_active: bool
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        extra = Extra.forbid
-        orm_mode = True
-
 
 class SellerInDatabase(Seller):
-    password: SecretStr
+    items: List[ItemRead]
 
-    class Config:
-        extra = Extra.forbid
-        orm_mode = True
+
+class GetSellerByEmail(SellerRead):
+    password: SecretStr
+    is_active: bool
+
+
+class GetAuthenticateSellerByEmail(BaseModel):
+    email: EmailStr
+    password: str

@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 
 from app.db.database import Base
+from pydantic import EmailStr, HttpUrl
 from sqlalchemy import Boolean, Column, DateTime, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
@@ -15,7 +16,7 @@ class Seller(Base):  # type: ignore
     name = Column(String)
     password = Column(String)
     image_url = Column(String)
-    items = relationship("Item", back_populates="seller")
+    items = relationship("Item", back_populates="seller", lazy="joined")
     is_active = Column(Boolean, default=True)
     created_at = Column(
         "created_at", DateTime, default=datetime.now(), nullable=False
@@ -27,3 +28,15 @@ class Seller(Base):  # type: ignore
         onupdate=datetime.now(),
         nullable=False,
     )
+
+    def __init__(
+        self,
+        name: str,
+        email: EmailStr,
+        password: str,
+        image_url: HttpUrl,
+    ):
+        self.name = name
+        self.email = email
+        self.password = password
+        self.image_url = image_url

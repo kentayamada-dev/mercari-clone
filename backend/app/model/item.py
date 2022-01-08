@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 
 from app.db.database import Base
+from pydantic import HttpUrl
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
@@ -16,7 +17,7 @@ class Item(Base):  # type: ignore
     description = Column(String)
     image_url = Column(String)
     seller_id = Column(UUID(as_uuid=True), ForeignKey("seller.id"))
-    seller = relationship("Seller", back_populates="items")
+    seller = relationship("Seller", back_populates="items", lazy="joined")
     created_at = Column(
         "created_at", DateTime, default=datetime.now(), nullable=False
     )
@@ -27,3 +28,17 @@ class Item(Base):  # type: ignore
         onupdate=datetime.now(),
         nullable=False,
     )
+
+    def __init__(
+        self,
+        name: str,
+        price: int,
+        image_url: HttpUrl,
+        description: str,
+        seller_id: uuid.UUID,
+    ):
+        self.name = name
+        self.price = price
+        self.description = description
+        self.image_url = image_url
+        self.seller_id = seller_id

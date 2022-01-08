@@ -1,5 +1,5 @@
 from app.core.schema.jwt import Secret
-from app.schema.seller import Seller
+from app.schema.seller import SellerRead
 from app.test.client import client, temp_db
 from app.test.functions import create_seller_1, create_seller_2
 from app.test.sample_data import (
@@ -58,16 +58,19 @@ def test_read_sellers() -> None:
     create_seller_2()
     response = client.get("/sellers")
     response_data = response.json()
-    created_seller_1 = Seller(**response_data[0])
-    created_seller_2 = Seller(**response_data[1])
+    seller_a = SellerRead(**response_data[0])
+    seller_b = SellerRead(**response_data[1])
 
     assert response.status_code == status.HTTP_200_OK
-    assert seller_1_raw_get.items() <= response_data[0].items()
-    assert created_seller_1.is_active is True
-    assert not created_seller_1.items
-    assert seller_2_raw_get.items() <= response_data[1].items()
-    assert created_seller_2.is_active is True
-    assert not created_seller_2.items
+    assert not seller_a.items
+    assert not seller_b.items
+
+    if seller_a.email == "email_1@gmail.com":
+        assert seller_1_raw_get.items() <= seller_a.dict().items()
+        assert seller_2_raw_get.items() <= seller_b.dict().items()
+    else:
+        assert seller_1_raw_get.items() <= seller_b.dict().items()
+        assert seller_2_raw_get.items() <= seller_a.dict().items()
 
 
 @temp_db
@@ -76,11 +79,10 @@ def test_read_seller() -> None:
     created_seller_1_id = created_seller_1.id
     response = client.get(f"/sellers/{created_seller_1_id}")
     response_data = response.json()
-    created_seller = Seller(**response_data)
+    created_seller = SellerRead(**response_data)
 
     assert response.status_code == status.HTTP_200_OK
     assert seller_1_raw_get.items() <= response.json().items()
-    assert created_seller.is_active is True
     assert not created_seller.items
 
 
@@ -107,11 +109,10 @@ def test_inactivate_seller() -> None:
         "/sellers/me/inactivate",
         headers={"Authorization": f"Bearer {secret.access_token}"},
     )
-    seller = Seller(**response.json())
+    seller = SellerRead(**response.json())
 
     assert response.status_code == status.HTTP_200_OK
     assert seller_1_raw_get.items() <= response.json().items()
-    assert seller.is_active is False
     assert not seller.items
 
 
@@ -178,9 +179,8 @@ def test_read_me() -> None:
         "/sellers/me/",
         headers={"Authorization": f"Bearer {secret.access_token}"},
     )
-    seller = Seller(**response.json())
+    seller = SellerRead(**response.json())
 
     assert response.status_code == status.HTTP_200_OK
     assert seller_1_raw_get.items() <= response.json().items()
-    assert seller.is_active is True
     assert not seller.items
