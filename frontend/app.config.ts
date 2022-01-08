@@ -10,6 +10,8 @@ export default ({ config }: ConfigContext): ExtendedExpoConfig => ({
   orientation: "portrait",
   icon: "./assets/icon.png",
   privacy: "public",
+  assetBundlePatterns: ["**/*"],
+  jsEngine: "hermes",
   splash: {
     image: "./assets/splash.png",
     resizeMode: "contain",
@@ -17,7 +19,6 @@ export default ({ config }: ConfigContext): ExtendedExpoConfig => ({
   updates: {
     fallbackToCacheTimeout: 0,
   },
-  assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: true,
     userInterfaceStyle: "automatic",

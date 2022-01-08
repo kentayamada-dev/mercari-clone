@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { QueryClient, useQuery } from "react-query";
-import { Item, ItemRead } from "../../types/generated";
+import { ItemInDatabase, ItemRead } from "../../types/generated";
 import { axiosGetWrapper } from "../modules/query";
 
 const BASE_PATH = "items";
@@ -17,7 +17,7 @@ export const useQueryItems = () =>
 export const useQueryItem = (itemId: string) => {
   const path = BASE_PATH.concat(`/${itemId}`);
 
-  return useQuery<Item, AxiosError>({
+  return useQuery<ItemInDatabase, AxiosError>({
     queryKey: path,
     queryFn: () =>
       axiosGetWrapper({

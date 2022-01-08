@@ -11,7 +11,7 @@ export const ItemDetail: React.VFC<Props> = ({
     params: { itemId },
   },
 }) => {
-  const { data: item, error } = useQueryItem(itemId);
+  const { data: item } = useQueryItem(itemId);
 
   return <ItemDetailTemplate item={item} />;
 };

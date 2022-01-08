@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Box, IconButton, Input } from "native-base";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   typedUseColorModeValue,
   typedUseColorToken,
@@ -18,6 +19,7 @@ export const AppBar: React.VFC<AppBarProps> = React.memo<AppBarProps>(
       "brand.quaternary.light",
       "brand.quaternary.dark"
     );
+    const { t } = useTranslation("home");
 
     return (
       <Box
@@ -30,7 +32,7 @@ export const AppBar: React.VFC<AppBarProps> = React.memo<AppBarProps>(
       >
         <Input
           variant="search"
-          placeholder="なにをお探しですか?"
+          placeholder={t("searchForAnything")}
           borderRadius="25"
           width="80%"
           backgroundColor={backgroundColor}

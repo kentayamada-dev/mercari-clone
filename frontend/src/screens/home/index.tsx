@@ -1,7 +1,6 @@
 import React from "react";
 import { useQueryClient } from "react-query";
 import { HomeTemplate } from "../../components/templates/home";
-import { useAuth } from "../../hooks/auth/useAuth";
 import { invalidateQueriesItems, useQueryItems } from "../../hooks/items";
 import { wait } from "../../modules";
 import { HomeProps } from "./types";
@@ -26,11 +25,6 @@ export const Home: React.VFC<HomeProps> = ({ navigation }) => {
     await wait(1);
     setRefreshing(false);
   }, []);
-
-  const { token } = useAuth();
-
-  console.log("isFetching", isFetching);
-  console.log("token", token);
 
   return (
     <HomeTemplate

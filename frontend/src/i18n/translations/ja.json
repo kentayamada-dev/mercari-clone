@@ -9,7 +9,8 @@
   "home": {
     "recommends": "おすすめ",
     "recommendProducts": "おすすめの商品",
-    "savedQueries": "保存した検索条件"
+    "savedQueries": "保存した検索条件",
+    "searchForAnything": "なにをお探しですか?"
   },
   "settings": {
     "systemTheme": "システム",
@@ -22,9 +23,28 @@
     "password": "パスワード",
     "register": "登録",
     "registering": "登録中...",
-    "invalidEmail": "メールアドレスが不正です。"
+    "invalidEmail": "メールアドレスが不正です。",
+    "alreadyHaveAccount": "すでにアカウントをお持ちの方",
+    "login": "ログイン",
+    "tokenError": "トークンを発行できませんでした。",
+    "imageError": "画像が大きすぎます。最大20MBです。"
+  },
+  "signin": {
+    "signinError": "メールアドレスまたはパスワードが違います。"
   },
   "myPage": {
-    "signup": "会員登録"
+    "signup": "会員登録",
+    "signin": "ログイン"
+  },
+  "sellerDetail": {
+    "sales": "出品数",
+    "following": "フォロー中",
+    "followers": "フォロワー",
+    "noBioYet": "自己紹介文がまだ記入されてません"
+  },
+  "itemDetail": {
+    "like": "いいね!",
+    "comment": "コメント",
+    "buyNow": "購入手続きへ"
   }
 }

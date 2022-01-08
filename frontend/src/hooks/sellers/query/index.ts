@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { QueryClient, useQuery } from "react-query";
-import { Seller } from "../../../types/generated";
+import { SellerRead } from "../../../types/generated";
 import { AxiosGetWrapper, axiosGetWrapper } from "../../modules/query";
 import { BASE_PATH_ME } from "../constants";
 
@@ -12,7 +12,7 @@ type PrefetchQueryMe = Required<
 };
 
 export const useQueryMe = (userToken: string) =>
-  useQuery<Seller, AxiosError>({
+  useQuery<SellerRead, AxiosError>({
     queryKey: BASE_PATH_ME,
     queryFn: () =>
       axiosGetWrapper({

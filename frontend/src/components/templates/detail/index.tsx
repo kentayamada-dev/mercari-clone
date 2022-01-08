@@ -10,13 +10,16 @@ import {
   VStack,
 } from "native-base";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   typedUseColorModeValue,
   typedUseColorToken,
 } from "../../../theme/modules";
 import { ItemDetailTemplateProps } from "./types";
 
-export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({ item }) => {
+export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
+  item,
+}) => {
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
     "brand.quaternary.dark"
@@ -40,6 +43,7 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({ item })
 
   const buttonColor = typedUseColorModeValue("buttonLight", "buttonDark");
   const [isLiked, setIsLiked] = React.useState(false);
+  const { t } = useTranslation("itemDetail");
 
   return (
     <Box flex={1}>
@@ -57,7 +61,7 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({ item })
               uri: item.image_url,
             }}
             backgroundColor={backgroundColor}
-            alt="商品画像"
+            alt="image"
           />
         ) : (
           <Skeleton
@@ -101,7 +105,7 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({ item })
                 />
               }
             >
-              <Text>いいね!</Text>
+              <Text>{t("like")}</Text>
             </Button>
             <Button
               backgroundColor={backgroundColor}
@@ -112,7 +116,7 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({ item })
                 <FontAwesome5 name="comment-alt" size={24} color={textColor} />
               }
             >
-              <Text>コメント</Text>
+              <Text>{t("comment")}</Text>
             </Button>
           </HStack>
         </VStack>
@@ -174,7 +178,7 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({ item })
             bold
             color="brand.secondary.light"
           >
-            購入手続きへ
+            {t("buyNow")}
           </Text>
         </Button>
       </HStack>

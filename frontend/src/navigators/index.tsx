@@ -15,7 +15,7 @@ const getTabBarStyle = (
   route: Partial<Route<string, object | undefined>>
 ): "flex" | "none" => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
-  if (routeName === "ItemDetail") return "none";
+  if (routeName === "ItemDetail" || routeName === "SellerDetail") return "none";
 
   return "flex";
 };
@@ -96,7 +96,13 @@ export const RootNavigator: React.VFC = () => {
       <Tab.Screen
         name="MyPageStackNavigator"
         component={MyPageStackNavigator}
-        options={{
+        options={({ route }) => ({
+          tabBarStyle: {
+            display: getTabBarStyle(route),
+            backgroundColor: bgColor,
+            borderTopWidth: 0,
+            elevation: 0,
+          },
           tabBarLabel: t("myPage"),
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
@@ -105,7 +111,7 @@ export const RootNavigator: React.VFC = () => {
               color={color}
             />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="SettingsStackNavigator"

@@ -1,5 +1,5 @@
-import { Item } from "../../../../types/generated";
+import { ItemInDatabase } from "../../../../types/generated";
 
 export type ItemDetailTemplateProps = {
-  item?: Item;
+  item?: ItemInDatabase;
 };

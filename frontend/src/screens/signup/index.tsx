@@ -8,10 +8,13 @@ import { usePostSeller } from "../../hooks/sellers/mutation";
 import { SellerCreate } from "../../types/generated";
 import * as SecureStore from "expo-secure-store";
 import * as Updates from "expo-updates";
+import { useToast } from "native-base";
+import { CustomAlert } from "../../components/molecules/customAlert";
+import { useTranslation } from "react-i18next";
 
 type Props = NativeStackScreenProps<MyPageStackParamList, "Signup">;
 
-export const Signup: React.VFC<Props> = () => {
+export const Signup: React.VFC<Props> = ({ navigation }) => {
   const {
     control,
     handleSubmit,
@@ -27,6 +30,8 @@ export const Signup: React.VFC<Props> = () => {
       password: "",
     },
   });
+  const toast = useToast();
+  const { t } = useTranslation("signup");
 
   const { mutateAsync: mutateAsyncSeller, isLoading: isLoadingSeller } =
     usePostSeller();
@@ -37,6 +42,13 @@ export const Signup: React.VFC<Props> = () => {
         await SecureStore.setItemAsync("userToken", data.access_token);
         Updates.reloadAsync();
       },
+      AlertComponent: (
+        <CustomAlert
+          onPressCloseButton={() => toast.closeAll()}
+          text={t("tokenError")}
+        />
+      ),
+      toast,
     });
 
   const { mutateAsync: mutateAsyncImage, isLoading: isLoadingImage } =
@@ -44,15 +56,27 @@ export const Signup: React.VFC<Props> = () => {
       onSuccess: async (data) => {
         setValue("image_url", data.url);
       },
+      AlertComponent: (
+        <CustomAlert
+          onPressCloseButton={() => toast.closeAll()}
+          text={t("imageError")}
+        />
+      ),
+      toast,
     });
 
   const addSeller = handleSubmit(async (data) => {
+    data.email = data.email.toLowerCase();
     await mutateAsyncSeller(data);
     await mutateAsyncSecret({
       password: data.password,
       username: data.email,
     });
   });
+
+  const signinNavigationHandler = React.useCallback(() => {
+    navigation.navigate("Signin");
+  }, []);
 
   return (
     <SignupTemplate
@@ -64,6 +88,7 @@ export const Signup: React.VFC<Props> = () => {
       addSeller={addSeller}
       mutateAsyncImage={mutateAsyncImage}
       imageUrl={getValues("image_url")}
+      signinNavigationHandler={signinNavigationHandler}
     />
   );
 };

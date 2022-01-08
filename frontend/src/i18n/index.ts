@@ -40,7 +40,16 @@ i18n
       return "en";
     },
     defaultNS,
-    ns: ["common", "home", "settings", "signup", "myPage"],
+    ns: [
+      "common",
+      "home",
+      "settings",
+      "signup",
+      "myPage",
+      "sellerDetail",
+      "itemDetail",
+      "signin",
+    ],
     resources,
     interpolation: {
       escapeValue: false,

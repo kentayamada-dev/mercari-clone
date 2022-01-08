@@ -21,7 +21,9 @@ export type SellingStackParamList = {
 export type MyPageStackParamList = {
   MyPage: undefined;
   Signup: undefined;
+  Signin: undefined;
   SellerDetail: { sellerName?: string };
+  ItemDetail: { itemId: string; itemName: string };
 };
 
 export type SettingsStackParamList = {

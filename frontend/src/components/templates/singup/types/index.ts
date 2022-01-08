@@ -1,16 +1,18 @@
 import { Control, FieldError } from "react-hook-form";
 import { UseMutateAsyncFunction } from "react-query";
-import { ImageModel } from "../../../../types/generated";
+import { ImageModel, SellerCreate } from "../../../../types/generated";
+import { AxiosError } from "axios";
 
 export type SignupTemplateProps = {
   isLoadingImage: boolean;
   isValid: boolean;
   isLoading: boolean;
   addSeller: () => void;
+  signinNavigationHandler: () => void;
   imageUrl: string;
   mutateAsyncImage: UseMutateAsyncFunction<
     ImageModel,
-    Error,
+    AxiosError<any>,
     FormData,
     unknown
   >;
@@ -20,13 +22,5 @@ export type SignupTemplateProps = {
     password?: FieldError;
     image_url?: FieldError;
   };
-  control: Control<
-    {
-      name: string;
-      email: string;
-      password: string;
-      image_url: string;
-    },
-    object
-  >;
+  control: Control<SellerCreate, object>;
 };

@@ -35,7 +35,7 @@ export const HeaderBar: React.VFC<HeaderBarProps> = React.memo<HeaderBarProps>(
           )}
         </Box>
         <Box width={goBackHandler ? "85%" : "95%"}>
-          <Text fontSize="2xl" isTruncated>
+          <Text fontSize="2xl" isTruncated bold>
             {title}
           </Text>
         </Box>

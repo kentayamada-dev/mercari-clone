@@ -9,7 +9,8 @@
   "home": {
     "recommends": "Recommends",
     "recommendProducts": "Recommend Products",
-    "savedQueries": "Saved Queries"
+    "savedQueries": "Saved Queries",
+    "searchForAnything": "Search for anything"
   },
   "settings": {
     "systemTheme": "System",
@@ -22,9 +23,28 @@
     "password": "Password",
     "register": "Register",
     "registering": "Registering...",
-    "invalidEmail": "Invalid Email Address"
+    "invalidEmail": "Invalid Email Address",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": "Log in",
+    "tokenError": "Cannot generate token",
+    "imageError": "Image too large. Maximum: 20MB"
+  },
+  "signin": {
+    "signinError": "Email address or password not valid"
   },
   "myPage": {
-    "signup": "Signup"
+    "signup": "Signup",
+    "signin": "Login"
+  },
+  "sellerDetail": {
+    "sales": "Sales",
+    "following": "Following",
+    "followers": "Followers",
+    "noBioYet": "No bio yet"
+  },
+  "itemDetail": {
+    "like": "Like",
+    "comment": "Comment",
+    "buyNow": "Buy now"
   }
 }

@@ -1,4 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { IToastService } from "native-base/lib/typescript/components/composites/Toast";
+import React from "react";
 import { useMutation } from "react-query";
 import { CONSTANTS } from "../../../constants";
 import {
@@ -14,10 +16,13 @@ type AxiosPostWrapper = Axios & {
 
 type UsePost<T> = {
   onSuccess: (data: T) => Promise<void>;
+  AlertComponent: React.ReactNode;
+  toast: IToastService;
 };
 
 const POST_IMAGE_PATH = "image/upload";
 const POST_TOKEN_PATH = "token";
+const TOAST_ID = "toast";
 
 export const axiosPostWrapper = async ({
   path,
@@ -30,7 +35,11 @@ export const axiosPostWrapper = async ({
   return data;
 };
 
-export const usePostImage = ({ onSuccess }: UsePost<ImageModel>) =>
+export const usePostImage = ({
+  onSuccess,
+  toast,
+  AlertComponent,
+}: UsePost<ImageModel>) =>
   useMutation<ImageModel, AxiosError, FormData>({
     mutationFn: (dto) =>
       axiosPostWrapper({
@@ -43,9 +52,22 @@ export const usePostImage = ({ onSuccess }: UsePost<ImageModel>) =>
         },
       }),
     onSuccess,
+    onError: () => {
+      if (!toast.isActive(TOAST_ID)) {
+        toast.show({
+          id: TOAST_ID,
+          duration: 10000,
+          render: () => AlertComponent,
+        });
+      }
+    },
   });
 
-export const usePostToken = ({ onSuccess }: UsePost<Secret>) =>
+export const usePostToken = ({
+  onSuccess,
+  toast,
+  AlertComponent,
+}: UsePost<Secret>) =>
   useMutation<Secret, AxiosError, BodyCreateTokenTokenPost>({
     mutationFn: (dto) =>
       axiosPostWrapper({
@@ -53,4 +75,13 @@ export const usePostToken = ({ onSuccess }: UsePost<Secret>) =>
         path: POST_TOKEN_PATH,
       }),
     onSuccess,
+    onError: () => {
+      if (!toast.isActive(TOAST_ID)) {
+        toast.show({
+          id: TOAST_ID,
+          duration: 10000,
+          render: () => AlertComponent,
+        });
+      }
+    },
   });
