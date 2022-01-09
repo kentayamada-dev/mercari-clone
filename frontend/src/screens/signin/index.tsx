@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { MyPageStackParamList } from "../../types";
+import { AuthStackParamList } from "../../types";
 import { useForm } from "react-hook-form";
 import { usePostToken } from "../../hooks/modules/mutation";
 import { BodyCreateTokenTokenPost } from "../../types/generated";
@@ -11,7 +11,7 @@ import { useToast } from "native-base";
 import { CustomAlert } from "../../components/molecules/customAlert";
 import { useTranslation } from "react-i18next";
 
-type Props = NativeStackScreenProps<MyPageStackParamList, "Signin">;
+type Props = NativeStackScreenProps<AuthStackParamList, "Signin">;
 
 export const Signin: React.VFC<Props> = () => {
   const toast = useToast();

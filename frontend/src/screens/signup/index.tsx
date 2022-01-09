@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { MyPageStackParamList } from "../../types";
+import { AuthStackParamList } from "../../types";
 import { useForm } from "react-hook-form";
 import { SignupTemplate } from "../../components/templates/singup";
 import { usePostToken, usePostImage } from "../../hooks/modules/mutation";
@@ -12,7 +12,7 @@ import { useToast } from "native-base";
 import { CustomAlert } from "../../components/molecules/customAlert";
 import { useTranslation } from "react-i18next";
 
-type Props = NativeStackScreenProps<MyPageStackParamList, "Signup">;
+type Props = NativeStackScreenProps<AuthStackParamList, "Signup">;
 
 export const Signup: React.VFC<Props> = ({ navigation }) => {
   const {

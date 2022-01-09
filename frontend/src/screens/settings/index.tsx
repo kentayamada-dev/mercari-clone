@@ -132,9 +132,9 @@ export const Settings: React.VFC<Props> = () => {
   }, []);
 
   const middleButtonHandlerOnLocaleChange = React.useCallback(async () => {
+    await AsyncStorage.removeItem("@locale");
     i18n.changeLanguage(locale);
     setLocaleState(null);
-    await AsyncStorage.removeItem("@locale");
   }, []);
 
   const rightButtonHandlerOnLocaleChange = React.useCallback(async () => {

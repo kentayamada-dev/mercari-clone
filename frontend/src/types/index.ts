@@ -15,13 +15,23 @@ export type NotificationStackParamList = {
 };
 
 export type SellingStackParamList = {
+  AuthStackNavigator: {
+    screen: "Signup";
+  };
   Selling: undefined;
+  SellingDetail: undefined;
+};
+
+export type AuthStackParamList = {
+  Signup: undefined;
+  Signin: undefined;
 };
 
 export type MyPageStackParamList = {
   MyPage: undefined;
-  Signup: undefined;
-  Signin: undefined;
+  AuthStackNavigator: {
+    screen: "Signup";
+  };
   SellerDetail: { sellerName?: string };
   ItemDetail: { itemId: string; itemName: string };
 };
@@ -30,12 +40,17 @@ export type SettingsStackParamList = {
   Settings: undefined;
 };
 
-export type RootParamList = {
+export type AppStackParamList = {
   HomeStackNavigator: undefined;
   NotificationsStackNavigator: undefined;
   SellingStackNavigator: undefined;
   MyPageStackNavigator: undefined;
   SettingsStackNavigator: undefined;
+};
+
+export type RootParamList = {
+  AppStackNavigator: undefined;
+  AuthStackNavigator: undefined;
 };
 
 export type Extra = {

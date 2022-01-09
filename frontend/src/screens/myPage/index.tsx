@@ -14,7 +14,9 @@ export const MyPage: React.VFC<Props> = ({ navigation }) => {
     if (token) {
       navigation.navigate("SellerDetail", { sellerName: seller?.name });
     } else {
-      navigation.navigate("Signup");
+      navigation.navigate("AuthStackNavigator", {
+        screen: "Signup",
+      });
     }
   }, []);
 
