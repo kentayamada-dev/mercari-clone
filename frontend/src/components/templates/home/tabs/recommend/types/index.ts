@@ -1,11 +1,6 @@
-import { ItemRead } from "../../../../../../types/generated";
 import { ItemsTableProps } from "../../../../../organisms/itemsTable/types";
 
-export type RecommendTabProps = Pick<
-  ItemsTableProps,
-  "itemNavigationHandler"
-> & {
-  items?: ItemRead[];
+export type RecommendTabProps = ItemsTableProps & {
   isItemsFetching: boolean;
   refetchItems: () => void;
 };
