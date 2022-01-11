@@ -6,4 +6,6 @@ export type SellerDetailTemplateProps = Pick<
   "itemNavigationHandler"
 > & {
   seller?: SellerRead;
+  isSellerFetching: boolean;
+  refetchSeller: () => void;
 };

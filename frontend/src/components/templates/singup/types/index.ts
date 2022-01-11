@@ -1,7 +1,5 @@
 import { Control, FieldError } from "react-hook-form";
-import { UseMutateAsyncFunction } from "react-query";
-import { ImageModel, SellerCreate } from "../../../../types/generated";
-import { AxiosError } from "axios";
+import { SellerCreate } from "../../../../types/generated";
 
 export type SignupTemplateProps = {
   isLoadingImage: boolean;
@@ -10,12 +8,7 @@ export type SignupTemplateProps = {
   addSeller: () => void;
   signinNavigationHandler: () => void;
   imageUrl: string;
-  mutateAsyncImage: UseMutateAsyncFunction<
-    ImageModel,
-    AxiosError<any>,
-    FormData,
-    unknown
-  >;
+  uploadImage: (formData: FormData) => Promise<void>;
   errors: {
     name?: FieldError;
     email?: FieldError;

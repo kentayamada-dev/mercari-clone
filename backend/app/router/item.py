@@ -26,6 +26,10 @@ def create_item(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="user not exists"
         )
+    if not 300 <= item.price <= 9999999:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="price not valid"
+        )
     db_item_orm = add_item(db=db, dto=item, seller_id=seller_id)
     db_item_model = ItemInDatabase.from_orm(db_item_orm)
     return db_item_model

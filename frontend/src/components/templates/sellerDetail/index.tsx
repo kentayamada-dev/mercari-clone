@@ -15,12 +15,14 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { ItemsTable } from "../../organisms/itemsTable";
 import { typedUseColorToken } from "../../../theme/modules";
-import { useWindowDimensions } from "react-native";
+import { RefreshControl, useWindowDimensions } from "react-native";
 import { useTranslation } from "react-i18next";
 
 export const SellerDetailTemplate: React.VFC<SellerDetailTemplateProps> = ({
   itemNavigationHandler,
   seller,
+  isSellerFetching,
+  refetchSeller,
 }) => {
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
@@ -28,10 +30,22 @@ export const SellerDetailTemplate: React.VFC<SellerDetailTemplateProps> = ({
   );
   const { width } = useWindowDimensions();
   const { t } = useTranslation("sellerDetail");
+  const tintColor = typedUseColorToken(
+    "brand.secondary.dark",
+    "brand.secondary.light"
+  );
 
   return (
     <Box flex={1}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isSellerFetching}
+            onRefresh={refetchSeller}
+            tintColor={`${tintColor}`}
+          />
+        }
+      >
         <HStack space="5" alignItems="center" padding="3">
           {seller?.image_url ? (
             <Box width="16" height="16" rounded="full" overflow="hidden">

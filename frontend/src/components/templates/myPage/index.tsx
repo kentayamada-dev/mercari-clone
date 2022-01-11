@@ -77,7 +77,7 @@ export const MyPageTemplate: React.VFC<MyPageTemplateProps> = ({
                     source={{
                       uri: avaterUrl,
                     }}
-                    alt="商品画像"
+                    alt="image"
                     width="full"
                     height="full"
                   />

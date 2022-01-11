@@ -22,8 +22,7 @@ import {
   typedUseColorToken,
 } from "../../../theme/modules";
 import { SignupTemplateProps } from "./types";
-import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
+import { uploadImageHandler } from "../../../modules";
 
 export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
   isLoading,
@@ -33,7 +32,7 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
   imageUrl,
   isLoadingImage,
   addSeller,
-  mutateAsyncImage,
+  uploadImage,
   signinNavigationHandler,
 }) => {
   const [isVisibile, setIsVisibile] = React.useState(false);
@@ -50,45 +49,20 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
     "brand.tertiary.light",
     "brand.tertiary.dark"
   );
-
-  const getFileInfo = async (fileURI: string) => {
-    const fileInfo = await FileSystem.getInfoAsync(fileURI);
-    return fileInfo;
-  };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      const fileInfo = await getFileInfo(result.uri);
-      if (fileInfo) {
-        const formData = new FormData();
-        const filename =
-          result.uri.split("/")[result.uri.split("/").length - 1];
-        const type = `${result.type}/${
-          result.uri.split(".")[result.uri.split(".").length - 1]
-        }`;
-
-        formData.append("file", {
-          // @ts-ignore
-          uri: result.uri,
-          name: filename,
-          type: type,
-        });
-        await mutateAsyncImage(formData);
-      }
-    }
-  };
+  const warningColor = typedUseColorModeValue(
+    "brand.primary.light",
+    "brand.primary.dark"
+  );
+  const isEmailInvalid = "email" in errors;
+  const isNameInvalid = "name" in errors;
+  const isPasswordInvalid = "password" in errors;
 
   return (
     <Box flex={1} padding="5">
       <VStack flex={1} space={4}>
         <Pressable
           key={imageUrl}
-          onPress={pickImage}
+          onPress={async () => await uploadImageHandler(uploadImage)}
           _pressed={{
             opacity: 0.5,
           }}
@@ -112,19 +86,19 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
                 source={{
                   uri: imageUrl,
                 }}
-                alt="商品画像"
+                alt="image"
                 width="full"
                 height="full"
               />
             </Box>
           )}
         </Pressable>
-        <FormControl isInvalid={"name" in errors}>
+        <FormControl isInvalid={isNameInvalid}>
           <FormControl.Label>{t("name")}</FormControl.Label>
           <Controller
             control={control}
             name="name"
-            rules={{ required: true }}
+            rules={{ required: t("nameRequired") }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
                 onBlur={onBlur}
@@ -133,20 +107,23 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
                 value={value}
                 variant="underlined"
                 size="2xl"
+                _focus={{
+                  borderColor: isNameInvalid ? warningColor : linkColor,
+                }}
               />
             )}
           />
           <FormControl.ErrorMessage>
-            {errors.name?.message}
+            <Text color={warningColor}>{errors.name?.message}</Text>
           </FormControl.ErrorMessage>
         </FormControl>
-        <FormControl isInvalid={"email" in errors}>
+        <FormControl isInvalid={isEmailInvalid}>
           <FormControl.Label>{t("email")}</FormControl.Label>
           <Controller
             control={control}
             name="email"
             rules={{
-              required: true,
+              required: t("emailRequired"),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 message: t("invalidEmail"),
@@ -163,19 +140,22 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
                 autoCompleteType="email"
                 keyboardType="email-address"
                 textContentType="emailAddress"
+                _focus={{
+                  borderColor: isEmailInvalid ? warningColor : linkColor,
+                }}
               />
             )}
           />
           <FormControl.ErrorMessage>
-            {errors.email?.message}
+            <Text color={warningColor}>{errors.email?.message}</Text>
           </FormControl.ErrorMessage>
         </FormControl>
-        <FormControl isInvalid={"password" in errors}>
+        <FormControl isInvalid={isPasswordInvalid}>
           <FormControl.Label>{t("password")}</FormControl.Label>
           <Controller
             control={control}
             name="password"
-            rules={{ required: true }}
+            rules={{ required: t("passwordRequired") }}
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
                 autoCompleteType="password"
@@ -188,6 +168,9 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
                 type={isVisibile ? "text" : "password"}
                 variant="underlined"
                 size="2xl"
+                _focus={{
+                  borderColor: isPasswordInvalid ? warningColor : linkColor,
+                }}
                 InputRightElement={
                   <IconButton
                     onPress={() => setIsVisibile(!isVisibile)}
@@ -208,7 +191,7 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
             )}
           />
           <FormControl.ErrorMessage>
-            {errors.password?.message}
+            <Text color={warningColor}>{errors.password?.message}</Text>
           </FormControl.ErrorMessage>
         </FormControl>
         <Button
@@ -216,7 +199,7 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> = ({
           isLoadingText={t("registering")}
           borderRadius="full"
           size="lg"
-          isDisabled={!isValid}
+          isDisabled={!isValid || isLoadingImage}
           onPress={addSeller}
           colorScheme={useColorModeValue("buttonLight", "buttonDark")}
         >

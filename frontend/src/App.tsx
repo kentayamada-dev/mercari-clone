@@ -5,7 +5,7 @@ import { RootComponet } from "./components";
 import { useAuth } from "./hooks/auth/useAuth";
 import "./i18n";
 import { AnimatedAppLoader } from "./screens/splash";
-import { prefetchQueryItems } from "./hooks/items";
+import { prefetchQueryItems } from "./hooks/items/query";
 import { useQueryClient } from "react-query";
 import { prefetchQueryMe } from "./hooks/sellers/query";
 

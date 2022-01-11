@@ -3,9 +3,9 @@ import React from "react";
 import { CustomAlertProps } from "./types";
 
 export const CustomAlert: React.VFC<CustomAlertProps> =
-  React.memo<CustomAlertProps>(({ onPressCloseButton, text }) => {
+  React.memo<CustomAlertProps>(({ onPressCloseButton, text, status }) => {
     return (
-      <Alert status="error" marginBottom="20">
+      <Alert status={status} marginBottom="20">
         <HStack space={2} alignItems="center">
           <HStack space={1} alignItems="center">
             <Alert.Icon />

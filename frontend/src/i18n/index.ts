@@ -49,6 +49,8 @@ i18n
       "sellerDetail",
       "itemDetail",
       "signin",
+      "selling",
+      "sellingDetail",
     ],
     resources,
     interpolation: {

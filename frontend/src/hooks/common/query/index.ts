@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from "axios";
+import { QueryClient } from "react-query";
 import { CONSTANTS } from "../../../constants";
+import { QueryKeys } from "../constants";
 import { Axios } from "../types";
 
 export type AxiosGetWrapper = Axios & {
@@ -22,3 +24,11 @@ export const axiosGetWrapper = async ({
     if (onError) onError();
   }
 };
+
+export const invalidateQueriesWrapper = (
+  queryClient: QueryClient,
+  queryKey: QueryKeys
+) =>
+  queryClient.invalidateQueries({
+    queryKey,
+  });

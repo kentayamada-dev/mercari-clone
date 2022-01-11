@@ -19,18 +19,23 @@
   },
   "signup": {
     "name": "名前",
+    "nameRequired": "名前を入力してください",
     "email": "メールアドレス",
     "password": "パスワード",
+    "passwordRequired": "パスワードを入力してください",
     "register": "登録",
     "registering": "登録中...",
-    "invalidEmail": "メールアドレスが不正です。",
+    "emailRequired": "メールアドレスを入力してください",
+    "invalidEmail": "メールアドレスが不正です",
     "alreadyHaveAccount": "すでにアカウントをお持ちの方",
     "login": "ログイン",
     "tokenError": "トークンを発行できませんでした。",
-    "imageError": "画像が大きすぎます。最大20MBです。"
+    "imageError": "画像が大きすぎます。最大20MBです。",
+    "emailError": "メールアドレスが既に存在します"
   },
   "signin": {
-    "signinError": "メールアドレスまたはパスワードが違います。"
+    "signinError": "メールアドレスまたはパスワードが違います。",
+    "signing": "ログイン中..."
   },
   "myPage": {
     "signup": "会員登録",
@@ -46,5 +51,20 @@
     "like": "いいね!",
     "comment": "コメント",
     "buyNow": "購入手続きへ"
+  },
+  "selling": {
+    "upload": "出品する"
+  },
+  "sellingDetail": {
+    "title": "商品名",
+    "description": "商品説明",
+    "price": "販売価格",
+    "invalidPriceFormat": "整数のみ有効です",
+    "titleRequired": "商品名を入力してください",
+    "descriptionRequired": "商品説明を入力してください",
+    "priceRequired": "販売価格を入力してください",
+    "priceRange": "300~9,999,999",
+    "selectImage": "商品画像を選択してください",
+    "uploading": "出品中..."
   }
 }

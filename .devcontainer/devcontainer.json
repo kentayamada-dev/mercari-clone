@@ -2,7 +2,7 @@
   "name": "Mercari Clone",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspace",
+  "workspaceFolder": "/workspace/backend",
   "settings": {
     "python.pythonPath": "/usr/local/bin/python",
     "python.languageServer": "Pylance",

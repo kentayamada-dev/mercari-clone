@@ -2,7 +2,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { HeaderBar } from "../../components/organisms/headerBar";
-import { ItemDetail } from "../../screens/itemDetail";
 import { MyPage } from "../../screens/myPage";
 import { SellerDetail } from "../../screens/sellerDetail";
 import { MyPageStackParamList } from "../../types";
@@ -42,18 +41,6 @@ export const MyPageStackNavigator: React.VFC = () => {
         })}
         name="SellerDetail"
         component={SellerDetail}
-      />
-      <MyPageStack.Screen
-        name="ItemDetail"
-        component={ItemDetail}
-        options={({ route }) => ({
-          header: (props) => (
-            <HeaderBar
-              goBackHandler={props.navigation.goBack}
-              title={route.params.itemName}
-            />
-          ),
-        })}
       />
     </MyPageStack.Navigator>
   );

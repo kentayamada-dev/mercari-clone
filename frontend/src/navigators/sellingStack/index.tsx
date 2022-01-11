@@ -21,7 +21,8 @@ export const SellingStackNavigator: React.VFC = () => {
       <SellingStack.Screen
         name="Selling"
         component={Selling}
-        options={() => ({
+        options={({ route }) => ({
+          animationEnabled: !route.params?.itemId && !route.params?.itemName,
           header: (props) => (
             <HeaderBar
               goBackHandler={props.back ? props.navigation.goBack : undefined}

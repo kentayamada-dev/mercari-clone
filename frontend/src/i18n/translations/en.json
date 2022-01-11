@@ -19,18 +19,23 @@
   },
   "signup": {
     "name": "Name",
+    "nameRequired": "Name is required",
     "email": "Email",
     "password": "Password",
+    "passwordRequired": "Password is required",
     "register": "Register",
     "registering": "Registering...",
-    "invalidEmail": "Invalid Email Address",
+    "invalidEmail": "Invalid email address",
+    "emailRequired": "Email address is required",
     "alreadyHaveAccount": "Already have an account?",
     "login": "Log in",
     "tokenError": "Cannot generate token",
-    "imageError": "Image too large. Maximum: 20MB"
+    "imageError": "Image too large. Maximum: 20MB",
+    "emailError": "Email already exists"
   },
   "signin": {
-    "signinError": "Email address or password not valid"
+    "signinError": "Email address or password not valid",
+    "signing": "Signing..."
   },
   "myPage": {
     "signup": "Signup",
@@ -46,5 +51,20 @@
     "like": "Like",
     "comment": "Comment",
     "buyNow": "Buy now"
+  },
+  "selling": {
+    "upload": "Upload"
+  },
+  "sellingDetail": {
+    "title": "Title",
+    "description": "Description",
+    "price": "Price",
+    "invalidPriceFormat": "Only integer is valid",
+    "titleRequired": "Title is required",
+    "descriptionRequired": "Description is required",
+    "priceRequired": "Price is required",
+    "priceRange": "300~9,999,999",
+    "selectImage": "Please select product image",
+    "uploading": "Uploading..."
   }
 }

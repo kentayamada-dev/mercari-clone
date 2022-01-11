@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { AuthStackParamList } from "../../types";
 import { useForm } from "react-hook-form";
-import { usePostToken } from "../../hooks/modules/mutation";
+import { usePostToken } from "../../hooks/common/mutation";
 import { BodyCreateTokenTokenPost } from "../../types/generated";
 import * as SecureStore from "expo-secure-store";
 import * as Updates from "expo-updates";
@@ -10,13 +10,13 @@ import { SigninTemplate } from "../../components/templates/singin";
 import { useToast } from "native-base";
 import { CustomAlert } from "../../components/molecules/customAlert";
 import { useTranslation } from "react-i18next";
+import { getAlert } from "../../modules";
 
 type Props = NativeStackScreenProps<AuthStackParamList, "Signin">;
 
 export const Signin: React.VFC<Props> = () => {
   const toast = useToast();
   const { t } = useTranslation("signin");
-
   const {
     control,
     handleSubmit,
@@ -35,13 +35,15 @@ export const Signin: React.VFC<Props> = () => {
         await SecureStore.setItemAsync("userToken", data.access_token);
         Updates.reloadAsync();
       },
-      AlertComponent: (
-        <CustomAlert
-          onPressCloseButton={() => toast.closeAll()}
-          text={t("signinError")}
-        />
-      ),
-      toast,
+      onError: () =>
+        getAlert(
+          toast,
+          <CustomAlert
+            status="error"
+            onPressCloseButton={() => toast.closeAll()}
+            text={t("signinError")}
+          />
+        ),
     });
 
   const addSeller = handleSubmit(async (data) => {
