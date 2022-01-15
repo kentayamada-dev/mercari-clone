@@ -5,7 +5,7 @@ import { RootComponet } from "./components";
 import { useAuth } from "./hooks/auth/useAuth";
 import "./i18n";
 import { AnimatedAppLoader } from "./screens/splash";
-import { prefetchQueryItems } from "./hooks/items/query";
+import { prefetchInfiniteQueryItems } from "./hooks/items/query";
 import { useQueryClient } from "react-query";
 import { prefetchQueryMe } from "./hooks/sellers/query";
 
@@ -14,7 +14,7 @@ export const App = () => {
   const queryClient = useQueryClient();
   const prepare = React.useCallback(async () => {
     const userToken = (await SecureStore.getItemAsync("userToken")) || "";
-    await prefetchQueryItems(queryClient);
+    await prefetchInfiniteQueryItems(queryClient);
     await prefetchQueryMe({
       onError: () => setToken(""),
       onSuccess: () => setToken(userToken),

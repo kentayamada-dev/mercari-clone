@@ -128,6 +128,14 @@ export interface Message {
   message: string;
 }
 
+export interface ReadItems {
+  /** Data */
+  data: ItemRead[];
+
+  /** Skip */
+  skip?: number;
+}
+
 export interface Secret {
   /** Access Token */
   access_token: string;
@@ -643,10 +651,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Read Items
      * @request GET:/items
      */
-    readItemsItemsGet: (params: RequestParams = {}) =>
-      this.request<ItemRead[], any>({
+    readItemsItemsGet: (query: { skip: number; limit: number }, params: RequestParams = {}) =>
+      this.request<ReadItems, HTTPValidationError>({
         path: `/items`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),

@@ -1,15 +1,24 @@
 import React from "react";
-import { useQueryClient } from "react-query";
 import { HomeTemplate } from "../../components/templates/home";
-import { invalidateQueriesWrapper } from "../../hooks/common/query";
-import { useQueryItems } from "../../hooks/items/query";
 import { wait } from "../../modules";
 import { HomeProps } from "./types";
+import { useInfiniteQueryItems } from "../../hooks/items/query";
 
 export const Home: React.VFC<HomeProps> = ({ navigation }) => {
-  const queryClient = useQueryClient();
-  const [refreshing, setRefreshing] = React.useState(false);
-  const { data: items, isFetching } = useQueryItems();
+  const {
+    data: items,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    refetch,
+  } = useInfiniteQueryItems();
+  const [refeching, setRefetching] = React.useState(false);
+  const [fetchingNext, setFetchingNext] = React.useState(false);
+  const isRefetching = isFetching && isFetchingNextPage ? false : true;
+  const isItemsRefetching = refeching && isRefetching;
+  const isNextItemsFetching = fetchingNext || isFetchingNextPage;
+
   const itemNavigationHandler = React.useCallback(
     (itemId: string, itemName: string) => {
       navigation.navigate("ItemDetailStackNavigator", {
@@ -19,21 +28,33 @@ export const Home: React.VFC<HomeProps> = ({ navigation }) => {
     },
     []
   );
+
   const todoNavigationHandler = React.useCallback(() => {
     navigation.navigate("Todo", { userId: "userId" });
   }, []);
 
-  const onInvalidate = React.useCallback(async () => {
-    invalidateQueriesWrapper(queryClient, "items");
-    setRefreshing(true);
-    await wait(1);
-    setRefreshing(false);
+  const onRefetchItems = React.useCallback(async () => {
+    setRefetching(true);
+    await wait(2);
+    refetch({ refetchPage: (_, index) => index === 0 });
+    setRefetching(false);
   }, []);
+
+  const onFetchNextItems = React.useCallback(async () => {
+    if (hasNextPage) {
+      setFetchingNext(true);
+      await wait(2);
+      fetchNextPage();
+      setFetchingNext(false);
+    }
+  }, [hasNextPage]);
 
   return (
     <HomeTemplate
-      refetchItems={onInvalidate}
-      isItemsFetching={refreshing || isFetching}
+      onRefetchItems={onRefetchItems}
+      onFetchNextItems={onFetchNextItems}
+      isItemsRefetching={isItemsRefetching}
+      isNextItemsFetching={isNextItemsFetching}
       items={items}
       itemNavigationHandler={itemNavigationHandler}
       todoNavigationHandler={todoNavigationHandler}

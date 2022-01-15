@@ -1,9 +1,8 @@
 import uuid
-from datetime import datetime
 
 from app.db.database import Base
 from pydantic import EmailStr, HttpUrl
-from sqlalchemy import Boolean, Column, DateTime, String
+from sqlalchemy import Boolean, Column, DateTime, String, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
@@ -19,13 +18,13 @@ class Seller(Base):  # type: ignore
     items = relationship("Item", back_populates="seller", lazy="joined")
     is_active = Column(Boolean, default=True)
     created_at = Column(
-        "created_at", DateTime, default=datetime.now(), nullable=False
+        "created_at", DateTime, default=func.now(), nullable=False
     )
     updated_at = Column(
         "updated_at",
         DateTime,
-        default=datetime.now(),
-        onupdate=datetime.now(),
+        default=func.now(),
+        onupdate=func.now(),
         nullable=False,
     )
 

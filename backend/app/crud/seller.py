@@ -1,4 +1,3 @@
-from typing import List, Optional
 from uuid import UUID
 
 from app.core.schema.config import settings
@@ -22,8 +21,8 @@ from sqlalchemy.orm import Session, load_only, joinedload, lazyload
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-def get_all_sellers(db: Session) -> List[SellerRead]:
-    db_data: List[SellerRead] = (
+def get_all_sellers(db: Session) -> list[SellerRead]:
+    db_data: list[SellerRead] = (
         db.query(Seller)
         .options(
             load_only(
@@ -45,8 +44,8 @@ def get_all_sellers(db: Session) -> List[SellerRead]:
     return db_data
 
 
-def get_seller_by_id(db: Session, seller_id: UUID) -> Optional[SellerRead]:
-    db_data: Optional[SellerRead] = (
+def get_seller_by_id(db: Session, seller_id: UUID) -> SellerRead | None:
+    db_data: SellerRead | None = (
         db.query(Seller)
         .filter(Seller.id == seller_id)
         .options(
@@ -69,8 +68,8 @@ def get_seller_by_id(db: Session, seller_id: UUID) -> Optional[SellerRead]:
     return db_data
 
 
-def get_seller_by_email(db: Session, email: str) -> Optional[GetSellerByEmail]:
-    db_data: Optional[GetSellerByEmail] = (
+def get_seller_by_email(db: Session, email: str) -> GetSellerByEmail | None:
+    db_data: GetSellerByEmail | None = (
         db.query(Seller)
         .filter(Seller.email == email)
         .options(
@@ -97,8 +96,8 @@ def get_seller_by_email(db: Session, email: str) -> Optional[GetSellerByEmail]:
 
 def get_authenticate_seller_by_email(
     db: Session, email: str
-) -> Optional[GetAuthenticateSellerByEmail]:
-    db_data: Optional[GetAuthenticateSellerByEmail] = (
+) -> GetAuthenticateSellerByEmail | None:
+    db_data: GetAuthenticateSellerByEmail | None = (
         db.query(Seller)
         .filter(Seller.email == email)
         .options(
@@ -142,7 +141,7 @@ def inactivate_seller(
 
 def get_current_seller(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
-) -> Optional[GetSellerByEmail]:
+) -> GetSellerByEmail | None:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="invalid token",
@@ -164,7 +163,7 @@ def get_current_seller(
 
 def authenticate_seller(
     db: Session, email: str, password: str
-) -> (Optional[GetAuthenticateSellerByEmail]):
+) -> GetAuthenticateSellerByEmail | None:
     data = get_authenticate_seller_by_email(db, email=email)
     if data is None:
         return None

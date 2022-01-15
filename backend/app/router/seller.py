@@ -1,4 +1,3 @@
-from typing import List
 from uuid import UUID
 
 from app.core.schema.message import Message
@@ -43,10 +42,10 @@ def create_seller(
     return db_seller_without_password
 
 
-@router.get("/sellers", response_model=List[SellerRead])
-def read_sellers(db: Session = Depends(get_db)) -> List[SellerRead]:
+@router.get("/sellers", response_model=list[SellerRead])
+def read_sellers(db: Session = Depends(get_db)) -> list[SellerRead]:
     db_sellers_orm = get_all_sellers(db)
-    db_sellers_model: List[SellerRead] = [
+    db_sellers_model: list[SellerRead] = [
         SellerRead.from_orm(db_seller) for db_seller in db_sellers_orm
     ]
     return db_sellers_model

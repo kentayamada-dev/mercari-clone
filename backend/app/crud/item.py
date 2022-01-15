@@ -1,8 +1,8 @@
-from typing import List, Optional
 from uuid import UUID
 
 from app.model.item import Item
 from app.schema.item import ItemCreate, ItemInDatabase, ItemRead
+from sqlalchemy import desc
 from sqlalchemy.orm import Session, lazyload, load_only
 
 
@@ -15,13 +15,16 @@ def add_item(db: Session, dto: ItemCreate, seller_id: UUID) -> ItemInDatabase:
     return data
 
 
-def get_all_items(db: Session) -> List[ItemRead]:
-    db_data: List[ItemRead] = (
+def get_all_items(skip: int, limit: int, db: Session) -> list[ItemRead]:
+    db_data: list[ItemRead] = (
         db.query(Item)
         .options(
             load_only(Item.id, Item.price, Item.image_url, Item.name),
             lazyload(Item.seller),
         )
+        .order_by(desc(Item.created_at))
+        .offset(skip)
+        .limit(limit)
         .all()
     )
 
@@ -29,8 +32,8 @@ def get_all_items(db: Session) -> List[ItemRead]:
     return db_data
 
 
-def get_item_by_id(db: Session, item_id: UUID) -> Optional[ItemInDatabase]:
-    db_data: Optional[ItemInDatabase] = (
+def get_item_by_id(db: Session, item_id: UUID) -> ItemInDatabase | None:
+    db_data: ItemInDatabase | None = (
         db.query(Item).filter(Item.id == item_id).one_or_none()
     )
     # print("\033[32m" + str(db_data) + "\033[0m")

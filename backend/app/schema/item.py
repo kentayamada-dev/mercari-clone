@@ -29,3 +29,12 @@ class ItemInDatabase(ItemBase):
     seller: Seller
     created_at: datetime
     updated_at: datetime
+
+
+class ReadItems(BaseModel):
+    data: list[ItemRead]
+    skip: int | None
+
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True

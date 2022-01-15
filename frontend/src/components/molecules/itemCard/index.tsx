@@ -15,12 +15,13 @@ export const ItemCard: React.VFC<ItemCardProps> = React.memo<ItemCardProps>(
         height={width / 3.1}
         rounded="md"
         overflow="hidden"
+        key={imageUrl}
       >
         <Image
           source={{
             uri: imageUrl,
           }}
-          alt="商品画像"
+          alt="image"
           width="full"
           height="full"
         />

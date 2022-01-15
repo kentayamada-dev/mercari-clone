@@ -1,11 +1,10 @@
-from typing import List
 from uuid import UUID
 
 from app.core.schema.message import Message
 from app.crud.item import add_item, get_all_items, get_item_by_id, remove_item
 from app.crud.seller import get_seller_by_id
 from app.db.database import get_db
-from app.schema.item import ItemCreate, ItemInDatabase, ItemRead
+from app.schema.item import ItemCreate, ItemInDatabase, ItemRead, ReadItems
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -35,11 +34,15 @@ def create_item(
     return db_item_model
 
 
-@router.get("/items", response_model=List[ItemRead])
-def read_items(db: Session = Depends(get_db)) -> List[ItemRead]:
-    db_items_orm = get_all_items(db)
+@router.get("/items", response_model=ReadItems)
+def read_items(
+    skip: int, limit: int, db: Session = Depends(get_db)
+) -> ReadItems:
+    db_items_orm = get_all_items(skip, limit, db)
     db_items_model = [ItemRead.from_orm(db_item) for db_item in db_items_orm]
-    return db_items_model
+    if len(db_items_model) < limit:
+        return ReadItems(data=db_items_model, skip=None)
+    return ReadItems(data=db_items_model, skip=skip + limit)
 
 
 @router.get(

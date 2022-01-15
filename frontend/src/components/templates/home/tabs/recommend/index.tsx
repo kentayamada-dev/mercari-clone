@@ -1,14 +1,21 @@
-import { Box, Center, ScrollView, Text } from "native-base";
+import { Box, Center, FlatList, Spinner, Text } from "native-base";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { RefreshControl } from "react-native";
 import { typedUseColorToken } from "../../../../../theme/modules";
+import { ReadItems } from "../../../../../types/generated";
 import { ItemsTable } from "../../../../organisms/itemsTable";
 import { RecommendTabProps } from "./types";
 
 export const RecommendTab: React.VFC<RecommendTabProps> =
   React.memo<RecommendTabProps>(
-    ({ isItemsFetching, refetchItems, items, itemNavigationHandler }) => {
+    ({
+      onRefetchItems,
+      itemNavigationHandler,
+      onFetchNextItems,
+      items,
+      isItemsRefetching,
+      isNextItemsFetching,
+    }) => {
       const { t } = useTranslation("home");
       const tintColor = typedUseColorToken(
         "brand.secondary.dark",
@@ -24,29 +31,56 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
         "brand.secondary.dark"
       );
 
+      const keyExtractor = React.useCallback((page) => `${page.skip}`, []);
+      const onEndReached = React.useCallback(() => {
+        if (!isNextItemsFetching) onFetchNextItems();
+      }, [isNextItemsFetching]);
+
+      const renderItem = React.useCallback(
+        ({ item }: { item: ReadItems }) => {
+          return (
+            <>
+              <ItemsTable
+                items={item.data}
+                itemNavigationHandler={itemNavigationHandler}
+              />
+              {isNextItemsFetching && (
+                <Center height="32">
+                  <Spinner size="lg" color={tintColor} marginBottom={20} />
+                </Center>
+              )}
+            </>
+          );
+        },
+        [isNextItemsFetching]
+      );
+
+      const FlatListRender = React.useMemo(
+        () => (
+          <FlatList
+            data={items?.pages}
+            keyExtractor={keyExtractor}
+            onEndReached={onEndReached}
+            onEndReachedThreshold={0.1}
+            onRefresh={onRefetchItems}
+            refreshing={isItemsRefetching}
+            tintColor={`${tintColor}`}
+            renderItem={renderItem}
+          />
+        ),
+        [items?.pages, isNextItemsFetching, isItemsRefetching]
+      );
+
       return (
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={isItemsFetching}
-              onRefresh={refetchItems}
-              tintColor={`${tintColor}`}
-            />
-          }
-        >
-          <Center height="full" backgroundColor={bgColor}>
-            <Box height="5" width="full" backgroundColor={backgroundColor} />
-            <Box backgroundColor={bgColor} width="full" padding="3">
-              <Text fontSize="xl" bold>
-                {t("recommendProducts")}
-              </Text>
-            </Box>
-            <ItemsTable
-              items={items}
-              itemNavigationHandler={itemNavigationHandler}
-            />
-          </Center>
-        </ScrollView>
+        <Center height="full" backgroundColor={bgColor}>
+          <Box height="5" width="full" backgroundColor={backgroundColor} />
+          <Box backgroundColor={bgColor} width="full" padding="3">
+            <Text fontSize="xl" bold>
+              {t("recommendProducts")}
+            </Text>
+          </Box>
+          {FlatListRender}
+        </Center>
       );
     }
   );

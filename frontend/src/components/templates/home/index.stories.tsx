@@ -19,10 +19,15 @@ const items: ItemRead[] = new Array(10)
 
 storiesOf("Templates", module).add("HomeTemplate", () => (
   <HomeTemplate
-    isItemsFetching={boolean("isItemsFetching", false)}
-    todoNavigationHandler={action("todoNavigationHandler")}
+    onRefetchItems={action("refetchItems")}
+    onFetchNextItems={action("fetchNextItems")}
+    isItemsRefetching={boolean("isItemsFetching", false)}
+    isNextItemsFetching={boolean("isNextItemsFetching", false)}
     itemNavigationHandler={action("itemNavigationHandler")}
-    items={object("items", items)}
-    refetchItems={action("refetchItems")}
+    todoNavigationHandler={action("todoNavigationHandler")}
+    items={object("items", {
+      pageParams: [undefined],
+      pages: [{ data: items, skip: 20 }],
+    })}
   />
 ));
