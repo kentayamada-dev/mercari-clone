@@ -37,23 +37,26 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
       }, [isNextItemsFetching]);
 
       const renderItem = React.useCallback(
-        ({ item }: { item: ReadItems }) => {
-          return (
-            <>
-              <ItemsTable
-                items={item.data}
-                itemNavigationHandler={itemNavigationHandler}
-              />
-              {isNextItemsFetching && (
-                <Center height="32">
-                  <Spinner size="lg" color={tintColor} marginBottom={20} />
-                </Center>
-              )}
-            </>
-          );
-        },
-        [isNextItemsFetching]
+        ({ item }: { item: ReadItems }) => (
+          <ItemsTable
+            items={item.data}
+            itemNavigationHandler={itemNavigationHandler}
+          />
+        ),
+        []
       );
+
+      const renderFooterItem = React.useCallback(() => {
+        return (
+          <>
+            {isNextItemsFetching && (
+              <Center height="32">
+                <Spinner size="lg" color={tintColor} marginBottom={20} />
+              </Center>
+            )}
+          </>
+        );
+      }, [isNextItemsFetching]);
 
       const FlatListRender = React.useMemo(
         () => (
@@ -61,11 +64,12 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
             data={items?.pages}
             keyExtractor={keyExtractor}
             onEndReached={onEndReached}
-            onEndReachedThreshold={0.1}
+            onEndReachedThreshold={0.01}
             onRefresh={onRefetchItems}
             refreshing={isItemsRefetching}
             tintColor={`${tintColor}`}
             renderItem={renderItem}
+            ListFooterComponent={renderFooterItem}
           />
         ),
         [items?.pages, isNextItemsFetching, isItemsRefetching]
