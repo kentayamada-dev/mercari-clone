@@ -13,7 +13,7 @@ fake = Faker(["ja_JP"])
 def seed() -> None:
     init_db()
     objects = []
-    for _ in range(1, 5):
+    for _ in range(1, 20):
         email = fake.email()
         name = fake.name()
         hashed_password = auth.generate_hashed_password(email)
@@ -31,7 +31,7 @@ def seed() -> None:
                 seller_id=seller.id,
                 image_url=f"https://i.pravatar.cc/150?img={random.randint(1, 20)}",  # type: ignore
             )
-            for _ in range(1, 5)
+            for _ in range(1, 20)
         ]
         objects.append(seller)
     db.add_all(objects)
