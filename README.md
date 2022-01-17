@@ -13,8 +13,8 @@
 </div>
 
 ### ℹ️  Info
-  - If you haven't installed or run the iOS simulator before, follow the [iOS simulator guide](https://docs.expo.dev/workflow/ios-simulator/) before proceeding.
-  - If you haven't installed or run an Android emulator before, follow the [Android Studio emulator guide](https://docs.expo.dev/build-reference/apk/) before proceeding.
+  - If you haven't installed or run the iOS simulator before, follow the [iOS simulator guide](https://docs.expo.dev/workflow/ios-simulator/) before testing.
+  - If you haven't installed or run an Android emulator before, follow the [Android Studio emulator guide](https://docs.expo.dev/build-reference/apk/) before testing.
 
 ## 🛠️ Tech stack
 
