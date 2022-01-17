@@ -1,4 +1,4 @@
-# Mercari App Clone
+# 📱 Mercari App Clone
 <div>
   <div>
   <a align="center" href="https://expo.dev/artifacts/eas/mwrwkBUrc1CbWVyTj6gzoo.tar.gz">
