@@ -28,6 +28,7 @@
   - SQLAlchemy
   - REST API
   - pydantic
+  - Heroku
 - Auth
   - OAuth2
   - JWT
