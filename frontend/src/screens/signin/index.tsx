@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { AuthStackParamList } from "../../types";
-import { useForm } from "react-hook-form";
 import { usePostToken } from "../../hooks/common/mutation";
 import { BodyCreateTokenTokenPost } from "../../types/generated";
 import * as SecureStore from "expo-secure-store";
@@ -17,17 +16,6 @@ type Props = NativeStackScreenProps<AuthStackParamList, "Signin">;
 export const Signin: React.VFC<Props> = () => {
   const toast = useToast();
   const { t } = useTranslation("signin");
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<BodyCreateTokenTokenPost>({
-    mode: "onChange",
-    defaultValues: {
-      password: "",
-      username: "",
-    },
-  });
 
   const { mutateAsync: mutateAsyncSecret, isLoading: isLoadingSecret } =
     usePostToken({
@@ -46,20 +34,15 @@ export const Signin: React.VFC<Props> = () => {
         ),
     });
 
-  const addSeller = handleSubmit(async (data) => {
-    await mutateAsyncSecret({
-      password: data.password,
-      username: data.username.toLowerCase(),
-    });
-  });
-
-  return (
-    <SigninTemplate
-      isLoading={isLoadingSecret}
-      control={control}
-      errors={errors}
-      isValid={isValid}
-      addSeller={addSeller}
-    />
+  const addSeller = React.useCallback(
+    async (data: BodyCreateTokenTokenPost) => {
+      await mutateAsyncSecret({
+        password: data.password,
+        username: data.username.toLowerCase(),
+      });
+    },
+    []
   );
+
+  return <SigninTemplate isLoading={isLoadingSecret} addSeller={addSeller} />;
 };

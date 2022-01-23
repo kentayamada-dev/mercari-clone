@@ -56,6 +56,8 @@
     "upload": "出品する"
   },
   "sellingDetail": {
+    "inputItemDetail": "商品の情報を入力",
+    "itemImage": "商品画像",
     "title": "商品名",
     "description": "商品説明",
     "price": "販売価格",

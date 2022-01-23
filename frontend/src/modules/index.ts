@@ -7,7 +7,7 @@ export const wait = (sec: number) => {
 };
 
 export const uploadImageHandler = async (
-  uploadImage: (formData: FormData) => Promise<void>
+  uploadImage: (formData: FormData) => void
 ) => {
   let result = await ImagePicker.launchImageLibraryAsync({
     allowsEditing: true,
@@ -28,7 +28,7 @@ export const uploadImageHandler = async (
         name: filename,
         type: type,
       });
-      await uploadImage(formData);
+      uploadImage(formData);
     }
   }
 };
@@ -47,3 +47,5 @@ export const getAlert = (
     });
   }
 };
+
+export const getRandomString = () => Math.random().toString(36).substring(2, 7);

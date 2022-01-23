@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useToast } from "native-base";
 import React from "react";
-import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { CustomAlert } from "../../components/molecules/customAlert";
 import { SellingDetailTemplate } from "../../components/templates/sellingDetail";
@@ -20,21 +19,7 @@ export interface CustomItemCreate extends OverrideType<ItemCreate, "price"> {
 }
 
 export const SellingDetail: React.VFC<Props> = ({ navigation }) => {
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    getValues,
-    formState: { errors },
-  } = useForm<CustomItemCreate>({
-    mode: "onChange",
-    defaultValues: {
-      image_url: undefined,
-      name: undefined,
-      price: undefined,
-      description: undefined,
-    },
-  });
+  const [imageUrl, setImageUrl] = React.useState("");
   const toast = useToast();
   const { token } = useAuth();
   const { data: seller } = useQueryMe(token);
@@ -46,9 +31,7 @@ export const SellingDetail: React.VFC<Props> = ({ navigation }) => {
 
   const { mutateAsync: mutateAsyncImage, isLoading: isLoadingImage } =
     usePostImage({
-      onSuccess: async (data) => {
-        setValue("image_url", data.url);
-      },
+      onSuccess: async (data) => setImageUrl(data.url),
       onError: () =>
         getAlert(
           toast,
@@ -60,7 +43,7 @@ export const SellingDetail: React.VFC<Props> = ({ navigation }) => {
         ),
     });
 
-  const addItem = handleSubmit(async (data) => {
+  const addItem = React.useCallback(async (data: CustomItemCreate) => {
     if (data.image_url === undefined) {
       getAlert(
         toast,
@@ -80,19 +63,16 @@ export const SellingDetail: React.VFC<Props> = ({ navigation }) => {
         itemName: responseData.name,
       });
     }
-  });
+  }, []);
 
-  const uploadImage = async (formData: FormData) => {
+  const uploadImage = React.useCallback(async (formData: FormData) => {
     await mutateAsyncImage(formData);
-  };
+  }, []);
 
   return (
     <SellingDetailTemplate
       isLoading={isLoadingItem}
-      imageUrl={getValues("image_url")}
-      mutateAsyncImage={mutateAsyncImage}
-      control={control}
-      errors={errors}
+      imageUrl={imageUrl}
       isLoadingImage={isLoadingImage}
       addItem={addItem}
       uploadImage={uploadImage}

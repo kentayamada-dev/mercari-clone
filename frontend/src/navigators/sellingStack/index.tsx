@@ -9,7 +9,7 @@ import { SellingStackParamList } from "../../types";
 const SellingStack = createStackNavigator<SellingStackParamList>();
 
 export const SellingStackNavigator: React.VFC = () => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation(["common", "sellingDetail"]);
 
   return (
     <SellingStack.Navigator
@@ -26,7 +26,7 @@ export const SellingStackNavigator: React.VFC = () => {
           header: (props) => (
             <HeaderBar
               goBackHandler={props.back ? props.navigation.goBack : undefined}
-              title={t("selling")}
+              title={t("common:selling")}
             />
           ),
         })}
@@ -38,7 +38,7 @@ export const SellingStackNavigator: React.VFC = () => {
           header: (props) => (
             <HeaderBar
               goBackHandler={props.navigation.goBack}
-              title="商品の情報を入力"
+              title={t("sellingDetail:inputItemDetail")}
             />
           ),
         })}

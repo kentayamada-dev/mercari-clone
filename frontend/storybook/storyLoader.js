@@ -17,6 +17,9 @@ function loadStories() {
   require("../src/components/templates/myPage/index.stories");
   require("../src/components/templates/sellerDetail/index.stories");
   require("../src/components/templates/selling/index.stories");
+  require("../src/components/templates/sellingDetail/index.stories");
+  require("../src/components/templates/singin/index.stories");
+  require("../src/components/templates/singup/index.stories");
 }
 
 const stories = [
@@ -33,6 +36,9 @@ const stories = [
   "../src/components/templates/myPage/index.stories",
   "../src/components/templates/sellerDetail/index.stories",
   "../src/components/templates/selling/index.stories",
+  "../src/components/templates/sellingDetail/index.stories",
+  "../src/components/templates/singin/index.stories",
+  "../src/components/templates/singup/index.stories",
 ];
 
 module.exports = {

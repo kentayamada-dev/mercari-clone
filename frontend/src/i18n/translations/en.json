@@ -56,6 +56,8 @@
     "upload": "Upload"
   },
   "sellingDetail": {
+    "inputItemDetail": "Input Item Detail",
+    "itemImage": "Item Image",
     "title": "Title",
     "description": "Description",
     "price": "Price",
