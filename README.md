@@ -21,6 +21,7 @@
 
 - Frontend
   - React Native (Fully Optimized Performance)
+  - Storybook
   - NativeBase
   - React Query
   - TypeScript
