@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { HeaderBar } from "../../components/organisms/headerBar";
 import { Home } from "../../screens/home";
+import { SearchResults } from "../../screens/searchResults";
 import { Todo } from "../../screens/todo";
 import { HomeStackParamList } from "../../types";
 
@@ -29,6 +30,13 @@ export const HomeStackNavigator: React.VFC = () => {
             <HeaderBar goBackHandler={props.navigation.goBack} title="Todo" />
           ),
         })}
+      />
+      <HomeStack.Screen
+        name="SearchResults"
+        component={SearchResults}
+        options={{
+          headerShown: false,
+        }}
       />
     </HomeStack.Navigator>
   );

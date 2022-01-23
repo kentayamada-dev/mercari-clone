@@ -15,7 +15,12 @@ const getTabBarStyle = (
   route: Partial<Route<string, object | undefined>>
 ): "flex" | "none" => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
-  if (routeName === "ItemDetail" || routeName === "SellerDetail") return "none";
+  if (
+    routeName === "ItemDetail" ||
+    routeName === "SellerDetail" ||
+    routeName === "SearchResults"
+  )
+    return "none";
 
   return "flex";
 };

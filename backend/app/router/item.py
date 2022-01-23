@@ -36,9 +36,12 @@ def create_item(
 
 @router.get("/items", response_model=ReadItems)
 def read_items(
-    skip: int, limit: int, db: Session = Depends(get_db)
+    skip: int,
+    limit: int,
+    db: Session = Depends(get_db),
+    query: str | None = None,
 ) -> ReadItems:
-    db_items_orm = get_all_items(skip, limit, db)
+    db_items_orm = get_all_items(skip, limit, db, query)
     db_items_model = [ItemRead.from_orm(db_item) for db_item in db_items_orm]
     if len(db_items_model) < limit:
         return ReadItems(data=db_items_model, skip=None)

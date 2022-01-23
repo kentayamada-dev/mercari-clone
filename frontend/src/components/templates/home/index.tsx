@@ -6,11 +6,15 @@ import { HomeTemplateProps } from "./types";
 
 export const HomeTemplate: React.VFC<HomeTemplateProps> = ({
   todoNavigationHandler,
+  onSubmitQuery,
   ...itemsTableProps
 }) => {
   return (
     <Center flex={1}>
-      <AppBar todoNavigationHandler={todoNavigationHandler} />
+      <AppBar
+        onSubmitQuery={onSubmitQuery}
+        todoNavigationHandler={todoNavigationHandler}
+      />
       <HomeTabs {...itemsTableProps} />
     </Center>
   );

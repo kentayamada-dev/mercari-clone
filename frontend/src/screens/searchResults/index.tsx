@@ -1,10 +1,19 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { HomeTemplate } from "../../components/templates/home";
-import { wait } from "../../modules";
-import { HomeProps } from "./types";
+import { HomeStackParamList } from "../../types";
 import { useInfiniteQueryItems } from "../../hooks/items/query";
+import { wait } from "../../modules";
+import { SearchResultsTemplate } from "../../components/templates/searchResults";
 
-export const Home: React.VFC<HomeProps> = ({ navigation: { navigate } }) => {
+type Props = NativeStackScreenProps<HomeStackParamList, "SearchResults">;
+
+export const SearchResults: React.VFC<Props> = ({
+  route: {
+    params: { query },
+  },
+  navigation: { navigate, goBack },
+}) => {
+  const [searchQuery, setSearchQuery] = React.useState(query);
   const {
     data: items,
     fetchNextPage,
@@ -12,16 +21,12 @@ export const Home: React.VFC<HomeProps> = ({ navigation: { navigate } }) => {
     isFetching,
     isFetchingNextPage,
     refetch,
-  } = useInfiniteQueryItems();
+  } = useInfiniteQueryItems(searchQuery);
   const [refeching, setRefetching] = React.useState(false);
   const [fetchingNext, setFetchingNext] = React.useState(false);
   const isRefetching = isFetching && isFetchingNextPage ? false : true;
   const isItemsRefetching = refeching && isRefetching;
   const isNextItemsFetching = fetchingNext || isFetchingNextPage;
-
-  const onSubmitQuery = React.useCallback((query: string) => {
-    navigate("SearchResults", { query });
-  }, []);
 
   const itemNavigationHandler = React.useCallback(
     (itemId: string, itemName: string) => {
@@ -33,10 +38,7 @@ export const Home: React.VFC<HomeProps> = ({ navigation: { navigate } }) => {
     []
   );
 
-  const todoNavigationHandler = React.useCallback(() => {
-    navigate("Todo", { userId: "userId" });
-  }, []);
-
+  const goBackNavigationHandler = React.useCallback(() => goBack(), []);
   const onRefetchItems = React.useCallback(async () => {
     setRefetching(true);
     await wait(2);
@@ -54,15 +56,16 @@ export const Home: React.VFC<HomeProps> = ({ navigation: { navigate } }) => {
   }, [hasNextPage]);
 
   return (
-    <HomeTemplate
+    <SearchResultsTemplate
       onRefetchItems={onRefetchItems}
       onFetchNextItems={onFetchNextItems}
       isItemsRefetching={isItemsRefetching}
       isNextItemsFetching={isNextItemsFetching}
       items={items}
       itemNavigationHandler={itemNavigationHandler}
-      todoNavigationHandler={todoNavigationHandler}
-      onSubmitQuery={onSubmitQuery}
+      setQuery={setSearchQuery}
+      query={searchQuery}
+      goBackNavigationHandler={goBackNavigationHandler}
     />
   );
 };

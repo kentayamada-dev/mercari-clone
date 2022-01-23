@@ -4,5 +4,8 @@ import React from "react";
 import { AppBar } from "./index";
 
 storiesOf("Organisms", module).add("AppBar", () => (
-  <AppBar todoNavigationHandler={action("todoNavigationHandler")} />
+  <AppBar
+    todoNavigationHandler={action("todoNavigationHandler")}
+    onSubmitQuery={action("onSubmitQuery")}
+  />
 ));

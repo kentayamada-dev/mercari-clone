@@ -4,17 +4,24 @@ import { ItemInDatabase, ReadItems } from "../../../types/generated";
 import { BASE_PATH } from "../../common/constants";
 import { axiosGetWrapper } from "../../common/query";
 
-export const useInfiniteQueryItems = () =>
-  useInfiniteQuery<ReadItems, AxiosError>({
-    queryKey: BASE_PATH.ITEMS,
+export const useInfiniteQueryItems = (query?: string) => {
+  const queryKey = query
+    ? BASE_PATH.ITEMS.concat(`/${query}`)
+    : BASE_PATH.ITEMS;
+
+  return useInfiniteQuery<ReadItems, AxiosError>({
+    queryKey,
     queryFn: ({ pageParam = 0 }) => {
-      const path = BASE_PATH.ITEMS.concat(`?skip=${pageParam}&limit=21`);
+      const path = BASE_PATH.ITEMS.concat(
+        `?skip=${pageParam}&limit=21&query=${query}`
+      );
       return axiosGetWrapper({
         path,
       });
     },
     getNextPageParam: (lastPage) => lastPage.skip ?? false,
   });
+};
 
 export const useQueryItem = (itemId: string) => {
   const path = BASE_PATH.ITEMS.concat(`/${itemId}`);

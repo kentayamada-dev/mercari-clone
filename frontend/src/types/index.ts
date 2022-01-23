@@ -13,6 +13,7 @@ export type HomeStackParamList = {
   Selling: undefined;
   MyPage: undefined;
   Settings: undefined;
+  SearchResults: { query: string };
 };
 
 export type NotificationStackParamList = {

@@ -1,7 +1,7 @@
-import { boolean, object } from "@storybook/addon-knobs";
+import { boolean, object, text } from "@storybook/addon-knobs";
 import { storiesOf } from "@storybook/react-native";
 import React from "react";
-import { HomeTemplate } from "./index";
+import { SearchResultsTemplate } from "./index";
 import faker from "faker";
 import { action } from "@storybook/addon-actions";
 import { ItemRead } from "../../../types/generated";
@@ -17,15 +17,16 @@ const items: ItemRead[] = new Array(10)
   .fill(null)
   .map((_, index) => item(index));
 
-storiesOf("Templates", module).add("HomeTemplate", () => (
-  <HomeTemplate
-    onSubmitQuery={action("onSubmitQuery")}
+storiesOf("Templates", module).add("SearchResultsTemplate", () => (
+  <SearchResultsTemplate
+    query={text("query", "query")}
+    setQuery={action("setQuery")}
     onRefetchItems={action("refetchItems")}
     onFetchNextItems={action("fetchNextItems")}
     isItemsRefetching={boolean("isItemsFetching", false)}
     isNextItemsFetching={boolean("isNextItemsFetching", false)}
     itemNavigationHandler={action("itemNavigationHandler")}
-    todoNavigationHandler={action("todoNavigationHandler")}
+    goBackNavigationHandler={action("goBackNavigationHandler")}
     items={object("items", {
       pageParams: [undefined],
       pages: [{ data: items, skip: 20 }],

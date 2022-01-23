@@ -15,18 +15,36 @@ def add_item(db: Session, dto: ItemCreate, seller_id: UUID) -> ItemInDatabase:
     return data
 
 
-def get_all_items(skip: int, limit: int, db: Session) -> list[ItemRead]:
-    db_data: list[ItemRead] = (
-        db.query(Item)
-        .options(
-            load_only(Item.id, Item.price, Item.image_url, Item.name),
-            lazyload(Item.seller),
+def get_all_items(
+    skip: int, limit: int, db: Session, query: str | None
+) -> list[ItemRead]:
+    db_data: list[ItemRead] = []
+    if query:
+        db_data = (
+            db.query(Item)
+            .filter(Item.name.like(f"%{query}%"))
+            .options(
+                load_only(Item.id, Item.price, Item.image_url, Item.name),
+                lazyload(Item.seller),
+            )
+            .order_by(desc(Item.created_at))
+            .offset(skip)
+            .limit(limit)
+            .all()
         )
-        .order_by(desc(Item.created_at))
-        .offset(skip)
-        .limit(limit)
-        .all()
-    )
+
+    else:
+        db_data = (
+            db.query(Item)
+            .options(
+                load_only(Item.id, Item.price, Item.image_url, Item.name),
+                lazyload(Item.seller),
+            )
+            .order_by(desc(Item.created_at))
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
 
     # print("\033[32m" + str(db_data) + "\033[0m")
     return db_data
