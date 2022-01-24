@@ -11,7 +11,7 @@
     </a>
   </div>
 </div>
-<p>Last Updated: January 23, 2022</p>
+<span>Last Updated: January 23, 2022</span>
 
 ### ℹ️  Info
   - The app is built for Android device/emulator or iOS simulator.
