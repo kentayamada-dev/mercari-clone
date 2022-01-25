@@ -2,6 +2,7 @@ from uuid import UUID
 
 from app.model.query import Query
 from app.schema.query import QueryInDatabase, ReadQuery
+from fastapi import HTTPException, status
 from sqlalchemy import desc
 from sqlalchemy.orm import Session, lazyload, load_only
 
@@ -15,10 +16,14 @@ def add_query(db: Session, query: str, seller_id: UUID) -> QueryInDatabase:
     return data
 
 
-def get_query_by_id(db: Session, query_id: UUID) -> QueryInDatabase | None:
+def get_query_by_id(db: Session, query_id: UUID) -> QueryInDatabase:
     db_data: QueryInDatabase | None = (
         db.query(Query).filter(Query.id == query_id).one_or_none()
     )
+    if db_data is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="query not found"
+        )
     # print("\033[32m" + str(db_data) + "\033[0m")
     return db_data
 

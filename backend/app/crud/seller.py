@@ -16,9 +16,20 @@ from app.schema.seller import (
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from sqlalchemy.orm import Session, load_only, joinedload, lazyload
+from sqlalchemy.orm import Session, joinedload, lazyload, load_only
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+credentials_exception = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="invalid token",
+    headers={"WWW-Authenticate": "Bearer"},
+)
+
+inactivated_exception = HTTPException(
+    status_code=status.HTTP_400_BAD_REQUEST,
+    detail="cannot read inactivated seller",
+)
 
 
 def get_all_sellers(db: Session) -> list[SellerRead]:
@@ -44,7 +55,7 @@ def get_all_sellers(db: Session) -> list[SellerRead]:
     return db_data
 
 
-def get_seller_by_id(db: Session, seller_id: UUID) -> SellerRead | None:
+def get_seller_by_id(db: Session, seller_id: UUID) -> SellerRead:
     db_data: SellerRead | None = (
         db.query(Seller)
         .filter(Seller.id == seller_id)
@@ -64,6 +75,10 @@ def get_seller_by_id(db: Session, seller_id: UUID) -> SellerRead | None:
         )
         .one_or_none()
     )
+    if db_data is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="seller not found"
+        )
     # print("\033[34m" + str(db_data) + "\033[0m")
     return db_data
 
@@ -142,11 +157,6 @@ def inactivate_seller(
 def get_current_seller(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
 ) -> GetSellerByEmail | None:
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="invalid token",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[auth.ALGORITHM]
@@ -156,6 +166,8 @@ def get_current_seller(
         current_seller = get_seller_by_email(db, email=token_data.email)
         if current_seller is None:
             raise credentials_exception
+        if current_seller.is_active is False:
+            raise inactivated_exception
     except JWTError as jwt_error:
         raise credentials_exception from jwt_error
     return current_seller
@@ -163,10 +175,12 @@ def get_current_seller(
 
 def authenticate_seller(
     db: Session, email: str, password: str
-) -> GetAuthenticateSellerByEmail | None:
+) -> GetAuthenticateSellerByEmail:
     data = get_authenticate_seller_by_email(db, email=email)
-    if data is None:
-        return None
-    if not auth.verify_password(password, data.password):
-        return None
+    if data is None or not auth.verify_password(password, data.password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     return data

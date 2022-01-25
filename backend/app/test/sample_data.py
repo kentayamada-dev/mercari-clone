@@ -30,7 +30,7 @@ seller_2_typed = SellerCreate(**seller_2_raw)
 item_1_raw = ItemCreate(
     **{
         "name": "name_1",
-        "price": 100,
+        "price": 900,
         "description": "desc_1",
         "image_url": "http://image.com/item_1.jpg",
     }
@@ -39,7 +39,7 @@ item_1_raw = ItemCreate(
 item_2_raw = ItemCreate(
     **{
         "name": "name_2",
-        "price": 200,
+        "price": 900,
         "description": "desc_2",
         "image_url": "http://image.com/item_2.jpg",
     }

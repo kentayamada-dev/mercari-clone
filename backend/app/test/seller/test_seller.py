@@ -137,7 +137,7 @@ def test_inactivate_inactivated_seller() -> None:
     )
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json() == {"message": "seller already inactivated"}
+    assert response.json() == {"message": "cannot read inactivated seller"}
 
 
 @temp_db

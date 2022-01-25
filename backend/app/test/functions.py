@@ -20,15 +20,19 @@ def create_seller_2() -> tuple[Response, SellerInDatabase]:
     return response, SellerInDatabase(**response.json())
 
 
-def create_item_1(created_seller_id: str) -> tuple[Response, ItemInDatabase]:
+def create_item_1(token: str) -> tuple[Response, ItemInDatabase]:
     response = client.post(
-        f"/sellers/{created_seller_id}/items", json=item_1_raw.dict()
+        "/items",
+        json=item_1_raw.dict(),
+        headers={"Authorization": f"Bearer {token}"},
     )
     return response, ItemInDatabase(**response.json())
 
 
-def create_item_2(created_seller_id: str) -> tuple[Response, ItemInDatabase]:
+def create_item_2(token: str) -> tuple[Response, ItemInDatabase]:
     response = client.post(
-        f"/sellers/{created_seller_id}/items", json=item_2_raw.dict()
+        "/items",
+        json=item_2_raw.dict(),
+        headers={"Authorization": f"Bearer {token}"},
     )
     return response, ItemInDatabase(**response.json())

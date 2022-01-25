@@ -32,12 +32,12 @@ router = APIRouter()
 def create_seller(
     seller: SellerCreate, db: Session = Depends(get_db)
 ) -> SellerInDatabase:
-    if get_seller_by_email(db, email=seller.email):
+    if get_seller_by_email(db, seller.email):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="email already exists",
         )
-    db_seller = add_seller(db=db, dto=seller)
+    db_seller = add_seller(db, seller)
     db_seller_without_password = SellerInDatabase.from_orm(db_seller)
     return db_seller_without_password
 
@@ -57,11 +57,7 @@ def read_sellers(db: Session = Depends(get_db)) -> list[SellerRead]:
     responses={status.HTTP_404_NOT_FOUND: {"model": Message}},
 )
 def read_seller(seller_id: UUID, db: Session = Depends(get_db)) -> SellerRead:
-    db_seller = get_seller_by_id(db, seller_id=seller_id)
-    if db_seller is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="seller not found"
-        )
+    db_seller = get_seller_by_id(db, seller_id)
     db_seller_without_password = SellerRead.from_orm(db_seller)
     return db_seller_without_password
 
@@ -78,12 +74,7 @@ def update_current_seller_status(
     current_seller: GetSellerByEmail = Depends(get_current_seller),
     db: Session = Depends(get_db),
 ) -> SellerRead:
-    if current_seller.is_active is False:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="seller already inactivated",
-        )
-    db_seller = inactivate_seller(db, current_seller=current_seller)
+    db_seller = inactivate_seller(db, current_seller)
     db_seller_without_password: SellerRead = GetSellerByEmail.from_orm(
         db_seller
     ).copy(exclude={"password", "is_active"})
@@ -101,11 +92,6 @@ def update_current_seller_status(
 def read_current_seller(
     current_seller: GetSellerByEmail = Depends(get_current_seller),
 ) -> SellerRead:
-    if current_seller.is_active is False:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="cannot read inactivated seller",
-        )
     db_seller_without_password: SellerRead = GetSellerByEmail.from_orm(
         current_seller
     ).copy(exclude={"password", "is_active"})

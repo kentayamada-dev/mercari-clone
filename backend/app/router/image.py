@@ -2,8 +2,10 @@ import cloudinary.exceptions
 import cloudinary.uploader
 from app.core.schema.image import ImageModel
 from app.core.schema.message import Message
+from app.crud.seller import get_current_seller
 from app.schema.image import Image
-from fastapi import APIRouter, File, HTTPException, UploadFile, status
+from app.schema.seller import GetSellerByEmail
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 
 # router = APIRouter(route_class=LoggingContextRoute)
 router = APIRouter()
@@ -12,9 +14,16 @@ router = APIRouter()
 @router.post(
     "/image/upload",
     response_model=ImageModel,
-    responses={status.HTTP_413_REQUEST_ENTITY_TOO_LARGE: {"model": Message}},
+    responses={
+        status.HTTP_413_REQUEST_ENTITY_TOO_LARGE: {"model": Message},
+        status.HTTP_401_UNAUTHORIZED: {"model": Message},
+        status.HTTP_400_BAD_REQUEST: {"model": Message},
+    },
 )
-def create_upload_image(file: UploadFile = File(...)) -> Image:
+def create_upload_image(
+    file: UploadFile = File(...),
+    _: GetSellerByEmail = Depends(get_current_seller),
+) -> Image:
     try:
         cloudinary_response = cloudinary.uploader.upload(
             file=file.file, folder="mercari-clone"
