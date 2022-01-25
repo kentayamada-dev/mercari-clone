@@ -1,6 +1,8 @@
 import uuid
 
 from app.db.database import Base
+from app.model.item import Item  # pylint: disable=unused-import
+from app.model.query import Query  # pylint: disable=unused-import
 from pydantic import EmailStr, HttpUrl
 from sqlalchemy import Boolean, Column, DateTime, String, func
 from sqlalchemy.dialects.postgresql import UUID
@@ -8,7 +10,7 @@ from sqlalchemy.orm import relationship
 
 
 class Seller(Base):  # type: ignore
-    __tablename__ = "seller"
+    __tablename__ = "sellers"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     email = Column(String, unique=True)
@@ -16,6 +18,9 @@ class Seller(Base):  # type: ignore
     password = Column(String)
     image_url = Column(String)
     items = relationship("Item", back_populates="seller", lazy="joined")
+    saved_queries = relationship(
+        "Query", back_populates="seller", lazy="joined"
+    )
     is_active = Column(Boolean, default=True)
     created_at = Column(
         "created_at", DateTime, default=func.now(), nullable=False

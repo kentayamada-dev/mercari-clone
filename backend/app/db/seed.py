@@ -1,8 +1,10 @@
 import random
 
+
 from app.core.utils.auth import auth
 from app.db.database import SessionLocal, init_db
 from app.model.item import Item
+from app.model.query import Query
 from app.model.seller import Seller
 from faker import Faker
 
@@ -32,6 +34,9 @@ def seed() -> None:
                 image_url=f"https://i.pravatar.cc/150?img={random.randint(1, 20)}",  # type: ignore
             )
             for _ in range(1, 20)
+        ]
+        seller.saved_queries = [
+            Query(query=fake.word(), seller_id=seller.id) for _ in range(1, 10)
         ]
         objects.append(seller)
     db.add_all(objects)
