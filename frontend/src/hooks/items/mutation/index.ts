@@ -6,17 +6,22 @@ import { axiosPostWrapper } from "../../common/mutation";
 import { UsePost } from "../../common/types";
 
 type UsePostItem = UsePost<ItemInDatabase> & {
-  sellerId: string;
+  token: string;
 };
 
-export const usePostItem = ({ onSuccess, onError, sellerId }: UsePostItem) => {
-  const path = `${BASE_PATH.SELLERS}/${sellerId}/${BASE_PATH.ITEMS}`;
+export const usePostItem = ({ onSuccess, onError, token }: UsePostItem) => {
+  const path = `${BASE_PATH.ITEMS}`;
 
   return useMutation<ItemInDatabase, AxiosError, ItemCreate>({
     mutationFn: (dto) =>
       axiosPostWrapper({
         dto,
         path,
+        config: {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       }),
     onSuccess,
     onError,

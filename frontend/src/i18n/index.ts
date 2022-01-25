@@ -51,6 +51,7 @@ i18n
       "signin",
       "selling",
       "sellingDetail",
+      "searchResults",
     ],
     resources,
     interpolation: {

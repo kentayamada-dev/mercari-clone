@@ -7,7 +7,6 @@ import { SellingDetailTemplate } from "../../components/templates/sellingDetail"
 import { useAuth } from "../../hooks/auth/useAuth";
 import { usePostItem } from "../../hooks/items/mutation";
 import { usePostImage } from "../../hooks/common/mutation";
-import { useQueryMe } from "../../hooks/sellers/query";
 import { getAlert } from "../../modules";
 import { OverrideType, SellingStackParamList } from "../../types";
 import { ItemCreate } from "../../types/generated";
@@ -22,12 +21,9 @@ export const SellingDetail: React.VFC<Props> = ({ navigation }) => {
   const [imageUrl, setImageUrl] = React.useState("");
   const toast = useToast();
   const { token } = useAuth();
-  const { data: seller } = useQueryMe(token);
   const { t } = useTranslation(["signup", "sellingDetail"]);
   const { mutateAsync: mutateAsyncItem, isLoading: isLoadingItem } =
-    usePostItem({
-      sellerId: seller?.id || "",
-    });
+    usePostItem({ token });
 
   const { mutateAsync: mutateAsyncImage, isLoading: isLoadingImage } =
     usePostImage({

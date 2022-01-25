@@ -2,10 +2,8 @@ import cloudinary.exceptions
 import cloudinary.uploader
 from app.core.schema.image import ImageModel
 from app.core.schema.message import Message
-from app.crud.seller import get_current_seller
 from app.schema.image import Image
-from app.schema.seller import GetSellerByEmail
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, File, HTTPException, UploadFile, status
 
 # router = APIRouter(route_class=LoggingContextRoute)
 router = APIRouter()
@@ -20,10 +18,7 @@ router = APIRouter()
         status.HTTP_400_BAD_REQUEST: {"model": Message},
     },
 )
-def create_upload_image(
-    file: UploadFile = File(...),
-    _: GetSellerByEmail = Depends(get_current_seller),
-) -> Image:
+def create_upload_image(file: UploadFile = File(...)) -> Image:
     try:
         cloudinary_response = cloudinary.uploader.upload(
             file=file.file, folder="mercari-clone"

@@ -68,5 +68,8 @@
     "priceRange": "300~9,999,999",
     "selectImage": "商品画像を選択してください",
     "uploading": "出品中..."
+  },
+  "searchResults": {
+    "saveQuery": "この条件を保存"
   }
 }

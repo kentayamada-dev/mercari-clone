@@ -1,7 +1,19 @@
-import { Box, Center, FlatList, Spinner, Text } from "native-base";
+import {
+  Box,
+  Center,
+  FlatList,
+  HStack,
+  Slide,
+  Spinner,
+  Text,
+} from "native-base";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { typedUseColorToken } from "../../../../../theme/modules";
+import { useThrottle } from "../../../../../modules";
+import {
+  typedUseColorModeValue,
+  typedUseColorToken,
+} from "../../../../../theme/modules";
 import { ReadItems } from "../../../../../types/generated";
 import { ItemsTable } from "../../../../organisms/itemsTable";
 import { RecommendTabProps } from "./types";
@@ -16,7 +28,7 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
       isItemsRefetching,
       isNextItemsFetching,
     }) => {
-      const { t } = useTranslation("home");
+      const { t } = useTranslation(["home", "searchResults"]);
       const tintColor = typedUseColorToken(
         "brand.secondary.dark",
         "brand.secondary.light"
@@ -30,7 +42,12 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
         "brand.secondary.light",
         "brand.secondary.dark"
       );
-
+      const color = typedUseColorModeValue(
+        "brand.primary.light",
+        "brand.primary.dark"
+      );
+      const [isBarVisible, setIsBarVisible] = React.useState(false);
+      const throttledValue = useThrottle(isBarVisible);
       const keyExtractor = React.useCallback((page) => `${page.skip}`, []);
       const onEndReached = React.useCallback(() => {
         if (!isNextItemsFetching) onFetchNextItems();
@@ -70,6 +87,8 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
             tintColor={`${tintColor}`}
             renderItem={renderItem}
             ListFooterComponent={renderFooterItem}
+            onScrollEndDrag={() => setIsBarVisible(true)}
+            onScrollBeginDrag={() => setIsBarVisible(false)}
           />
         ),
         [items?.pages, isNextItemsFetching, isItemsRefetching]
@@ -80,10 +99,31 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
           <Box height="5" width="full" backgroundColor={backgroundColor} />
           <Box backgroundColor={bgColor} width="full" padding="3">
             <Text fontSize="xl" bold>
-              {t("recommendProducts")}
+              {t("home:recommendProducts")}
             </Text>
           </Box>
           {FlatListRender}
+          <Slide in={throttledValue} placement="bottom">
+            <HStack
+              w="100%"
+              position="absolute"
+              p="5"
+              bottom="0"
+              borderRadius="xs"
+              bg={color}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text
+                textAlign="center"
+                color="brand.secondary.light"
+                fontWeight="bold"
+                fontSize="2xl"
+              >
+                {t("searchResults:saveQuery")}
+              </Text>
+            </HStack>
+          </Slide>
         </Center>
       );
     }

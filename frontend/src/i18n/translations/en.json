@@ -68,5 +68,8 @@
     "priceRange": "300~9,999,999",
     "selectImage": "Please select product image",
     "uploading": "Uploading..."
+  },
+  "searchResults": {
+    "saveQuery": "Save the query"
   }
 }

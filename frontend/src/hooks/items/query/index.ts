@@ -12,9 +12,10 @@ export const useInfiniteQueryItems = (query?: string) => {
   return useInfiniteQuery<ReadItems, AxiosError>({
     queryKey,
     queryFn: ({ pageParam = 0 }) => {
-      const path = BASE_PATH.ITEMS.concat(
-        `?skip=${pageParam}&limit=21&query=${query}`
-      );
+      const url = query
+        ? `?skip=${pageParam}&limit=21&query=${query}`
+        : `?skip=${pageParam}&limit=21`;
+      const path = BASE_PATH.ITEMS.concat(url);
       return axiosGetWrapper({
         path,
       });

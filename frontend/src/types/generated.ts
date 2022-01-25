@@ -128,12 +128,55 @@ export interface Message {
   message: string;
 }
 
+export interface QueryInDatabase {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
+
+  /** Query */
+  query: string;
+  seller: Seller;
+
+  /**
+   * Created At
+   * @format date-time
+   */
+  created_at: string;
+
+  /**
+   * Updated At
+   * @format date-time
+   */
+  updated_at: string;
+}
+
 export interface ReadItems {
   /** Data */
   data: ItemRead[];
 
   /** Skip */
   skip?: number;
+}
+
+export interface ReadQueries {
+  /** Data */
+  data: ReadQuery[];
+
+  /** Skip */
+  skip?: number;
+}
+
+export interface ReadQuery {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
+
+  /** Query */
+  query: string;
 }
 
 export interface Secret {
@@ -515,12 +558,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name CreateUploadImageImageUploadPost
      * @summary Create Upload Image
      * @request POST:/image/upload
+     * @secure
      */
     createUploadImageImageUploadPost: (data: BodyCreateUploadImageImageUploadPost, params: RequestParams = {}) =>
       this.request<ImageModel, Message | HTTPValidationError>({
         path: `/image/upload`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.FormData,
         format: "json",
         ...params,
@@ -544,24 +589,75 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
-  sellers = {
+  items = {
     /**
      * No description
      *
-     * @name CreateItemSellersSellerIdItemsPost
-     * @summary Create Item
-     * @request POST:/sellers/{seller_id}/items
+     * @name ReadItemsItemsGet
+     * @summary Read Items
+     * @request GET:/items
      */
-    createItemSellersSellerIdItemsPost: (sellerId: string, data: ItemCreate, params: RequestParams = {}) =>
+    readItemsItemsGet: (query: { skip: number; limit: number; query?: string }, params: RequestParams = {}) =>
+      this.request<ReadItems, HTTPValidationError>({
+        path: `/items`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name CreateItemItemsPost
+     * @summary Create Item
+     * @request POST:/items
+     * @secure
+     */
+    createItemItemsPost: (data: ItemCreate, params: RequestParams = {}) =>
       this.request<ItemInDatabase, Message | HTTPValidationError>({
-        path: `/sellers/${sellerId}/items`,
+        path: `/items`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
       }),
 
+    /**
+     * No description
+     *
+     * @name ReadItemItemsItemIdGet
+     * @summary Read Item
+     * @request GET:/items/{item_id}
+     */
+    readItemItemsItemIdGet: (itemId: string, params: RequestParams = {}) =>
+      this.request<ItemInDatabase, Message | HTTPValidationError>({
+        path: `/items/${itemId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name DeleteItemItemsItemIdDelete
+     * @summary Delete Item
+     * @request DELETE:/items/{item_id}
+     * @secure
+     */
+    deleteItemItemsItemIdDelete: (itemId: string, params: RequestParams = {}) =>
+      this.request<ItemInDatabase, Message | HTTPValidationError>({
+        path: `/items/${itemId}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  sellers = {
     /**
      * No description
      *
@@ -643,19 +739,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
-  items = {
+  queries = {
     /**
      * No description
      *
-     * @name ReadItemsItemsGet
-     * @summary Read Items
-     * @request GET:/items
+     * @name ReadQueriesQueriesGet
+     * @summary Read Queries
+     * @request GET:/queries
+     * @secure
      */
-    readItemsItemsGet: (query: { skip: number; limit: number }, params: RequestParams = {}) =>
-      this.request<ReadItems, HTTPValidationError>({
-        path: `/items`,
+    readQueriesQueriesGet: (query: { skip: number; limit: number }, params: RequestParams = {}) =>
+      this.request<ReadQueries, Message | HTTPValidationError>({
+        path: `/queries`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -663,14 +761,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @name ReadItemItemsItemIdGet
-     * @summary Read Item
-     * @request GET:/items/{item_id}
+     * @name CreateQueryQueriesPost
+     * @summary Create Query
+     * @request POST:/queries
+     * @secure
      */
-    readItemItemsItemIdGet: (itemId: string, params: RequestParams = {}) =>
-      this.request<ItemInDatabase, Message | HTTPValidationError>({
-        path: `/items/${itemId}`,
-        method: "GET",
+    createQueryQueriesPost: (query: { query: string }, params: RequestParams = {}) =>
+      this.request<QueryInDatabase, Message | HTTPValidationError>({
+        path: `/queries`,
+        method: "POST",
+        query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -678,14 +779,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @name DeleteItemItemsItemIdDelete
-     * @summary Delete Item
-     * @request DELETE:/items/{item_id}
+     * @name DeleteQueryQueriesQueryIdDelete
+     * @summary Delete Query
+     * @request DELETE:/queries/{query_id}
+     * @secure
      */
-    deleteItemItemsItemIdDelete: (itemId: string, params: RequestParams = {}) =>
-      this.request<ItemInDatabase, Message | HTTPValidationError>({
-        path: `/items/${itemId}`,
+    deleteQueryQueriesQueryIdDelete: (queryId: string, params: RequestParams = {}) =>
+      this.request<QueryInDatabase, Message | HTTPValidationError>({
+        path: `/queries/${queryId}`,
         method: "DELETE",
+        secure: true,
         format: "json",
         ...params,
       }),

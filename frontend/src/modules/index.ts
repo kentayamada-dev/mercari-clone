@@ -1,6 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { IToastService } from "native-base/lib/typescript/components/composites/Toast";
+import React from "react";
 
 export const wait = (sec: number) => {
   return new Promise((resolve) => setTimeout(resolve, sec * 1000));
@@ -49,3 +50,24 @@ export const getAlert = (
 };
 
 export const getRandomString = () => Math.random().toString(36).substring(2, 7);
+
+export const useThrottle = <T>(value: T, interval = 2000): T => {
+  const [throttledValue, setThrottledValue] = React.useState<T>(value);
+  const lastExecuted = React.useRef<number>(Date.now());
+
+  React.useEffect(() => {
+    if (Date.now() >= lastExecuted.current + interval) {
+      lastExecuted.current = Date.now();
+      setThrottledValue(value);
+    } else {
+      const timerId = setTimeout(() => {
+        lastExecuted.current = Date.now();
+        setThrottledValue(value);
+      }, interval);
+
+      return () => clearTimeout(timerId);
+    }
+  }, [value, interval]);
+
+  return throttledValue;
+};
