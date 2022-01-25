@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import Any
 from uuid import UUID
 
 from app.schema.common import Seller
@@ -23,7 +23,7 @@ class SellerBase(BaseModel):
 
 class SellerRead(SellerBase):
     id: UUID
-    items: List[ItemRead]
+    items: list[ItemRead]
 
 
 class SellerCreate(SellerBase):
@@ -31,7 +31,7 @@ class SellerCreate(SellerBase):
 
 
 class SellerInDatabase(Seller):
-    items: List[ItemRead]
+    items: list[ItemRead]
 
 
 class GetSellerByEmail(SellerRead):
