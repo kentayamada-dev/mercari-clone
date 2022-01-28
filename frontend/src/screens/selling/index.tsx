@@ -6,33 +6,36 @@ import { SellingStackParamList } from "../../types";
 
 type Props = NativeStackScreenProps<SellingStackParamList, "Selling">;
 
-export const Selling: React.VFC<Props> = ({ navigation, route }) => {
+export const Selling: React.VFC<Props> = ({
+  navigation: { navigate },
+  route: { params },
+}) => {
   const { token } = useAuth();
   const [isModalOpen, setIsOpenModal] = React.useState(false);
   const [itemId, setItemId] = React.useState("");
   const [itemName, setItemName] = React.useState("");
 
   React.useEffect(() => {
-    if (route.params?.itemId && route.params?.itemName) {
-      setItemId(route.params.itemId);
-      setItemName(route.params.itemName);
+    if (params?.itemId && params?.itemName) {
+      setItemId(params.itemId);
+      setItemName(params.itemName);
       setIsOpenModal(true);
     }
-  }, [route.params]);
+  }, [params]);
 
   const sellingDetailNavigationHandler = () => {
     if (token) {
-      navigation.navigate("SellingDetail");
+      navigate("SellingDetail");
       setIsOpenModal(false);
     } else {
-      navigation.navigate("AuthStackNavigator", {
+      navigate("AuthStackNavigator", {
         screen: "Signup",
       });
     }
   };
 
   const itemDetailNavigationHandler = () => {
-    navigation.navigate("ItemDetailStackNavigator", {
+    navigate("ItemDetailStackNavigator", {
       screen: "ItemDetail",
       params: { itemId: itemId, itemName: itemName },
     });

@@ -8,6 +8,7 @@ import { AnimatedAppLoader } from "./screens/splash";
 import { prefetchInfiniteQueryItems } from "./hooks/items/query";
 import { useQueryClient } from "react-query";
 import { prefetchQueryMe } from "./hooks/sellers/query";
+import { prefetchInfiniteSavedQueries } from "./hooks/savedQueries/query";
 
 export const App = () => {
   const { setToken } = useAuth();
@@ -17,7 +18,10 @@ export const App = () => {
     await prefetchInfiniteQueryItems(queryClient);
     await prefetchQueryMe({
       onError: () => setToken(""),
-      onSuccess: () => setToken(userToken),
+      onSuccess: () => {
+        setToken(userToken);
+        prefetchInfiniteSavedQueries(userToken, queryClient);
+      },
       queryClient,
       userToken,
     });

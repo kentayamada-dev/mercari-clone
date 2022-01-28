@@ -36,13 +36,16 @@ export const useQueryItem = (itemId: string) => {
   });
 };
 
-export const prefetchInfiniteQueryItems = (queryClient: QueryClient) =>
-  queryClient.prefetchInfiniteQuery({
-    queryKey: BASE_PATH.ITEMS,
+export const prefetchInfiniteQueryItems = (queryClient: QueryClient) => {
+  const queryKey = BASE_PATH.ITEMS;
+
+  return queryClient.prefetchInfiniteQuery({
+    queryKey,
     queryFn: () => {
-      const path = BASE_PATH.ITEMS.concat("?skip=0&limit=21");
+      const path = queryKey.concat("?skip=0&limit=21");
       return axiosGetWrapper({
         path,
       });
     },
   });
+};

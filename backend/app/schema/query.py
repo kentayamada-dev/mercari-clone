@@ -26,6 +26,14 @@ class ReadQuery(BaseModel):
         orm_mode = True
 
 
+class QueryCreate(BaseModel):
+    query: str
+
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True
+
+
 class ReadQueries(BaseModel):
     data: list[ReadQuery]
     skip: int | None

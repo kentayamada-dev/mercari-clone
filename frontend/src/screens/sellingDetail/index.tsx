@@ -10,6 +10,9 @@ import { usePostImage } from "../../hooks/common/mutation";
 import { getAlert } from "../../modules";
 import { OverrideType, SellingStackParamList } from "../../types";
 import { ItemCreate } from "../../types/generated";
+import { invalidateQueriesWrapper } from "../../hooks/common/query";
+import { useQueryClient } from "react-query";
+import { BASE_PATH } from "../../hooks/common/constants";
 
 type Props = NativeStackScreenProps<SellingStackParamList, "SellingDetail">;
 
@@ -21,13 +24,14 @@ export const SellingDetail: React.VFC<Props> = ({ navigation }) => {
   const [imageUrl, setImageUrl] = React.useState("");
   const toast = useToast();
   const { token } = useAuth();
+  const queryClient = useQueryClient();
   const { t } = useTranslation(["signup", "sellingDetail"]);
   const { mutateAsync: mutateAsyncItem, isLoading: isLoadingItem } =
     usePostItem({ token });
 
   const { mutateAsync: mutateAsyncImage, isLoading: isLoadingImage } =
     usePostImage({
-      onSuccess: async (data) => setImageUrl(data.url),
+      onSuccess: (data) => setImageUrl(data.url),
       onError: () =>
         getAlert(
           toast,
@@ -54,6 +58,8 @@ export const SellingDetail: React.VFC<Props> = ({ navigation }) => {
         ...data,
         price: Number(data.price),
       });
+      invalidateQueriesWrapper(queryClient, BASE_PATH.ITEMS);
+      invalidateQueriesWrapper(queryClient, BASE_PATH.ME);
       navigation.navigate("Selling", {
         itemId: responseData.id,
         itemName: responseData.name,

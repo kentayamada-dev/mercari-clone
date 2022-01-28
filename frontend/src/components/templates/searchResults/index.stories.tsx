@@ -19,6 +19,8 @@ const items: ItemRead[] = new Array(10)
 
 storiesOf("Templates", module).add("SearchResultsTemplate", () => (
   <SearchResultsTemplate
+    isQuerySaved={boolean("isQuerySaved", false)}
+    addQuery={action("addQuery")}
     query={text("query", "query")}
     setQuery={action("setQuery")}
     onRefetchItems={action("refetchItems")}

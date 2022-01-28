@@ -12,6 +12,12 @@ import { SavedTab } from "./saved";
 import { HomeTabsProps } from "./types";
 
 export const HomeTabs: React.VFC<HomeTabsProps> = ({
+  onFetchNextSavedQueries,
+  onRefetchSavedQueries,
+  savedQueriesNavigationHandler,
+  savedQueries,
+  isSavedQueriesRefetching,
+  isNextSavedQueriesFetching,
   ...recommendTabProps
 }) => {
   const { t } = useTranslation(["common", "home"]);
@@ -55,7 +61,14 @@ export const HomeTabs: React.VFC<HomeTabsProps> = ({
         return route.key === "recommendTab" ? (
           <RecommendTab {...recommendTabProps} />
         ) : route.key === "savedTab" ? (
-          <SavedTab />
+          <SavedTab
+            savedQueries={savedQueries}
+            isSavedQueriesRefetching={isSavedQueriesRefetching}
+            isNextSavedQueriesFetching={isNextSavedQueriesFetching}
+            onFetchNextSavedQueries={onFetchNextSavedQueries}
+            onRefetchSavedQueries={onRefetchSavedQueries}
+            savedQueriesNavigationHandler={savedQueriesNavigationHandler}
+          />
         ) : null;
       }}
       onIndexChange={setIndex}

@@ -19,8 +19,8 @@ export const Signin: React.VFC<Props> = () => {
 
   const { mutateAsync: mutateAsyncSecret, isLoading: isLoadingSecret } =
     usePostToken({
-      onSuccess: async (data) => {
-        await SecureStore.setItemAsync("userToken", data.access_token);
+      onSuccess: (data) => {
+        SecureStore.setItemAsync("userToken", data.access_token);
         Updates.reloadAsync();
       },
       onError: () =>

@@ -6,6 +6,6 @@ export type Axios = {
 };
 
 export type UsePost<T> = {
-  onSuccess?: (data: T) => Promise<void>;
+  onSuccess?: (data: T) => void;
   onError?: () => void;
 };

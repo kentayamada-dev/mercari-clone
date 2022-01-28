@@ -1,5 +1,5 @@
 export type CustomAlertProps = {
-  status: "error" | "warning";
+  status: "error" | "warning" | "success";
   onPressCloseButton: () => void;
   text: string;
 };

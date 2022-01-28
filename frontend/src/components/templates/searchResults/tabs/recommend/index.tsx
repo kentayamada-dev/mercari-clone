@@ -1,8 +1,8 @@
 import {
   Box,
+  Button,
   Center,
   FlatList,
-  HStack,
   Slide,
   Spinner,
   Text,
@@ -24,9 +24,11 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
       onRefetchItems,
       itemNavigationHandler,
       onFetchNextItems,
+      addQuery,
       items,
       isItemsRefetching,
       isNextItemsFetching,
+      isQuerySaved,
     }) => {
       const { t } = useTranslation(["home", "searchResults"]);
       const tintColor = typedUseColorToken(
@@ -42,11 +44,9 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
         "brand.secondary.light",
         "brand.secondary.dark"
       );
-      const color = typedUseColorModeValue(
-        "brand.primary.light",
-        "brand.primary.dark"
-      );
+      const buttonColor = typedUseColorModeValue("buttonLight", "buttonDark");
       const [isBarVisible, setIsBarVisible] = React.useState(false);
+      const [showButton, setShowButton] = React.useState(true);
       const throttledValue = useThrottle(isBarVisible);
       const keyExtractor = React.useCallback((page) => `${page.skip}`, []);
       const onEndReached = React.useCallback(() => {
@@ -103,27 +103,25 @@ export const RecommendTab: React.VFC<RecommendTabProps> =
             </Text>
           </Box>
           {FlatListRender}
-          <Slide in={throttledValue} placement="bottom">
-            <HStack
-              w="100%"
-              position="absolute"
-              p="5"
-              bottom="0"
-              borderRadius="xs"
-              bg={color}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Text
-                textAlign="center"
-                color="brand.secondary.light"
-                fontWeight="bold"
-                fontSize="2xl"
+          {!isQuerySaved && showButton && (
+            <Slide in={throttledValue} placement="bottom">
+              <Button
+                height="16"
+                bottom="0"
+                w="100%"
+                position="absolute"
+                colorScheme={`${buttonColor}`}
+                onPress={() => {
+                  addQuery();
+                  setShowButton(false);
+                }}
               >
-                {t("searchResults:saveQuery")}
-              </Text>
-            </HStack>
-          </Slide>
+                <Text fontSize="2xl" bold color="brand.secondary.light">
+                  {t("searchResults:saveQuery")}
+                </Text>
+              </Button>
+            </Slide>
+          )}
         </Center>
       );
     }

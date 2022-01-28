@@ -6,6 +6,7 @@ export type OverrideType<T, K extends keyof T> = {
 };
 
 export type HomeStackParamList = {
+  AuthStackNavigator: NavigatorScreenParams<AuthStackParamList>;
   Home: undefined;
   ItemDetailStackNavigator: NavigatorScreenParams<ItemDetailStackParamList>;
   Todo: { userId: string };

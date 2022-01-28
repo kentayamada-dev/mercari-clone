@@ -16,7 +16,14 @@ from app.schema.seller import (
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from sqlalchemy.orm import Session, joinedload, lazyload, load_only
+from sqlalchemy import desc
+from sqlalchemy.orm import (
+    Session,
+    contains_eager,
+    joinedload,
+    lazyload,
+    load_only,
+)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -96,13 +103,14 @@ def get_seller_by_email(db: Session, email: str) -> GetSellerByEmail | None:
                 Seller.email,
                 Seller.image_url,
             ),
-            joinedload(Seller.items).load_only(
+            contains_eager(Seller.items).load_only(
                 Item.id,
                 Item.name,
                 Item.price,
                 Item.image_url,
             ),
         )
+        .order_by(desc(Item.created_at))
         .one_or_none()
     )
     # print("\033[34m" + str(db_data) + "\033[0m")

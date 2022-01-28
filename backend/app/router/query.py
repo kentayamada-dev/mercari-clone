@@ -9,7 +9,12 @@ from app.crud.query import (
 )
 from app.crud.seller import get_current_seller
 from app.db.database import get_db
-from app.schema.query import QueryInDatabase, ReadQueries, ReadQuery
+from app.schema.query import (
+    QueryCreate,
+    QueryInDatabase,
+    ReadQueries,
+    ReadQuery,
+)
 from app.schema.seller import GetSellerByEmail
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
@@ -28,11 +33,11 @@ router = APIRouter()
     },
 )
 def create_query(
-    query: str,
+    dto: QueryCreate,
     db: Session = Depends(get_db),
     current_seller: GetSellerByEmail = Depends(get_current_seller),
 ) -> QueryInDatabase:
-    db_query_orm = add_query(db, query, current_seller.id)
+    db_query_orm = add_query(db, dto, current_seller.id)
     db_query_model = QueryInDatabase.from_orm(db_query_orm)
     return db_query_model
 
@@ -70,8 +75,9 @@ def read_queries(
     limit: int,
     db: Session = Depends(get_db),
     current_seller: GetSellerByEmail = Depends(get_current_seller),
+    query: str | None = None,
 ) -> ReadQueries:
-    db_queries_orm = get_all_queries(skip, limit, db, current_seller.id)
+    db_queries_orm = get_all_queries(skip, limit, db, current_seller.id, query)
     db_queries_model = [
         ReadQuery.from_orm(db_query) for db_query in db_queries_orm
     ]

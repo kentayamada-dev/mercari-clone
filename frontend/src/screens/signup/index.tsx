@@ -34,8 +34,8 @@ export const Signup: React.VFC<Props> = ({ navigation }) => {
 
   const { mutateAsync: mutateAsyncSecret, isLoading: isLoadingSecret } =
     usePostToken({
-      onSuccess: async (data) => {
-        await SecureStore.setItemAsync("userToken", data.access_token);
+      onSuccess: (data) => {
+        SecureStore.setItemAsync("userToken", data.access_token);
         Updates.reloadAsync();
       },
       onError: () =>
@@ -51,7 +51,7 @@ export const Signup: React.VFC<Props> = ({ navigation }) => {
 
   const { mutateAsync: mutateAsyncImage, isLoading: isLoadingImage } =
     usePostImage({
-      onSuccess: async (data) => setImageUrl(data.url),
+      onSuccess: (data) => setImageUrl(data.url),
       onError: () =>
         getAlert(
           toast,

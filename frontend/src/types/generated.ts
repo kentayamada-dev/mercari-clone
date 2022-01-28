@@ -128,6 +128,11 @@ export interface Message {
   message: string;
 }
 
+export interface QueryCreate {
+  /** Query */
+  query: string;
+}
+
 export interface QueryInDatabase {
   /**
    * Id
@@ -558,14 +563,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name CreateUploadImageImageUploadPost
      * @summary Create Upload Image
      * @request POST:/image/upload
-     * @secure
      */
     createUploadImageImageUploadPost: (data: BodyCreateUploadImageImageUploadPost, params: RequestParams = {}) =>
       this.request<ImageModel, Message | HTTPValidationError>({
         path: `/image/upload`,
         method: "POST",
         body: data,
-        secure: true,
         type: ContentType.FormData,
         format: "json",
         ...params,
@@ -748,7 +751,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/queries
      * @secure
      */
-    readQueriesQueriesGet: (query: { skip: number; limit: number }, params: RequestParams = {}) =>
+    readQueriesQueriesGet: (query: { skip: number; limit: number; query?: string }, params: RequestParams = {}) =>
       this.request<ReadQueries, Message | HTTPValidationError>({
         path: `/queries`,
         method: "GET",
@@ -766,12 +769,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/queries
      * @secure
      */
-    createQueryQueriesPost: (query: { query: string }, params: RequestParams = {}) =>
+    createQueryQueriesPost: (data: QueryCreate, params: RequestParams = {}) =>
       this.request<QueryInDatabase, Message | HTTPValidationError>({
         path: `/queries`,
         method: "POST",
-        query: query,
+        body: data,
         secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
