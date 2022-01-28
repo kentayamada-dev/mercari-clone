@@ -34,8 +34,6 @@ export const SellingTemplate: React.VFC<SellingTemplateProps> = ({
     "brand.secondary.dark"
   );
 
-  console.log(openModal);
-
   React.useEffect(() => {
     const setModal = async () => {
       if (openModal) await wait(0.3);
