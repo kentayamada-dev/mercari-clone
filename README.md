@@ -23,6 +23,7 @@
 - Frontend
   - React Native (Fully Optimized Performance)
   - Storybook
+  - Atomic Design
   - NativeBase
   - React Query
   - TypeScript
