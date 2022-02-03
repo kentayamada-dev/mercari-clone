@@ -15,7 +15,7 @@ def test_read_token() -> None:
         },
     )
 
-    assert response.status_code == status.HTTP_200_OK
+    assert response.status_code == status.HTTP_201_CREATED
     assert set(response.json()) >= {"access_token", "token_type"}
 
 
@@ -30,8 +30,8 @@ def test_read_token_invalid_email() -> None:
         },
     )
 
-    assert response.status_code == status.HTTP_401_UNAUTHORIZED
-    assert response.json() == {"message": "incorrect email or password"}
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert response.json() == {"message": "seller not found"}
 
 
 @temp_db

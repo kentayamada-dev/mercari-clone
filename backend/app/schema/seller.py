@@ -1,12 +1,11 @@
 from typing import Any
 from uuid import UUID
-
-from app.schema.common import Seller
-from app.schema.item import ItemRead
+from app.schema.common import GetAllItem
 from pydantic import BaseModel, EmailStr, Extra, HttpUrl, SecretStr, validator
 
 
-class SellerBase(BaseModel):
+class CreateSeller(BaseModel):
+    password: SecretStr
     name: str
     email: EmailStr
     image_url: HttpUrl
@@ -21,24 +20,54 @@ class SellerBase(BaseModel):
         orm_mode = True
 
 
-class SellerRead(SellerBase):
+class InactivateSeller(BaseModel):
     id: UUID
-    items: list[ItemRead]
-
-
-class SellerCreate(SellerBase):
-    password: SecretStr
-
-
-class SellerInDatabase(Seller):
-    items: list[ItemRead]
-
-
-class GetSellerByEmail(SellerRead):
-    password: SecretStr
     is_active: bool
 
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True
 
-class GetAuthenticateSellerByEmail(BaseModel):
+
+class GetSellerByEmail(InactivateSeller):
     email: EmailStr
     password: str
+
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True
+
+
+class BaseSeller(BaseModel):
+    id: UUID
+    name: str
+    image_url: HttpUrl
+
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True
+
+
+class AddSeller(BaseSeller):
+    email: EmailStr
+
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True
+
+
+class ReadSellers(BaseModel):
+    data: list[BaseSeller]
+    skip: int | None
+
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True
+
+
+class GetSellerById(BaseSeller):
+    items: list[GetAllItem]
+
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True

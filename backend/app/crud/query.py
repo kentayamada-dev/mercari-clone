@@ -1,72 +1,71 @@
 from uuid import UUID
 
 from app.model.query import Query
-from app.schema.query import QueryCreate, QueryInDatabase, ReadQuery
-from fastapi import HTTPException, status
+from app.model.seller import Seller
+from app.schema.query import (
+    QueryCreate,
+    RemoveQuery,
+    GetAllQuery,
+)
 from sqlalchemy import desc
-from sqlalchemy.orm import Session, lazyload, load_only
+from sqlalchemy.orm import Session, load_only
+from fastapi import HTTPException, status
 
 
-def add_query(
-    db: Session, dto: QueryCreate, seller_id: UUID
-) -> QueryInDatabase:
+def check_query_existence(db: Session, query: str, seller_id: UUID) -> bool:
+
+    return bool(
+        db.query(Query.id)
+        .filter(Query.query == query, Seller.id == seller_id)
+        .one_or_none()
+    )
+
+
+def add_query(db: Session, dto: QueryCreate, seller_id: UUID) -> GetAllQuery:
+    if check_query_existence(db, dto.query, seller_id) is True:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="query already exists",
+        )
     data = Query(dto.query, seller_id)
     db.add(data)
     db.commit()
     db.refresh(data)
+
     # print("\033[32m" + str(data) + "\033[0m")
-    return data
-
-
-def get_query_by_id(db: Session, query_id: UUID) -> QueryInDatabase:
-    db_data: QueryInDatabase | None = (
-        db.query(Query).filter(Query.id == query_id).one_or_none()
-    )
-    if db_data is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="query not found"
-        )
-    # print("\033[32m" + str(db_data) + "\033[0m")
-    return db_data
+    return GetAllQuery(id=data.id, query=data.query)
 
 
 def get_all_queries(
     skip: int, limit: int, db: Session, seller_id: UUID, query: str | None
-) -> list[ReadQuery]:
-    db_data: list[ReadQuery] = []
-    if query:
-        db_data = (
-            db.query(Query)
-            .filter(Query.seller_id == seller_id, Query.query == query)
-            .options(
-                load_only(Query.id, Query.query),
-                lazyload(Query.seller),
-            )
-            .order_by(desc(Query.created_at))
-            .offset(skip)
-            .limit(limit)
-            .all()
+) -> list[GetAllQuery]:
+    db_data: list[GetAllQuery] = (
+        db.query(Query)
+        .filter(
+            Query.seller_id == seller_id,
+            Query.query == query if query else True,
         )
-    else:
-        db_data = (
-            db.query(Query)
-            .filter(Query.seller_id == seller_id)
-            .options(
-                load_only(Query.id, Query.query),
-                lazyload(Query.seller),
-            )
-            .order_by(desc(Query.created_at))
-            .offset(skip)
-            .limit(limit)
-            .all()
-        )
+        .options(load_only(Query.id, Query.query))
+        .order_by(desc(Query.created_at))
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
     # print("\033[32m" + str(db_data) + "\033[0m")
     return db_data
 
 
-def remove_query(db: Session, data: QueryInDatabase) -> QueryInDatabase:
-    db.delete(data)
+def remove_query(db: Session, query_id: UUID, seller_id: UUID) -> RemoveQuery:
+    if (
+        db.query(Query)
+        .filter(Query.id == query_id, Query.seller_id == seller_id)
+        .delete()
+        == 0
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="query not found"
+        )
     db.commit()
-    # print("\033[32m" + str(data) + "\033[0m")
-    return data
+
+    return RemoveQuery(id=query_id)

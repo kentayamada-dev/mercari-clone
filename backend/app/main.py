@@ -11,7 +11,7 @@ from slowapi.util import get_remote_address
 from app.core.error.http_exception import custom_http_exception_handler
 from app.core.error.validation import custom_validation_exception_handler
 from app.db.database import create_table
-from app.router import auth, image, item, root, seller, query
+from app.router import auth, image, item, like, query, root, seller
 
 create_table()
 
@@ -42,6 +42,7 @@ app.include_router(item.router)
 app.include_router(seller.router)
 app.include_router(root.router)
 app.include_router(query.router)
+app.include_router(like.router)
 
 app.add_exception_handler(
     exceptions.RequestValidationError, custom_validation_exception_handler

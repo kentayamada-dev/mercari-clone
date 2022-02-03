@@ -1,17 +1,28 @@
-from pydantic import BaseModel, EmailStr, HttpUrl, SecretStr, Extra
+from pydantic import BaseModel, HttpUrl, Extra
 from uuid import UUID
-from datetime import datetime
 
 
-class Seller(BaseModel):
-    name: str
-    email: EmailStr
-    image_url: HttpUrl
+class LikedSeller(BaseModel):
     id: UUID
-    password: SecretStr
-    is_active: bool
-    created_at: datetime
-    updated_at: datetime
+
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True
+
+
+class RemoveItem(BaseModel):
+    id: UUID
+
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True
+
+
+class GetAllItem(RemoveItem):
+    id: UUID
+    price: int
+    image_url: HttpUrl
+    name: str
 
     class Config:
         extra = Extra.forbid

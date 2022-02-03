@@ -1,8 +1,10 @@
 from pydantic import BaseModel, Extra
+from uuid import UUID
 
 
-class Message(BaseModel):
-    message: str
+class AddLike(BaseModel):
+    item_id: UUID
+    seller_id: UUID
 
     class Config:
         extra = Extra.forbid

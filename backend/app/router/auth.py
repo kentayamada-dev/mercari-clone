@@ -13,12 +13,14 @@ router = APIRouter()
 @router.post(
     "/token",
     response_model=Secret,
+    status_code=status.HTTP_201_CREATED,
     responses={status.HTTP_401_UNAUTHORIZED: {"model": Message}},
 )
 def create_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
-) -> dict[str, str]:
+) -> Secret:
     user = authenticate_seller(db, form_data.username, form_data.password)
     token = auth.create_jwt_token(user.email)
-    return {"access_token": token, "token_type": "Bearer"}
+
+    return Secret(access_token=token, token_type="Bearer")

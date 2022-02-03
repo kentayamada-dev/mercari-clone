@@ -1,12 +1,9 @@
 from app.core.schema.jwt import Secret
-from app.schema.item import ReadItems
+from app.schema.item import GetItemById, ReadItems
 from app.test.client import client, temp_db
 from app.test.functions import create_item_1, create_item_2, create_seller_1
-from app.test.sample_data import item_1_raw, item_2_raw
+from app.test.sample_data import item_1_typed, item_2_typed, seller_1_typed
 from fastapi import status
-from app.test.sample_data import (
-    seller_1_typed,
-)
 
 
 @temp_db
@@ -23,14 +20,14 @@ def test_create_item() -> None:
     response, _ = create_item_1(secret.access_token)
 
     assert response.status_code == status.HTTP_201_CREATED
-    assert item_1_raw.dict().items() <= response.json().items()
+    assert item_1_typed.dict().items() <= response.json().items()
 
 
 @temp_db
 def test_create_item_bad_request() -> None:
     response = client.post(
         "/items",
-        json=item_1_raw.dict(),
+        json=item_1_typed.dict(),
         headers={
             "Authorization": (
                 "Bearer"
@@ -58,20 +55,20 @@ def test_read_items() -> None:
     response = client.get("/items?skip=0&limit=3")
     response_data = response.json()
     created_items = ReadItems(**response_data)
+    item_a = created_items.data[0]
+    item_b = created_items.data[1]
 
     assert response.status_code == status.HTTP_200_OK
-    assert item_1_raw.image_url == created_items.data[1].image_url
-    assert item_1_raw.price == created_items.data[1].price
-    assert item_1_raw.name == created_items.data[1].name
-    assert item_2_raw.image_url == created_items.data[0].image_url
-    assert item_2_raw.price == created_items.data[0].price
-    assert item_2_raw.name == created_items.data[0].name
     assert created_items.skip is None
+    assert item_2_typed.name == item_a.name
+    assert item_2_typed.image_url == item_a.image_url
+    assert item_1_typed.name == item_b.name
+    assert item_1_typed.image_url == item_b.image_url
 
 
 @temp_db
 def test_read_item() -> None:
-    create_seller_1()
+    _, seller = create_seller_1()
     response_token = client.post(
         "/token",
         data={
@@ -82,9 +79,17 @@ def test_read_item() -> None:
     secret = Secret(**response_token.json())
     _, created_item_1 = create_item_1(secret.access_token)
     response = client.get(f"/items/{created_item_1.id}")
+    item = GetItemById(**response.json())
 
     assert response.status_code == status.HTTP_200_OK
-    assert item_1_raw.dict().items() <= response.json().items()
+    assert item.price == item_1_typed.price
+    assert item.image_url == item_1_typed.image_url
+    assert item.name == item_1_typed.name
+    assert item.description == item_1_typed.description
+    assert item.seller.id == seller.id
+    assert item.seller.name == seller.name
+    assert item.seller.image_url == seller.image_url
+    assert not item.liked_sellers
 
 
 @temp_db
@@ -113,7 +118,6 @@ def test_delete_item() -> None:
     )
 
     assert response.status_code == status.HTTP_200_OK
-    assert item_1_raw.dict().items() <= response.json().items()
 
 
 @temp_db

@@ -1,6 +1,5 @@
 import cloudinary.exceptions
 import cloudinary.uploader
-from app.core.schema.image import ImageModel
 from app.core.schema.message import Message
 from app.schema.image import Image
 from fastapi import APIRouter, File, HTTPException, UploadFile, status
@@ -11,7 +10,8 @@ router = APIRouter()
 
 @router.post(
     "/image/upload",
-    response_model=ImageModel,
+    response_model=Image,
+    status_code=status.HTTP_201_CREATED,
     responses={
         status.HTTP_413_REQUEST_ENTITY_TOO_LARGE: {"model": Message},
         status.HTTP_401_UNAUTHORIZED: {"model": Message},

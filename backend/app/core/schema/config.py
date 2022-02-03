@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     CLOUDINARY_API_SECRET: str
 
     class Config:
+        case_sensitive = True
         env_file = ".env"
 
 

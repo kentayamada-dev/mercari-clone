@@ -1,5 +1,5 @@
-from app.schema.item import ItemCreate
-from app.schema.seller import SellerCreate
+from app.schema.item import CreateItem
+from app.schema.seller import CreateSeller
 
 seller_1_raw_get = {
     "name": "name_1",
@@ -12,7 +12,7 @@ seller_1_raw = {
     "password": "password_1",
 }
 
-seller_1_typed = SellerCreate(**seller_1_raw)
+seller_1_typed = CreateSeller(**seller_1_raw)
 
 seller_2_raw_get = {
     "name": "name_2",
@@ -25,9 +25,9 @@ seller_2_raw = {
     "image_url": "http://image.com/seller_2.jpg",
 }
 
-seller_2_typed = SellerCreate(**seller_2_raw)
+seller_2_typed = CreateSeller(**seller_2_raw)
 
-item_1_raw = ItemCreate(
+item_1_typed = CreateItem(
     **{
         "name": "name_1",
         "price": 900,
@@ -36,7 +36,7 @@ item_1_raw = ItemCreate(
     }
 )
 
-item_2_raw = ItemCreate(
+item_2_typed = CreateItem(
     **{
         "name": "name_2",
         "price": 900,

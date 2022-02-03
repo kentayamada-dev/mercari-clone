@@ -1,11 +1,10 @@
-from datetime import datetime
-from uuid import UUID
-
-from app.schema.common import Seller
+from app.schema.common import GetAllItem, LikedSeller
+from app.schema.seller import BaseSeller
 from pydantic import BaseModel, Extra, HttpUrl
 
 
-class ItemBase(BaseModel):
+class CreateItem(BaseModel):
+    description: str
     name: str
     price: int
     image_url: HttpUrl
@@ -15,25 +14,27 @@ class ItemBase(BaseModel):
         orm_mode = True
 
 
-class ItemCreate(ItemBase):
+class AddItem(GetAllItem):
     description: str
 
-
-class ItemRead(ItemBase):
-    id: UUID
-
-
-class ItemInDatabase(ItemBase):
-    id: UUID
-    description: str
-    seller: Seller
-    created_at: datetime
-    updated_at: datetime
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True
 
 
 class ReadItems(BaseModel):
-    data: list[ItemRead]
+    data: list[GetAllItem]
     skip: int | None
+
+    class Config:
+        extra = Extra.forbid
+        orm_mode = True
+
+
+class GetItemById(GetAllItem):
+    description: str
+    seller: BaseSeller
+    liked_sellers: list[LikedSeller]
 
     class Config:
         extra = Extra.forbid

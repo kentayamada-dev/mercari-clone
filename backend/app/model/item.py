@@ -16,7 +16,8 @@ class Item(Base):  # type: ignore
     description = Column(String)
     image_url = Column(String)
     seller_id = Column(UUID(as_uuid=True), ForeignKey("sellers.id"))
-    seller = relationship("Seller", back_populates="items", lazy="joined")
+    seller = relationship("Seller", back_populates="items")
+    liked_sellers = relationship("Seller", secondary="likes")
     created_at = Column(
         "created_at", DateTime, default=func.now(), nullable=False
     )
