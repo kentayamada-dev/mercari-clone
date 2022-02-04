@@ -46,7 +46,7 @@ i18n
       "settings",
       "signup",
       "myPage",
-      "sellerDetail",
+      "userDetail",
       "itemDetail",
       "signin",
       "selling",

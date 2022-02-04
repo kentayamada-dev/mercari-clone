@@ -7,6 +7,6 @@ import { action } from "@storybook/addon-actions";
 storiesOf("Templates", module).add("SigninTemplate", () => (
   <SigninTemplate
     isLoading={boolean("isLoading", false)}
-    addSeller={action("addSeller")}
+    addUser={action("addUser")}
   />
 ));

@@ -1,10 +1,10 @@
-import { SellerCreate } from "../../../../types/generated";
+import { CreateUser } from "../../../../types/generated";
 
 export type SignupTemplateProps = {
   isLoadingImage: boolean;
   isLoading: boolean;
   imageUrl: string;
-  addSeller: (data: SellerCreate) => void;
+  addUser: (data: CreateUser) => void;
   signinNavigationHandler: () => void;
   uploadImage: (formData: FormData) => void;
 };

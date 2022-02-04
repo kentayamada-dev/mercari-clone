@@ -1,5 +1,9 @@
-import { ItemInDatabase } from "../../../../types/generated";
+import { GetItemById } from "../../../../types/generated";
 
 export type ItemDetailTemplateProps = {
-  item?: ItemInDatabase;
+  item?: GetItemById;
+  isItemLiked: boolean;
+  numLikes?: number;
+  addLike: () => void;
+  removeLike: () => void;
 };

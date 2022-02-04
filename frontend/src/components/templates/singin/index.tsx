@@ -19,7 +19,7 @@ import { BodyCreateTokenTokenPost } from "../../../types/generated";
 import { SigninTemplateProps } from "./types";
 
 export const SigninTemplate: React.VFC<SigninTemplateProps> =
-  React.memo<SigninTemplateProps>(({ isLoading, addSeller }) => {
+  React.memo<SigninTemplateProps>(({ isLoading, addUser }) => {
     const {
       control,
       handleSubmit,
@@ -137,7 +137,7 @@ export const SigninTemplate: React.VFC<SigninTemplateProps> =
           borderRadius="full"
           size="lg"
           isDisabled={!isValid}
-          onPress={handleSubmit(addSeller)}
+          onPress={handleSubmit(addUser)}
           colorScheme={useColorModeValue("buttonLight", "buttonDark")}
         >
           {t("signup:login")}

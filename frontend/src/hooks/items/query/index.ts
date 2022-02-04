@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { QueryClient, useInfiniteQuery, useQuery } from "react-query";
-import { ItemInDatabase, ReadItems } from "../../../types/generated";
+import { GetItemById, ReadItems } from "../../../types/generated";
 import { BASE_PATH } from "../../common/constants";
 import { axiosGetWrapper } from "../../common/query";
 
@@ -27,7 +27,7 @@ export const useInfiniteQueryItems = (query?: string) => {
 export const useQueryItem = (itemId: string) => {
   const path = BASE_PATH.ITEMS.concat(`/${itemId}`);
 
-  return useQuery<ItemInDatabase, AxiosError>({
+  return useQuery<GetItemById, AxiosError>({
     queryKey: path,
     queryFn: () =>
       axiosGetWrapper({

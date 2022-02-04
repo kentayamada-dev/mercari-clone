@@ -44,7 +44,7 @@ const items: Item[] = [
 export const MyPageTemplate: React.VFC<MyPageTemplateProps> = ({
   signupNavigationHandler,
   avaterUrl,
-  sellerName,
+  userName,
 }) => {
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
@@ -86,7 +86,7 @@ export const MyPageTemplate: React.VFC<MyPageTemplateProps> = ({
                 <Icon as={Ionicons} name="person-circle-outline" size="20" />
               )}
               <Text fontSize="xl" bold>
-                {sellerName ? sellerName : "会員登録・ログインへ"}
+                {userName ? userName : "会員登録・ログインへ"}
               </Text>
             </Center>
           )}

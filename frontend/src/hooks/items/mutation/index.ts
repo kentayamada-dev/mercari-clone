@@ -1,18 +1,18 @@
 import { AxiosError } from "axios";
 import { useMutation } from "react-query";
-import { ItemCreate, ItemInDatabase } from "../../../types/generated";
+import { CreateItem, AddItem } from "../../../types/generated";
 import { BASE_PATH } from "../../common/constants";
 import { axiosPostWrapper } from "../../common/mutation";
 import { UsePost } from "../../common/types";
 
-type UsePostItem = UsePost<ItemInDatabase> & {
+type UsePostItem = UsePost<AddItem> & {
   token: string;
 };
 
 export const usePostItem = ({ onSuccess, onError, token }: UsePostItem) => {
   const path = `${BASE_PATH.ITEMS}`;
 
-  return useMutation<ItemInDatabase, AxiosError, ItemCreate>({
+  return useMutation<AddItem, AxiosError, CreateItem>({
     mutationFn: (dto) =>
       axiosPostWrapper({
         dto,

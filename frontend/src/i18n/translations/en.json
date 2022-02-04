@@ -41,7 +41,7 @@
     "signup": "Signup",
     "signin": "Login"
   },
-  "sellerDetail": {
+  "userDetail": {
     "sales": "Sales",
     "following": "Following",
     "followers": "Followers",

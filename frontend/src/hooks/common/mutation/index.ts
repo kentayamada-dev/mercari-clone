@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import { CONSTANTS } from "../../../constants";
 import {
   BodyCreateTokenTokenPost,
-  ImageModel,
+  Image,
   Secret,
 } from "../../../types/generated";
 import { Axios, UsePost } from "../types";
@@ -21,8 +21,15 @@ export const axiosPostWrapper = async ({
   return data;
 };
 
-export const usePostImage = ({ onSuccess, onError }: UsePost<ImageModel>) =>
-  useMutation<ImageModel, AxiosError, FormData>({
+export const axiosDeleteWrapper = async ({ path, config }: Axios) => {
+  const url = `${CONSTANTS.BASE_URL}${path}`;
+  const { data }: AxiosResponse = await axios.delete(url, config);
+
+  return data;
+};
+
+export const usePostImage = ({ onSuccess, onError }: UsePost<Image>) =>
+  useMutation<Image, AxiosError, FormData>({
     mutationFn: (dto) =>
       axiosPostWrapper({
         dto,

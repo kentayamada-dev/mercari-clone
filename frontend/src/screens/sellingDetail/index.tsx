@@ -9,14 +9,14 @@ import { usePostItem } from "../../hooks/items/mutation";
 import { usePostImage } from "../../hooks/common/mutation";
 import { getAlert } from "../../modules";
 import { OverrideType, SellingStackParamList } from "../../types";
-import { ItemCreate } from "../../types/generated";
+import { CreateItem } from "../../types/generated";
 import { invalidateQueriesWrapper } from "../../hooks/common/query";
 import { useQueryClient } from "react-query";
 import { BASE_PATH } from "../../hooks/common/constants";
 
 type Props = NativeStackScreenProps<SellingStackParamList, "SellingDetail">;
 
-export interface CustomItemCreate extends OverrideType<ItemCreate, "price"> {
+export interface CustomItemCreate extends OverrideType<CreateItem, "price"> {
   price: string;
 }
 

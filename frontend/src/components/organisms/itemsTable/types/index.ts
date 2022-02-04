@@ -1,6 +1,6 @@
-import { ItemRead } from "../../../../types/generated";
+import { GetAllItem } from "../../../../types/generated";
 
 export type ItemsTableProps = {
-  items?: ItemRead[];
+  items?: GetAllItem[];
   itemNavigationHandler: (itemId: string, itemName: string) => void;
 };

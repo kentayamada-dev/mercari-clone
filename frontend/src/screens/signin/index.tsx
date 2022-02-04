@@ -34,7 +34,7 @@ export const Signin: React.VFC<Props> = () => {
         ),
     });
 
-  const addSeller = React.useCallback(
+  const addUser = React.useCallback(
     async (data: BodyCreateTokenTokenPost) => {
       await mutateAsyncSecret({
         password: data.password,
@@ -44,5 +44,5 @@ export const Signin: React.VFC<Props> = () => {
     []
   );
 
-  return <SigninTemplate isLoading={isLoadingSecret} addSeller={addSeller} />;
+  return <SigninTemplate isLoading={isLoadingSecret} addUser={addUser} />;
 };

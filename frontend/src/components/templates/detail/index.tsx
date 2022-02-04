@@ -11,6 +11,7 @@ import {
 } from "native-base";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { wait } from "../../../modules";
 import {
   typedUseColorModeValue,
   typedUseColorToken,
@@ -19,6 +20,10 @@ import { ItemDetailTemplateProps } from "./types";
 
 export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
   item,
+  isItemLiked,
+  numLikes,
+  addLike,
+  removeLike,
 }) => {
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
@@ -42,8 +47,20 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
   );
 
   const buttonColor = typedUseColorModeValue("buttonLight", "buttonDark");
-  const [isLiked, setIsLiked] = React.useState(false);
   const { t } = useTranslation("itemDetail");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const onPressHandler = async () => {
+    if (!isLoading) {
+      setIsLoading(true);
+      if (isItemLiked) {
+        removeLike();
+      } else {
+        addLike();
+      }
+      await wait(0.5);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Box flex={1}>
@@ -91,33 +108,43 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
             <Skeleton width="30%" height="40px" />
           )}
           <HStack space="12">
-            <Button
-              onPress={() => setIsLiked(!isLiked)}
-              backgroundColor={backgroundColor}
-              width="32"
-              height="12"
-              borderRadius="full"
-              leftIcon={
-                <FontAwesome
-                  name={isLiked ? "heart" : "heart-o"}
-                  size={24}
-                  color={isLiked ? iconColor : textColor}
-                />
-              }
-            >
-              <Text>{t("like")}</Text>
-            </Button>
-            <Button
-              backgroundColor={backgroundColor}
-              width="32"
-              height="12"
-              borderRadius="full"
-              leftIcon={
-                <FontAwesome5 name="comment-alt" size={24} color={textColor} />
-              }
-            >
-              <Text>{t("comment")}</Text>
-            </Button>
+            <HStack alignItems="center" space="2">
+              <Button
+                onPress={onPressHandler}
+                backgroundColor={backgroundColor}
+                width="32"
+                height="12"
+                borderRadius="full"
+                leftIcon={
+                  <FontAwesome
+                    name={isItemLiked ? "heart" : "heart-o"}
+                    size={24}
+                    color={isItemLiked ? iconColor : textColor}
+                  />
+                }
+              >
+                <Text>{t("like")}</Text>
+              </Button>
+              <Text fontSize="lg">{numLikes}</Text>
+            </HStack>
+            <HStack alignItems="center" space="2">
+              <Button
+                backgroundColor={backgroundColor}
+                width="32"
+                height="12"
+                borderRadius="full"
+                leftIcon={
+                  <FontAwesome5
+                    name="comment-alt"
+                    size={24}
+                    color={textColor}
+                  />
+                }
+              >
+                <Text>{t("comment")}</Text>
+              </Button>
+              <Text fontSize="lg">{numLikes}</Text>
+            </HStack>
           </HStack>
         </VStack>
       </ScrollView>

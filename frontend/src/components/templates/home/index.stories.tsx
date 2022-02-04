@@ -4,25 +4,25 @@ import React from "react";
 import { HomeTemplate } from "./index";
 import faker from "faker";
 import { action } from "@storybook/addon-actions";
-import { ItemRead, ReadQuery } from "../../../types/generated";
+import { GetAllQuery, GetAllItem } from "../../../types/generated";
 
-const item = (index: number): ItemRead => ({
+const item = (index: number): GetAllItem => ({
   id: `navigate_to_item[${index}]`,
   image_url: faker.image.imageUrl(),
   price: Number(faker.commerce.price()),
   name: faker.name.lastName(),
 });
 
-const items: ItemRead[] = new Array(10)
+const items: GetAllItem[] = new Array(10)
   .fill(null)
   .map((_, index) => item(index));
 
-const savedQuery = (index: number): ReadQuery => ({
+const savedQuery = (index: number): GetAllQuery => ({
   id: `savedQuery_id[${index}]`,
   query: `savedQuery[${index}]`,
 });
 
-const savedQueries: ReadQuery[] = new Array(10)
+const savedQueries: GetAllQuery[] = new Array(10)
   .fill(null)
   .map((_, index) => savedQuery(index));
 

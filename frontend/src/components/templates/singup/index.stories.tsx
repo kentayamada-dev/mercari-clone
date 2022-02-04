@@ -6,7 +6,7 @@ import { action } from "@storybook/addon-actions";
 
 storiesOf("Templates", module).add("SignupTemplate", () => (
   <SignupTemplate
-    addSeller={action("isLoading")}
+    addUser={action("isLoading")}
     isLoading={boolean("isLoading", false)}
     isLoadingImage={boolean("isLoadingImage", false)}
     uploadImage={action("uploadImage")}

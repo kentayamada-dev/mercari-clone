@@ -23,7 +23,7 @@ import {
 } from "../../../theme/modules";
 import { SignupTemplateProps } from "./types";
 import { getRandomString, uploadImageHandler } from "../../../modules";
-import { SellerCreate } from "../../../types/generated";
+import { CreateUser } from "../../../types/generated";
 
 export const SignupTemplate: React.VFC<SignupTemplateProps> =
   React.memo<SignupTemplateProps>(
@@ -31,7 +31,7 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> =
       isLoading,
       isLoadingImage,
       imageUrl,
-      addSeller,
+      addUser,
       uploadImage,
       signinNavigationHandler,
     }) => {
@@ -41,7 +41,7 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> =
         setValue,
         getValues,
         formState: { errors, isValid },
-      } = useForm<SellerCreate>({
+      } = useForm<CreateUser>({
         mode: "onChange",
         defaultValues: {
           image_url: `https://avatars.dicebear.com/api/identicon/${getRandomString()}.png`,
@@ -220,7 +220,7 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> =
               borderRadius="full"
               size="lg"
               isDisabled={!isValid || isLoadingImage}
-              onPress={handleSubmit(addSeller)}
+              onPress={handleSubmit(addUser)}
               colorScheme={useColorModeValue("buttonLight", "buttonDark")}
             >
               {t("register")}

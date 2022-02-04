@@ -41,7 +41,7 @@
     "signup": "会員登録",
     "signin": "ログイン"
   },
-  "sellerDetail": {
+  "userDetail": {
     "sales": "出品数",
     "following": "フォロー中",
     "followers": "フォロワー",

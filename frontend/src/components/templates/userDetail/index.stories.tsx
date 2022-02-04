@@ -1,26 +1,26 @@
 import { storiesOf } from "@storybook/react-native";
 import React from "react";
-import { SellerDetailTemplate } from "./index";
+import { UserDetailTemplate } from "./index";
 import faker from "faker";
-import { ItemRead } from "../../../types/generated";
+import { GetAllItem } from "../../../types/generated";
 import { action } from "@storybook/addon-actions";
 import { boolean, object } from "@storybook/addon-knobs";
 
-const item = (index: number): ItemRead => ({
+const item = (index: number): GetAllItem => ({
   id: `navigate_to_item[${index}]`,
   image_url: faker.image.imageUrl(),
   price: Number(faker.commerce.price()),
   name: faker.name.lastName(),
 });
 
-const items: ItemRead[] = new Array(5)
+const items: GetAllItem[] = new Array(5)
   .fill(null)
   .map((_, index) => item(index));
 
-storiesOf("Templates", module).add("SellerDetailTemplate", () => (
-  <SellerDetailTemplate
-    isSellerFetching={boolean("isSellerFetching", false)}
-    seller={object("seller", {
+storiesOf("Templates", module).add("UserDetailTemplate", () => (
+  <UserDetailTemplate
+    isUserFetching={boolean("isUserFetching", false)}
+    user={object("user", {
       id: "123",
       name: "name",
       email: "email",
@@ -29,6 +29,6 @@ storiesOf("Templates", module).add("SellerDetailTemplate", () => (
       items: items,
     })}
     itemNavigationHandler={action("itemNavigationHandler")}
-    refetchSeller={action("refetchSeller")}
+    refetchUser={action("refetchUser")}
   />
 ));

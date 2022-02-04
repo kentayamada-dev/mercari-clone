@@ -1,12 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { MyPageStackParamList } from "../../types";
-import { SellerDetailTemplate } from "../../components/templates/sellerDetail";
-import { useMe } from "../../hooks/sellers/useMe";
+import { UserDetailTemplate } from "../../components/templates/userDetail";
+import { useMe } from "../../hooks/users/useMe";
 
-type Props = NativeStackScreenProps<MyPageStackParamList, "SellerDetail">;
+type Props = NativeStackScreenProps<MyPageStackParamList, "UserDetail">;
 
-export const SellerDetail: React.VFC<Props> = ({ navigation }) => {
+export const UserDetail: React.VFC<Props> = ({ navigation }) => {
   const itemNavigationHandler = React.useCallback(
     (itemId: string, itemName: string) => {
       navigation.navigate("ItemDetailStackNavigator", {
@@ -19,11 +19,11 @@ export const SellerDetail: React.VFC<Props> = ({ navigation }) => {
   const { me, isFetchingMe, onRefetchMe } = useMe();
 
   return (
-    <SellerDetailTemplate
-      seller={me}
+    <UserDetailTemplate
+      user={me}
       itemNavigationHandler={itemNavigationHandler}
-      refetchSeller={onRefetchMe}
-      isSellerFetching={isFetchingMe}
+      refetchUser={onRefetchMe}
+      isUserFetching={isFetchingMe}
     />
   );
 };

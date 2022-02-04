@@ -2,5 +2,5 @@ import { BodyCreateTokenTokenPost } from "../../../../types/generated";
 
 export type SigninTemplateProps = {
   isLoading: boolean;
-  addSeller: (data: BodyCreateTokenTokenPost) => void;
+  addUser: (data: BodyCreateTokenTokenPost) => void;
 };

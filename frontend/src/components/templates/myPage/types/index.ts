@@ -1,5 +1,5 @@
 export type MyPageTemplateProps = {
   avaterUrl?: string;
-  sellerName?: string;
+  userName?: string;
   signupNavigationHandler: () => void;
 };

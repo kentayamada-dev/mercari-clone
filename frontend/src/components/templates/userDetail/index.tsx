@@ -1,4 +1,4 @@
-import { SellerDetailTemplateProps } from "./types";
+import { UserDetailTemplateProps } from "./types";
 import {
   Box,
   Icon,
@@ -18,18 +18,18 @@ import { typedUseColorToken } from "../../../theme/modules";
 import { RefreshControl, useWindowDimensions } from "react-native";
 import { useTranslation } from "react-i18next";
 
-export const SellerDetailTemplate: React.VFC<SellerDetailTemplateProps> = ({
+export const UserDetailTemplate: React.VFC<UserDetailTemplateProps> = ({
   itemNavigationHandler,
-  seller,
-  isSellerFetching,
-  refetchSeller,
+  user,
+  isUserFetching,
+  refetchUser,
 }) => {
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
     "brand.quaternary.dark"
   );
   const { width } = useWindowDimensions();
-  const { t } = useTranslation("sellerDetail");
+  const { t } = useTranslation("userDetail");
   const tintColor = typedUseColorToken(
     "brand.secondary.dark",
     "brand.secondary.light"
@@ -40,18 +40,18 @@ export const SellerDetailTemplate: React.VFC<SellerDetailTemplateProps> = ({
       <ScrollView
         refreshControl={
           <RefreshControl
-            refreshing={isSellerFetching}
-            onRefresh={refetchSeller}
+            refreshing={isUserFetching}
+            onRefresh={refetchUser}
             tintColor={`${tintColor}`}
           />
         }
       >
         <HStack space="5" alignItems="center" padding="3">
-          {seller?.image_url ? (
+          {user?.image_url ? (
             <Box width="16" height="16" rounded="full" overflow="hidden">
               <Image
                 source={{
-                  uri: seller?.image_url,
+                  uri: user?.image_url,
                 }}
                 alt="avater"
                 width="full"
@@ -62,7 +62,7 @@ export const SellerDetailTemplate: React.VFC<SellerDetailTemplateProps> = ({
             <Icon as={Ionicons} name="person-circle-outline" size="16" />
           )}
           <Text fontSize="xl" bold>
-            {seller?.name}
+            {user?.name}
           </Text>
         </HStack>
         <Flex
@@ -74,7 +74,7 @@ export const SellerDetailTemplate: React.VFC<SellerDetailTemplateProps> = ({
           <Center width={width / 3.5}>
             <VStack>
               <Text fontSize="lg" alignSelf="center" bold>
-                {seller?.items.length}
+                {user?.items.length}
               </Text>
               <Text fontSize="sm" alignSelf="center">
                 {t("sales")}
@@ -111,7 +111,7 @@ export const SellerDetailTemplate: React.VFC<SellerDetailTemplateProps> = ({
         </Box>
         <Center>
           <ItemsTable
-            items={seller?.items}
+            items={user?.items}
             itemNavigationHandler={itemNavigationHandler}
           />
         </Center>

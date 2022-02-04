@@ -36,7 +36,7 @@ export type AuthStackParamList = {
 export type MyPageStackParamList = {
   MyPage: undefined;
   AuthStackNavigator: NavigatorScreenParams<AuthStackParamList>;
-  SellerDetail: { sellerName?: string };
+  UserDetail: { userName?: string };
   ItemDetailStackNavigator: NavigatorScreenParams<ItemDetailStackParamList>;
 };
 
@@ -45,6 +45,7 @@ export type SettingsStackParamList = {
 };
 
 export type ItemDetailStackParamList = {
+  AuthStackNavigator: NavigatorScreenParams<AuthStackParamList>;
   ItemDetail: { itemId: string; itemName: string };
 };
 

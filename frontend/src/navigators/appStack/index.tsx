@@ -17,7 +17,7 @@ const getTabBarStyle = (
   const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
   if (
     routeName === "ItemDetail" ||
-    routeName === "SellerDetail" ||
+    routeName === "UserDetail" ||
     routeName === "SearchResults"
   )
     return "none";

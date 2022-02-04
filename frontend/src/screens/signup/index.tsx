@@ -3,8 +3,8 @@ import React from "react";
 import { AuthStackParamList } from "../../types";
 import { SignupTemplate } from "../../components/templates/singup";
 import { usePostToken, usePostImage } from "../../hooks/common/mutation";
-import { usePostSeller } from "../../hooks/sellers/mutation";
-import { SellerCreate } from "../../types/generated";
+import { usePostUser } from "../../hooks/users/mutation";
+import { CreateUser } from "../../types/generated";
 import * as SecureStore from "expo-secure-store";
 import * as Updates from "expo-updates";
 import { useToast } from "native-base";
@@ -19,8 +19,8 @@ export const Signup: React.VFC<Props> = ({ navigation }) => {
   const { t } = useTranslation("signup");
   const [imageUrl, setImageUrl] = React.useState("");
 
-  const { mutateAsync: mutateAsyncSeller, isLoading: isLoadingSeller } =
-    usePostSeller({
+  const { mutateAsync: mutateAsyncUser, isLoading: isLoadingUser } =
+    usePostUser({
       onError: () =>
         getAlert(
           toast,
@@ -63,9 +63,9 @@ export const Signup: React.VFC<Props> = ({ navigation }) => {
         ),
     });
 
-  const addSeller = React.useCallback(async (data: SellerCreate) => {
+  const addUser = React.useCallback(async (data: CreateUser) => {
     data.email = data.email.toLowerCase();
-    await mutateAsyncSeller(data);
+    await mutateAsyncUser(data);
     await mutateAsyncSecret({
       password: data.password,
       username: data.email,
@@ -83,10 +83,10 @@ export const Signup: React.VFC<Props> = ({ navigation }) => {
 
   return (
     <SignupTemplate
-      isLoading={isLoadingSeller || isLoadingSecret}
+      isLoading={isLoadingUser || isLoadingSecret}
       isLoadingImage={isLoadingImage}
       imageUrl={imageUrl}
-      addSeller={addSeller}
+      addUser={addUser}
       uploadImage={uploadImage}
       signinNavigationHandler={signinNavigationHandler}
     />

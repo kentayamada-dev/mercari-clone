@@ -7,7 +7,7 @@ import "./i18n";
 import { AnimatedAppLoader } from "./screens/splash";
 import { prefetchInfiniteQueryItems } from "./hooks/items/query";
 import { useQueryClient } from "react-query";
-import { prefetchQueryMe } from "./hooks/sellers/query";
+import { prefetchQueryMe } from "./hooks/users/query";
 import { prefetchInfiniteSavedQueries } from "./hooks/savedQueries/query";
 
 export const App = () => {

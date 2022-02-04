@@ -9,6 +9,83 @@
  * ---------------------------------------------------------------
  */
 
+export interface AddItem {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
+
+  /** Price */
+  price: number;
+
+  /**
+   * Image Url
+   * @format uri
+   */
+  image_url: string;
+
+  /** Name */
+  name: string;
+
+  /** Description */
+  description: string;
+}
+
+export interface AddLike {
+  /**
+   * Item Id
+   * @format uuid
+   */
+  item_id: string;
+
+  /**
+   * User Id
+   * @format uuid
+   */
+  user_id: string;
+}
+
+export interface AddUser {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
+
+  /** Name */
+  name: string;
+
+  /**
+   * Image Url
+   * @format uri
+   */
+  image_url: string;
+
+  /**
+   * Email
+   * @format email
+   */
+  email: string;
+}
+
+export interface BaseUser {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
+
+  /** Name */
+  name: string;
+
+  /**
+   * Image Url
+   * @format uri
+   */
+  image_url: string;
+}
+
 export interface BodyCreateTokenTokenPost {
   /**
    * Grant Type
@@ -40,34 +117,10 @@ export interface BodyCreateUploadImageImageUploadPost {
   file: File;
 }
 
-export interface HTTPValidationError {
-  /** Message */
-  message?: string;
-}
-
-export interface ImageModel {
-  /** Url */
-  url: string;
-}
-
-export interface ItemCreate {
-  /** Name */
-  name: string;
-
-  /** Price */
-  price: number;
-
-  /**
-   * Image Url
-   * @format uri
-   */
-  image_url: string;
-
+export interface CreateItem {
   /** Description */
   description: string;
-}
 
-export interface ItemInDatabase {
   /** Name */
   name: string;
 
@@ -79,33 +132,68 @@ export interface ItemInDatabase {
    * @format uri
    */
   image_url: string;
+}
 
+export interface CreateUser {
+  /**
+   * Password
+   * @format password
+   */
+  password: string;
+
+  /** Name */
+  name: string;
+
+  /**
+   * Email
+   * @format email
+   */
+  email: string;
+
+  /**
+   * Image Url
+   * @format uri
+   */
+  image_url: string;
+}
+
+export interface GetAllItem {
   /**
    * Id
    * @format uuid
    */
   id: string;
 
-  /** Description */
-  description: string;
-  seller: Seller;
+  /** Price */
+  price: number;
 
   /**
-   * Created At
-   * @format date-time
+   * Image Url
+   * @format uri
    */
-  created_at: string;
+  image_url: string;
 
-  /**
-   * Updated At
-   * @format date-time
-   */
-  updated_at: string;
-}
-
-export interface ItemRead {
   /** Name */
   name: string;
+}
+
+export interface GetAllQuery {
+  /** Query */
+  query: string;
+
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
+}
+
+export interface GetItemById {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
 
   /** Price */
   price: number;
@@ -116,6 +204,70 @@ export interface ItemRead {
    */
   image_url: string;
 
+  /** Name */
+  name: string;
+
+  /** Description */
+  description: string;
+  user: BaseUser;
+
+  /** Liked Users */
+  liked_users: LikedUser[];
+}
+
+export interface GetUserById {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
+
+  /** Name */
+  name: string;
+
+  /**
+   * Image Url
+   * @format uri
+   */
+  image_url: string;
+
+  /** Items */
+  items: GetAllItem[];
+}
+
+export interface HTTPValidationError {
+  /** Message */
+  message?: string;
+}
+
+export interface Image {
+  /**
+   * Url
+   * @format uri
+   */
+  url: string;
+}
+
+export interface InactivateUser {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
+
+  /** Is Active */
+  is_active: boolean;
+}
+
+export interface LikeCreate {
+  /**
+   * Item Id
+   * @format uuid
+   */
+  item_id: string;
+}
+
+export interface LikedUser {
   /**
    * Id
    * @format uuid
@@ -133,33 +285,9 @@ export interface QueryCreate {
   query: string;
 }
 
-export interface QueryInDatabase {
-  /**
-   * Id
-   * @format uuid
-   */
-  id: string;
-
-  /** Query */
-  query: string;
-  seller: Seller;
-
-  /**
-   * Created At
-   * @format date-time
-   */
-  created_at: string;
-
-  /**
-   * Updated At
-   * @format date-time
-   */
-  updated_at: string;
-}
-
 export interface ReadItems {
   /** Data */
-  data: ItemRead[];
+  data: GetAllItem[];
 
   /** Skip */
   skip?: number;
@@ -167,21 +295,42 @@ export interface ReadItems {
 
 export interface ReadQueries {
   /** Data */
-  data: ReadQuery[];
+  data: GetAllQuery[];
 
   /** Skip */
   skip?: number;
 }
 
-export interface ReadQuery {
+export interface ReadUsers {
+  /** Data */
+  data: BaseUser[];
+
+  /** Skip */
+  skip?: number;
+}
+
+export interface RemoveItem {
   /**
    * Id
    * @format uuid
    */
   id: string;
+}
 
-  /** Query */
-  query: string;
+export interface RemoveLike {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
+}
+
+export interface RemoveQuery {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
 }
 
 export interface Secret {
@@ -190,146 +339,6 @@ export interface Secret {
 
   /** Token Type */
   token_type: string;
-}
-
-export interface Seller {
-  /** Name */
-  name: string;
-
-  /**
-   * Email
-   * @format email
-   */
-  email: string;
-
-  /**
-   * Image Url
-   * @format uri
-   */
-  image_url: string;
-
-  /**
-   * Id
-   * @format uuid
-   */
-  id: string;
-
-  /**
-   * Password
-   * @format password
-   */
-  password: string;
-
-  /** Is Active */
-  is_active: boolean;
-
-  /**
-   * Created At
-   * @format date-time
-   */
-  created_at: string;
-
-  /**
-   * Updated At
-   * @format date-time
-   */
-  updated_at: string;
-}
-
-export interface SellerCreate {
-  /** Name */
-  name: string;
-
-  /**
-   * Email
-   * @format email
-   */
-  email: string;
-
-  /**
-   * Image Url
-   * @format uri
-   */
-  image_url: string;
-
-  /**
-   * Password
-   * @format password
-   */
-  password: string;
-}
-
-export interface SellerInDatabase {
-  /** Name */
-  name: string;
-
-  /**
-   * Email
-   * @format email
-   */
-  email: string;
-
-  /**
-   * Image Url
-   * @format uri
-   */
-  image_url: string;
-
-  /**
-   * Id
-   * @format uuid
-   */
-  id: string;
-
-  /**
-   * Password
-   * @format password
-   */
-  password: string;
-
-  /** Is Active */
-  is_active: boolean;
-
-  /**
-   * Created At
-   * @format date-time
-   */
-  created_at: string;
-
-  /**
-   * Updated At
-   * @format date-time
-   */
-  updated_at: string;
-
-  /** Items */
-  items: ItemRead[];
-}
-
-export interface SellerRead {
-  /** Name */
-  name: string;
-
-  /**
-   * Email
-   * @format email
-   */
-  email: string;
-
-  /**
-   * Image Url
-   * @format uri
-   */
-  image_url: string;
-
-  /**
-   * Id
-   * @format uuid
-   */
-  id: string;
-
-  /** Items */
-  items: ItemRead[];
 }
 
 export interface ValidationError {
@@ -565,7 +574,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/image/upload
      */
     createUploadImageImageUploadPost: (data: BodyCreateUploadImageImageUploadPost, params: RequestParams = {}) =>
-      this.request<ImageModel, Message | HTTPValidationError>({
+      this.request<Image, Message | HTTPValidationError>({
         path: `/image/upload`,
         method: "POST",
         body: data,
@@ -617,8 +626,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/items
      * @secure
      */
-    createItemItemsPost: (data: ItemCreate, params: RequestParams = {}) =>
-      this.request<ItemInDatabase, Message | HTTPValidationError>({
+    createItemItemsPost: (data: CreateItem, params: RequestParams = {}) =>
+      this.request<AddItem, Message | HTTPValidationError>({
         path: `/items`,
         method: "POST",
         body: data,
@@ -636,7 +645,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/items/{item_id}
      */
     readItemItemsItemIdGet: (itemId: string, params: RequestParams = {}) =>
-      this.request<ItemInDatabase, Message | HTTPValidationError>({
+      this.request<GetItemById, Message | HTTPValidationError>({
         path: `/items/${itemId}`,
         method: "GET",
         format: "json",
@@ -652,7 +661,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     deleteItemItemsItemIdDelete: (itemId: string, params: RequestParams = {}) =>
-      this.request<ItemInDatabase, Message | HTTPValidationError>({
+      this.request<RemoveItem, Message | HTTPValidationError>({
         path: `/items/${itemId}`,
         method: "DELETE",
         secure: true,
@@ -660,18 +669,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
-  sellers = {
+  users = {
     /**
      * No description
      *
-     * @name ReadSellersSellersGet
-     * @summary Read Sellers
-     * @request GET:/sellers
+     * @name ReadUsersUsersGet
+     * @summary Read Users
+     * @request GET:/users
      */
-    readSellersSellersGet: (params: RequestParams = {}) =>
-      this.request<SellerRead[], any>({
-        path: `/sellers`,
+    readUsersUsersGet: (query: { skip: number; limit: number }, params: RequestParams = {}) =>
+      this.request<ReadUsers, HTTPValidationError>({
+        path: `/users`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),
@@ -679,13 +689,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @name CreateSellerSellersPost
-     * @summary Create Seller
-     * @request POST:/sellers
+     * @name CreateUserUsersPost
+     * @summary Create User
+     * @request POST:/users
      */
-    createSellerSellersPost: (data: SellerCreate, params: RequestParams = {}) =>
-      this.request<SellerInDatabase, Message | HTTPValidationError>({
-        path: `/sellers`,
+    createUserUsersPost: (data: CreateUser, params: RequestParams = {}) =>
+      this.request<AddUser, Message | HTTPValidationError>({
+        path: `/users`,
         method: "POST",
         body: data,
         type: ContentType.Json,
@@ -696,13 +706,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @name ReadSellerSellersSellerIdGet
-     * @summary Read Seller
-     * @request GET:/sellers/{seller_id}
+     * @name ReadUserUsersUserIdGet
+     * @summary Read User
+     * @request GET:/users/{user_id}
      */
-    readSellerSellersSellerIdGet: (sellerId: string, params: RequestParams = {}) =>
-      this.request<SellerRead, Message | HTTPValidationError>({
-        path: `/sellers/${sellerId}`,
+    readUserUsersUserIdGet: (userId: string, params: RequestParams = {}) =>
+      this.request<GetUserById, Message | HTTPValidationError>({
+        path: `/users/${userId}`,
         method: "GET",
         format: "json",
         ...params,
@@ -711,14 +721,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @name UpdateCurrentSellerStatusSellersMeInactivatePatch
-     * @summary Update Current Seller Status
-     * @request PATCH:/sellers/me/inactivate
+     * @name InactivateCurrentUserUsersMeInactivatePatch
+     * @summary Inactivate Current User
+     * @request PATCH:/users/me/inactivate
      * @secure
      */
-    updateCurrentSellerStatusSellersMeInactivatePatch: (params: RequestParams = {}) =>
-      this.request<SellerRead, Message>({
-        path: `/sellers/me/inactivate`,
+    inactivateCurrentUserUsersMeInactivatePatch: (params: RequestParams = {}) =>
+      this.request<InactivateUser, Message>({
+        path: `/users/me/inactivate`,
         method: "PATCH",
         secure: true,
         format: "json",
@@ -728,14 +738,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @name ReadCurrentSellerSellersMeGet
-     * @summary Read Current Seller
-     * @request GET:/sellers/me/
+     * @name ReadCurrentUserUsersMeGet
+     * @summary Read Current User
+     * @request GET:/users/me/
      * @secure
      */
-    readCurrentSellerSellersMeGet: (params: RequestParams = {}) =>
-      this.request<SellerRead, Message>({
-        path: `/sellers/me/`,
+    readCurrentUserUsersMeGet: (params: RequestParams = {}) =>
+      this.request<GetUserById, Message>({
+        path: `/users/me/`,
         method: "GET",
         secure: true,
         format: "json",
@@ -770,7 +780,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     createQueryQueriesPost: (data: QueryCreate, params: RequestParams = {}) =>
-      this.request<QueryInDatabase, Message | HTTPValidationError>({
+      this.request<GetAllQuery, Message | HTTPValidationError>({
         path: `/queries`,
         method: "POST",
         body: data,
@@ -789,8 +799,45 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     deleteQueryQueriesQueryIdDelete: (queryId: string, params: RequestParams = {}) =>
-      this.request<QueryInDatabase, Message | HTTPValidationError>({
+      this.request<RemoveQuery, Message | HTTPValidationError>({
         path: `/queries/${queryId}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  likes = {
+    /**
+     * No description
+     *
+     * @name CreateLikeLikesPost
+     * @summary Create Like
+     * @request POST:/likes
+     * @secure
+     */
+    createLikeLikesPost: (data: LikeCreate, params: RequestParams = {}) =>
+      this.request<AddLike, Message | HTTPValidationError>({
+        path: `/likes`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @name DeleteLikeLikesLikeIdDelete
+     * @summary Delete Like
+     * @request DELETE:/likes/{like_id}
+     * @secure
+     */
+    deleteLikeLikesLikeIdDelete: (likeId: string, params: RequestParams = {}) =>
+      this.request<RemoveLike, Message | HTTPValidationError>({
+        path: `/likes/${likeId}`,
         method: "DELETE",
         secure: true,
         format: "json",
