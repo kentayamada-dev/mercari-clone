@@ -1,23 +1,23 @@
 from app.schema.item import AddItem
-from app.schema.seller import AddSeller
+from app.schema.user import AddUser
 from app.test.client import client
 from app.test.sample_data import (
     item_1_typed,
     item_2_typed,
-    seller_1_raw,
-    seller_2_raw,
+    user_1_raw,
+    user_2_raw,
 )
 from requests import Response
 
 
-def create_seller_1() -> tuple[Response, AddSeller]:
-    response = client.post("/sellers", json=seller_1_raw)
-    return response, AddSeller(**response.json())
+def create_user_1() -> tuple[Response, AddUser]:
+    response = client.post("/users", json=user_1_raw)
+    return response, AddUser(**response.json())
 
 
-def create_seller_2() -> tuple[Response, AddSeller]:
-    response = client.post("/sellers", json=seller_2_raw)
-    return response, AddSeller(**response.json())
+def create_user_2() -> tuple[Response, AddUser]:
+    response = client.post("/users", json=user_2_raw)
+    return response, AddUser(**response.json())
 
 
 def create_item_1(token: str) -> tuple[Response, AddItem]:

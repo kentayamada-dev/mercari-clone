@@ -1,31 +1,31 @@
 from app.schema.item import CreateItem
-from app.schema.seller import CreateSeller
+from app.schema.user import CreateUser
 
-seller_1_raw_get = {
+user_1_raw_get = {
     "name": "name_1",
     "email": "email_1@gmail.com",
-    "image_url": "http://image.com/seller_1.jpg",
+    "image_url": "http://image.com/user_1.jpg",
 }
 
-seller_1_raw = {
-    **seller_1_raw_get,
+user_1_raw = {
+    **user_1_raw_get,
     "password": "password_1",
 }
 
-seller_1_typed = CreateSeller(**seller_1_raw)
+user_1_typed = CreateUser(**user_1_raw)
 
-seller_2_raw_get = {
+user_2_raw_get = {
     "name": "name_2",
     "email": "email_2@gmail.com",
 }
 
-seller_2_raw = {
-    **seller_2_raw_get,
+user_2_raw = {
+    **user_2_raw_get,
     "password": "password_2",
-    "image_url": "http://image.com/seller_2.jpg",
+    "image_url": "http://image.com/user_2.jpg",
 }
 
-seller_2_typed = CreateSeller(**seller_2_raw)
+user_2_typed = CreateUser(**user_2_raw)
 
 item_1_typed = CreateItem(
     **{

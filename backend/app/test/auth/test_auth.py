@@ -1,17 +1,17 @@
 from app.test.client import client, temp_db
-from app.test.functions import create_seller_1
-from app.test.sample_data import seller_1_typed, seller_2_typed
+from app.test.functions import create_user_1
+from app.test.sample_data import user_1_typed, user_2_typed
 from fastapi import status
 
 
 @temp_db
 def test_read_token() -> None:
-    create_seller_1()
+    create_user_1()
     response = client.post(
         "/token",
         data={
-            "username": seller_1_typed.email,
-            "password": seller_1_typed.password.get_secret_value(),
+            "username": user_1_typed.email,
+            "password": user_1_typed.password.get_secret_value(),
         },
     )
 
@@ -21,28 +21,28 @@ def test_read_token() -> None:
 
 @temp_db
 def test_read_token_invalid_email() -> None:
-    create_seller_1()
+    create_user_1()
     response = client.post(
         "/token",
         data={
-            "username": seller_2_typed.email,
-            "password": seller_1_typed.password.get_secret_value(),
+            "username": user_2_typed.email,
+            "password": user_1_typed.password.get_secret_value(),
         },
     )
 
     assert response.status_code == status.HTTP_404_NOT_FOUND
-    assert response.json() == {"message": "seller not found"}
+    assert response.json() == {"message": "user not found"}
 
 
 @temp_db
 def test_read_token_invalid_password() -> None:
-    create_seller_1()
+    create_user_1()
     response = client.post(
         "/token",
         data={
-            "username": seller_1_typed.email,
-            "password": seller_2_typed.password.get_secret_value(),
-            "image_url": seller_1_typed.image_url,
+            "username": user_1_typed.email,
+            "password": user_2_typed.password.get_secret_value(),
+            "image_url": user_1_typed.image_url,
         },
     )
 
@@ -53,7 +53,7 @@ def test_read_token_invalid_password() -> None:
 @temp_db
 def test_invalid_token() -> None:
     response = client.get(
-        "/sellers/me/",
+        "/users/me/",
         headers={"Authorization": "Bearer invalidToken"},
     )
 

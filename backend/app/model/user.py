@@ -10,16 +10,16 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
 
-class Seller(Base):  # type: ignore
-    __tablename__ = "sellers"
+class User(Base):  # type: ignore
+    __tablename__ = "users"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     email = Column(String, unique=True)
     name = Column(String)
     password = Column(String)
     image_url = Column(String)
-    items = relationship("Item", back_populates="seller")
-    saved_queries = relationship("Query", back_populates="seller")
+    items = relationship("Item", back_populates="user")
+    saved_queries = relationship("Query", back_populates="user")
     is_active = Column(Boolean, default=True)
     created_at = Column(
         "created_at", DateTime, default=func.now(), nullable=False

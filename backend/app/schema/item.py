@@ -1,5 +1,5 @@
-from app.schema.common import GetAllItem, LikedSeller
-from app.schema.seller import BaseSeller
+from app.schema.common import GetAllItem, LikedUser
+from app.schema.user import BaseUser
 from pydantic import BaseModel, Extra, HttpUrl
 
 
@@ -33,8 +33,8 @@ class ReadItems(BaseModel):
 
 class GetItemById(GetAllItem):
     description: str
-    seller: BaseSeller
-    liked_sellers: list[LikedSeller]
+    user: BaseUser
+    liked_users: list[LikedUser]
 
     class Config:
         extra = Extra.forbid

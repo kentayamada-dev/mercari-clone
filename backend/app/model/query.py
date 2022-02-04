@@ -11,8 +11,8 @@ class Query(Base):  # type: ignore
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     query = Column(String)
-    seller_id = Column(UUID(as_uuid=True), ForeignKey("sellers.id"))
-    seller = relationship("Seller", back_populates="saved_queries")
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    user = relationship("User", back_populates="saved_queries")
     created_at = Column(
         "created_at", DateTime, default=func.now(), nullable=False
     )
@@ -27,7 +27,7 @@ class Query(Base):  # type: ignore
     def __init__(
         self,
         query: str,
-        seller_id: uuid.UUID,
+        user_id: uuid.UUID,
     ):
         self.query = query
-        self.seller_id = seller_id
+        self.user_id = user_id

@@ -15,9 +15,9 @@ class Item(Base):  # type: ignore
     price = Column(Integer)
     description = Column(String)
     image_url = Column(String)
-    seller_id = Column(UUID(as_uuid=True), ForeignKey("sellers.id"))
-    seller = relationship("Seller", back_populates="items")
-    liked_sellers = relationship("Seller", secondary="likes")
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    user = relationship("User", back_populates="items")
+    liked_users = relationship("User", secondary="likes")
     created_at = Column(
         "created_at", DateTime, default=func.now(), nullable=False
     )
@@ -35,10 +35,10 @@ class Item(Base):  # type: ignore
         price: int,
         image_url: HttpUrl,
         description: str,
-        seller_id: uuid.UUID,
+        user_id: uuid.UUID,
     ):
         self.name = name
         self.price = price
         self.description = description
         self.image_url = image_url
-        self.seller_id = seller_id
+        self.user_id = user_id

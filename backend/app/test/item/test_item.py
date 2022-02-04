@@ -1,19 +1,19 @@
 from app.core.schema.jwt import Secret
 from app.schema.item import GetItemById, ReadItems
 from app.test.client import client, temp_db
-from app.test.functions import create_item_1, create_item_2, create_seller_1
-from app.test.sample_data import item_1_typed, item_2_typed, seller_1_typed
+from app.test.functions import create_item_1, create_item_2, create_user_1
+from app.test.sample_data import item_1_typed, item_2_typed, user_1_typed
 from fastapi import status
 
 
 @temp_db
 def test_create_item() -> None:
-    create_seller_1()
+    create_user_1()
     response_token = client.post(
         "/token",
         data={
-            "username": seller_1_typed.email,
-            "password": seller_1_typed.password.get_secret_value(),
+            "username": user_1_typed.email,
+            "password": user_1_typed.password.get_secret_value(),
         },
     )
     secret = Secret(**response_token.json())
@@ -41,12 +41,12 @@ def test_create_item_bad_request() -> None:
 
 @temp_db
 def test_read_items() -> None:
-    create_seller_1()
+    create_user_1()
     response_token = client.post(
         "/token",
         data={
-            "username": seller_1_typed.email,
-            "password": seller_1_typed.password.get_secret_value(),
+            "username": user_1_typed.email,
+            "password": user_1_typed.password.get_secret_value(),
         },
     )
     secret = Secret(**response_token.json())
@@ -68,12 +68,12 @@ def test_read_items() -> None:
 
 @temp_db
 def test_read_item() -> None:
-    _, seller = create_seller_1()
+    _, user = create_user_1()
     response_token = client.post(
         "/token",
         data={
-            "username": seller_1_typed.email,
-            "password": seller_1_typed.password.get_secret_value(),
+            "username": user_1_typed.email,
+            "password": user_1_typed.password.get_secret_value(),
         },
     )
     secret = Secret(**response_token.json())
@@ -86,10 +86,10 @@ def test_read_item() -> None:
     assert item.image_url == item_1_typed.image_url
     assert item.name == item_1_typed.name
     assert item.description == item_1_typed.description
-    assert item.seller.id == seller.id
-    assert item.seller.name == seller.name
-    assert item.seller.image_url == seller.image_url
-    assert not item.liked_sellers
+    assert item.user.id == user.id
+    assert item.user.name == user.name
+    assert item.user.image_url == user.image_url
+    assert not item.liked_users
 
 
 @temp_db
@@ -102,12 +102,12 @@ def test_read_not_existing_item() -> None:
 
 @temp_db
 def test_delete_item() -> None:
-    create_seller_1()
+    create_user_1()
     response_token = client.post(
         "/token",
         data={
-            "username": seller_1_typed.email,
-            "password": seller_1_typed.password.get_secret_value(),
+            "username": user_1_typed.email,
+            "password": user_1_typed.password.get_secret_value(),
         },
     )
     secret = Secret(**response_token.json())
@@ -122,12 +122,12 @@ def test_delete_item() -> None:
 
 @temp_db
 def test_delete_not_existing_item() -> None:
-    create_seller_1()
+    create_user_1()
     response_token = client.post(
         "/token",
         data={
-            "username": seller_1_typed.email,
-            "password": seller_1_typed.password.get_secret_value(),
+            "username": user_1_typed.email,
+            "password": user_1_typed.password.get_secret_value(),
         },
     )
     secret = Secret(**response_token.json())

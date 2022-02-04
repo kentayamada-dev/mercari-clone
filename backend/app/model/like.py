@@ -9,7 +9,7 @@ class Like(Base):  # type: ignore
     __tablename__ = "likes"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    seller_id = Column(UUID(as_uuid=True), ForeignKey("sellers.id"))
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
     item_id = Column(
         UUID(as_uuid=True), ForeignKey("items.id", ondelete="CASCADE")
     )
@@ -26,8 +26,8 @@ class Like(Base):  # type: ignore
 
     def __init__(
         self,
-        seller_id: uuid.UUID,
+        user_id: uuid.UUID,
         item_id: uuid.UUID,
     ):
         self.item_id = item_id
-        self.seller_id = seller_id
+        self.user_id = user_id

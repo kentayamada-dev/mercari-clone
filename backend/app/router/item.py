@@ -2,11 +2,11 @@ from uuid import UUID
 
 from app.core.schema.message import Message
 from app.crud.item import add_item, get_all_items, get_item_by_id, remove_item
-from app.crud.seller import get_current_seller
+from app.crud.user import get_current_user
 from app.db.database import get_db
 from app.schema.common import GetAllItem, RemoveItem
 from app.schema.item import AddItem, GetItemById, CreateItem, ReadItems
-from app.schema.seller import GetSellerByEmail
+from app.schema.user import GetUserByEmail
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
@@ -26,9 +26,9 @@ router = APIRouter()
 def create_item(
     item_dto: CreateItem,
     db: Session = Depends(get_db),
-    current_seller: GetSellerByEmail = Depends(get_current_seller),
+    current_user: GetUserByEmail = Depends(get_current_user),
 ) -> AddItem:
-    item = add_item(db, item_dto, current_seller.id)
+    item = add_item(db, item_dto, current_user.id)
     item_model = AddItem.from_orm(item)
 
     return item_model
@@ -74,9 +74,9 @@ def read_item(item_id: UUID, db: Session = Depends(get_db)) -> GetItemById:
 def delete_item(
     item_id: UUID,
     db: Session = Depends(get_db),
-    current_seller: GetSellerByEmail = Depends(get_current_seller),
+    current_user: GetUserByEmail = Depends(get_current_user),
 ) -> RemoveItem:
-    db_item = remove_item(db, item_id, current_seller.id)
+    db_item = remove_item(db, item_id, current_user.id)
     db_item_model = RemoveItem.from_orm(db_item)
 
     return db_item_model

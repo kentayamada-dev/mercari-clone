@@ -5,14 +5,14 @@ from app.core.schema.jwt import TokenData
 from app.core.utils.auth import auth
 from app.db.database import get_db
 from app.model.item import Item
-from app.model.seller import Seller
-from app.schema.seller import (
-    AddSeller,
-    BaseSeller,
-    CreateSeller,
-    GetSellerByEmail,
-    GetSellerById,
-    InactivateSeller,
+from app.model.user import User
+from app.schema.user import (
+    AddUser,
+    BaseUser,
+    CreateUser,
+    GetUserByEmail,
+    GetUserById,
+    InactivateUser,
 )
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -30,15 +30,23 @@ credentials_exception = HTTPException(
 
 inactivated_exception = HTTPException(
     status_code=status.HTTP_400_BAD_REQUEST,
-    detail="cannot read inactivated seller",
+    detail="cannot read inactivated user",
+)
+
+user_not_found_exception = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="user not found"
+)
+
+email_already_exists_exception = HTTPException(
+    status_code=status.HTTP_400_BAD_REQUEST, detail="email already exists"
 )
 
 
-def get_all_sellers(skip: int, limit: int, db: Session) -> list[BaseSeller]:
-    db_data: list[BaseSeller] = (
-        db.query(Seller)
-        .options(load_only(Seller.id, Seller.name, Seller.image_url))
-        .order_by(desc(Seller.created_at))
+def get_all_users(skip: int, limit: int, db: Session) -> list[BaseUser]:
+    db_data: list[BaseUser] = (
+        db.query(User)
+        .options(load_only(User.id, User.name, User.image_url))
+        .order_by(desc(User.created_at))
         .offset(skip)
         .limit(limit)
         .all()
@@ -48,14 +56,14 @@ def get_all_sellers(skip: int, limit: int, db: Session) -> list[BaseSeller]:
     return db_data
 
 
-def get_seller_by_id(db: Session, seller_id: UUID) -> GetSellerById:
-    db_data: GetSellerById = (
-        db.query(Seller)
-        .filter(Seller.id == seller_id)
-        .outerjoin(Seller.items)
+def get_user_by_id(db: Session, user_id: UUID) -> GetUserById:
+    db_data: GetUserById = (
+        db.query(User)
+        .filter(User.id == user_id)
+        .outerjoin(User.items)
         .options(
-            load_only(Seller.id, Seller.name, Seller.image_url),
-            contains_eager(Seller.items).load_only(
+            load_only(User.id, User.name, User.image_url),
+            contains_eager(User.items).load_only(
                 Item.id, Item.name, Item.price, Item.image_url
             ),
         )
@@ -63,29 +71,23 @@ def get_seller_by_id(db: Session, seller_id: UUID) -> GetSellerById:
         .one_or_none()
     )
     if db_data is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="seller not found"
-        )
+        raise user_not_found_exception
 
     # print("\033[34m" + str(db_data) + "\033[0m")
     return db_data
 
 
-def get_seller_by_email(db: Session, email: str) -> GetSellerByEmail:
-    db_data: GetSellerByEmail = (
-        db.query(Seller)
-        .filter(Seller.email == email)
+def get_user_by_email(db: Session, email: str) -> GetUserByEmail:
+    db_data: GetUserByEmail = (
+        db.query(User)
+        .filter(User.email == email)
         .options(
-            load_only(
-                Seller.id, Seller.email, Seller.password, Seller.is_active
-            ),
+            load_only(User.id, User.email, User.password, User.is_active),
         )
         .one_or_none()
     )
     if db_data is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="seller not found"
-        )
+        raise user_not_found_exception
 
     # print("\033[34m" + str(db_data) + "\033[0m")
     return db_data
@@ -93,20 +95,17 @@ def get_seller_by_email(db: Session, email: str) -> GetSellerByEmail:
 
 def check_email_existence(db: Session, email: str) -> bool:
 
-    return bool(db.query(Seller.id).filter(Seller.email == email).one_or_none())
+    return bool(db.query(User.id).filter(User.email == email).one_or_none())
 
 
-def add_seller(db: Session, dto: CreateSeller) -> AddSeller:
+def add_user(db: Session, dto: CreateUser) -> AddUser:
     if check_email_existence(db, dto.email) is True:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="email already exists",
-        )
+        raise email_already_exists_exception
 
     hashed_password = auth.generate_hashed_password(
         dto.password.get_secret_value()
     )
-    data = Seller(
+    data = User(
         name=dto.name,
         email=dto.email,
         password=hashed_password,
@@ -117,7 +116,7 @@ def add_seller(db: Session, dto: CreateSeller) -> AddSeller:
     db.refresh(data)
 
     # print("\033[34m" + str(data) + "\033[0m")
-    return AddSeller(
+    return AddUser(
         id=data.id,
         name=data.name,
         image_url=data.image_url,
@@ -125,38 +124,34 @@ def add_seller(db: Session, dto: CreateSeller) -> AddSeller:
     )
 
 
-def inactivate_seller(
-    db: Session, current_seller: GetSellerByEmail
-) -> InactivateSeller:
-    current_seller.is_active = False
+def inactivate_user(
+    db: Session, current_user: GetUserByEmail
+) -> InactivateUser:
+    current_user.is_active = False
     db.commit()
 
-    # print("\033[34m" + str(current_seller) + "\033[0m")
-    return InactivateSeller(
-        id=current_seller.id, is_active=current_seller.is_active
-    )
+    # print("\033[34m" + str(current_user) + "\033[0m")
+    return InactivateUser(id=current_user.id, is_active=current_user.is_active)
 
 
-def get_current_seller(
+def get_current_user(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
-) -> GetSellerByEmail:
+) -> GetUserByEmail:
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, [auth.ALGORITHM])
         email = payload.get("email")
         token_data = TokenData(email=email)
-        current_seller = get_seller_by_email(db, token_data.email)
-        if current_seller.is_active is False:
+        current_user = get_user_by_email(db, token_data.email)
+        if current_user.is_active is False:
             raise inactivated_exception
     except JWTError as jwt_error:
         raise credentials_exception from jwt_error
 
-    return current_seller
+    return current_user
 
 
-def authenticate_seller(
-    db: Session, email: str, password: str
-) -> GetSellerByEmail:
-    data = get_seller_by_email(db, email)
+def authenticate_user(db: Session, email: str, password: str) -> GetUserByEmail:
+    data = get_user_by_email(db, email)
     if not auth.verify_password(
         password,
         data.password,

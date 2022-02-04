@@ -4,7 +4,7 @@ from app.schema.common import GetAllItem
 from pydantic import BaseModel, EmailStr, Extra, HttpUrl, SecretStr, validator
 
 
-class CreateSeller(BaseModel):
+class CreateUser(BaseModel):
     password: SecretStr
     name: str
     email: EmailStr
@@ -20,7 +20,7 @@ class CreateSeller(BaseModel):
         orm_mode = True
 
 
-class InactivateSeller(BaseModel):
+class InactivateUser(BaseModel):
     id: UUID
     is_active: bool
 
@@ -29,7 +29,7 @@ class InactivateSeller(BaseModel):
         orm_mode = True
 
 
-class GetSellerByEmail(InactivateSeller):
+class GetUserByEmail(InactivateUser):
     email: EmailStr
     password: str
 
@@ -38,7 +38,7 @@ class GetSellerByEmail(InactivateSeller):
         orm_mode = True
 
 
-class BaseSeller(BaseModel):
+class BaseUser(BaseModel):
     id: UUID
     name: str
     image_url: HttpUrl
@@ -48,7 +48,7 @@ class BaseSeller(BaseModel):
         orm_mode = True
 
 
-class AddSeller(BaseSeller):
+class AddUser(BaseUser):
     email: EmailStr
 
     class Config:
@@ -56,8 +56,8 @@ class AddSeller(BaseSeller):
         orm_mode = True
 
 
-class ReadSellers(BaseModel):
-    data: list[BaseSeller]
+class ReadUsers(BaseModel):
+    data: list[BaseUser]
     skip: int | None
 
     class Config:
@@ -65,7 +65,7 @@ class ReadSellers(BaseModel):
         orm_mode = True
 
 
-class GetSellerById(BaseSeller):
+class GetUserById(BaseUser):
     items: list[GetAllItem]
 
     class Config:

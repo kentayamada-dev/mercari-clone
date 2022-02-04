@@ -6,7 +6,7 @@ from app.crud.query import (
     get_all_queries,
     remove_query,
 )
-from app.crud.seller import get_current_seller
+from app.crud.user import get_current_user
 from app.db.database import get_db
 from app.schema.query import (
     QueryCreate,
@@ -14,7 +14,7 @@ from app.schema.query import (
     ReadQueries,
     GetAllQuery,
 )
-from app.schema.seller import GetSellerByEmail
+from app.schema.user import GetUserByEmail
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
@@ -34,9 +34,9 @@ router = APIRouter()
 def create_query(
     dto: QueryCreate,
     db: Session = Depends(get_db),
-    current_seller: GetSellerByEmail = Depends(get_current_seller),
+    current_user: GetUserByEmail = Depends(get_current_user),
 ) -> GetAllQuery:
-    db_query_orm = add_query(db, dto, current_seller.id)
+    db_query_orm = add_query(db, dto, current_user.id)
     db_query_model = GetAllQuery.from_orm(db_query_orm)
 
     return db_query_model
@@ -54,9 +54,9 @@ def create_query(
 def delete_query(
     query_id: UUID,
     db: Session = Depends(get_db),
-    current_seller: GetSellerByEmail = Depends(get_current_seller),
+    current_user: GetUserByEmail = Depends(get_current_user),
 ) -> RemoveQuery:
-    query = remove_query(db, query_id, current_seller.id)
+    query = remove_query(db, query_id, current_user.id)
     query_model = RemoveQuery.from_orm(query)
 
     return query_model
@@ -74,10 +74,10 @@ def read_queries(
     skip: int,
     limit: int,
     db: Session = Depends(get_db),
-    current_seller: GetSellerByEmail = Depends(get_current_seller),
+    current_user: GetUserByEmail = Depends(get_current_user),
     query: str | None = None,
 ) -> ReadQueries:
-    db_queries_orm = get_all_queries(skip, limit, db, current_seller.id, query)
+    db_queries_orm = get_all_queries(skip, limit, db, current_user.id, query)
     db_queries_model = [
         GetAllQuery.from_orm(db_query) for db_query in db_queries_orm
     ]

@@ -2,7 +2,7 @@ from pydantic import BaseModel, HttpUrl, Extra
 from uuid import UUID
 
 
-class LikedSeller(BaseModel):
+class LikedUser(BaseModel):
     id: UUID
 
     class Config:
