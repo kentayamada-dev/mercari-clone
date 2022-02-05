@@ -55,7 +55,7 @@ def seed() -> None:
 
     for user in users:
         for item in user.items:
-            for i in range(random.randint(0, 10)):
+            for i in range(random.randint(0, 9)):
                 objects.append(Like(users[i].id, item.id))
     db.add_all(objects)
     db.commit()
