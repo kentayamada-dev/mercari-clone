@@ -48,3 +48,11 @@
   - PostgreSQL
   - Cloudinary
   - Relational Database
+
+## Database Diagrams
+
+|ERD|Notation|
+|---|---|
+|![ERD](assets/db/erd_20220205.png)|![Notations](assets/db/relationship_notation.png)|
+
+<span>Last Updated: 5 February 2022 (JST)</span>
