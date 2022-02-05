@@ -1,17 +1,17 @@
 # 📱 Mercari App Clone
 <div>
   <div>
-    <a align="center" href="https://expo.dev/artifacts/eas/pAvG5HsYqz7M8Ge73Srxj1.tar.gz">
+    <a align="center" href="https://expo.dev/artifacts/eas/deHHZoP2y1g1uUwqVWyezD.tar.gz">
       <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/Download iOS App-4630EB.svg?style=for-the-badge&logo=APPLE&labelColor=999999&logoColor=fff" />
     </a>
   </div>
   <div>
-    <a align="center" href="https://expo.dev/artifacts/eas/uebVq9rWtLrdQv75DSRnEH.apk">
+    <a align="center" href="https://expo.dev/artifacts/eas/ij2CdEBDcP9Tso1Rw6ogst.apk">
       <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/Download Android App-4630EB.svg?style=for-the-badge&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
     </a>
   </div>
 </div>
-<span>Last Updated: 29 January 2022 (JST)</span>
+<span>Last Updated: 5 February 2022 (JST)</span>
 
 ### ℹ️  Info
   - The app is built for Android device/emulator or iOS simulator.
