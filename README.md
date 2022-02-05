@@ -22,6 +22,7 @@
 
 - Frontend
   - React Native (Fully Optimized Performance)
+  - React Navigation
   - Storybook
   - Atomic Design
   - NativeBase
