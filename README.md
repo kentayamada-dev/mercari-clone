@@ -49,9 +49,9 @@
   - Cloudinary
   - Relational Database
 
-## Database Diagrams
+## 💾 Database Diagrams
 
-|ERD|Notation|
+|ERD|Notations|
 |---|---|
 |![ERD](assets/db/erd_20220205.png)|![Notations](assets/db/relationship_notation.png)|
 
