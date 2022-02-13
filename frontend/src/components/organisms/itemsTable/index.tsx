@@ -14,6 +14,7 @@ export const ItemsTable: React.VFC<ItemsTableProps> =
           >
             {({ isPressed }) => (
               <ItemCard
+                isSold={!!item.order}
                 isPressed={isPressed}
                 price={item.price}
                 imageUrl={item.image_url}

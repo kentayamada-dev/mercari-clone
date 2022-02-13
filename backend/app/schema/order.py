@@ -2,7 +2,7 @@ from pydantic import BaseModel, Extra
 from uuid import UUID
 
 
-class AddLike(BaseModel):
+class AddOrder(BaseModel):
     item_id: UUID
     user_id: UUID
 
@@ -11,7 +11,7 @@ class AddLike(BaseModel):
         orm_mode = True
 
 
-class LikeCreate(BaseModel):
+class OrderCreate(BaseModel):
     item_id: UUID
 
     class Config:

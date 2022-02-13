@@ -31,7 +31,7 @@ export const SellingTemplate: React.VFC<SellingTemplateProps> = ({
   );
   const color = typedUseColorToken(
     "brand.secondary.light",
-    "brand.secondary.dark"
+    "brand.secondary.light"
   );
 
   React.useEffect(() => {
@@ -70,7 +70,7 @@ export const SellingTemplate: React.VFC<SellingTemplateProps> = ({
           <Center height="80%">
             <VStack space={4}>
               <Text fontSize="4xl" bold color={color}>
-                出品が完了しました!
+                {t("uploaded")}
               </Text>
               <Button
                 height="12"
@@ -78,7 +78,7 @@ export const SellingTemplate: React.VFC<SellingTemplateProps> = ({
                 colorScheme={`${buttonColor}`}
               >
                 <Text bold color="brand.secondary.light" fontSize="md">
-                  続けて出品する
+                  {t("continueUploading")}
                 </Text>
               </Button>
               <Button
@@ -87,7 +87,7 @@ export const SellingTemplate: React.VFC<SellingTemplateProps> = ({
                 colorScheme={`${buttonColor}`}
               >
                 <Text bold color="brand.secondary.light" fontSize="md">
-                  出品した商品を見る
+                  {t("seeUploadedItems")}
                 </Text>
               </Button>
             </VStack>

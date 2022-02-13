@@ -4,8 +4,10 @@ import { useQueryClient } from "react-query";
 import { ItemDetailTemplate } from "../../components/templates/detail";
 import { useAuth } from "../../hooks/auth/useAuth";
 import { BASE_PATH } from "../../hooks/common/constants";
+import { invalidateQueriesWrapper } from "../../hooks/common/query";
 import { useQueryItem } from "../../hooks/items/query";
 import { useDeleteLike, usePostLike } from "../../hooks/likes/mutation";
+import { usePostOrder } from "../../hooks/order/mutation";
 import { useQueryMe } from "../../hooks/users/query";
 import { ItemDetailStackParamList } from "../../types";
 
@@ -26,6 +28,9 @@ export const ItemDetail: React.VFC<Props> = ({
   const { mutateAsync: mutatePostLike } = usePostLike({ token });
   const { mutateAsync: mutateDeleteLike } = useDeleteLike({
     itemId,
+    token,
+  });
+  const { mutateAsync: mutatePostOrder } = usePostOrder({
     token,
   });
 
@@ -57,13 +62,31 @@ export const ItemDetail: React.VFC<Props> = ({
     });
   }, []);
 
+  const order = React.useCallback(async () => {
+    if (!token) {
+      navigate("AuthStackNavigator", {
+        screen: "Signup",
+      });
+      return;
+    }
+    await mutatePostOrder({
+      item_id: itemId,
+    });
+    queryClient.invalidateQueries({
+      queryKey: `${BASE_PATH.ITEMS}/${itemId}`,
+    });
+    invalidateQueriesWrapper(queryClient, BASE_PATH.ITEMS);
+  }, []);
+
   return (
     <ItemDetailTemplate
+      isSold={!!item?.order}
       item={item}
       isItemLiked={!!likedItem}
       numLikes={numLikes}
       addLike={addLike}
       removeLike={removeLike}
+      order={order}
     />
   );
 };

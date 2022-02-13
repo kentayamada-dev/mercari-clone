@@ -2,11 +2,11 @@ from uuid import UUID
 
 from app.model.query import Query
 from app.model.user import User
-from app.schema.query import GetAllQuery, QueryCreate, RemoveQuery
+from app.schema.common import Base
+from app.schema.query import GetAllQuery, QueryCreate
 from fastapi import HTTPException, status
 from sqlalchemy import desc
 from sqlalchemy.orm import Session, load_only
-
 
 query_already_exists_exception = HTTPException(
     status_code=status.HTTP_400_BAD_REQUEST, detail="query already exists"
@@ -21,6 +21,7 @@ def check_query_existence(db: Session, query: str, user_id: UUID) -> bool:
 
     return bool(
         db.query(Query.id)
+        .outerjoin(Query.user)
         .filter(Query.query == query, User.id == user_id)
         .one_or_none()
     )
@@ -58,7 +59,7 @@ def get_all_queries(
     return db_data
 
 
-def remove_query(db: Session, query_id: UUID, user_id: UUID) -> RemoveQuery:
+def remove_query(db: Session, query_id: UUID, user_id: UUID) -> Base:
     if (
         db.query(Query)
         .filter(Query.id == query_id, Query.user_id == user_id)
@@ -68,4 +69,4 @@ def remove_query(db: Session, query_id: UUID, user_id: UUID) -> RemoveQuery:
         raise query_not_found_exception
     db.commit()
 
-    return RemoveQuery(id=query_id)
+    return Base(id=query_id)

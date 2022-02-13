@@ -18,6 +18,7 @@ class Item(Base):  # type: ignore
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
     user = relationship("User", back_populates="items")
     liked_users = relationship("User", secondary="likes")
+    order = relationship("Order", back_populates="item", uselist=False)
     created_at = Column(
         "created_at", DateTime, default=func.now(), nullable=False
     )

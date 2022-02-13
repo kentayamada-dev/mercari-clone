@@ -1,6 +1,6 @@
 from typing import Any
-from uuid import UUID
-from app.schema.common import GetAllItem
+
+from app.schema.common import Base, GetAllItem
 from pydantic import BaseModel, EmailStr, Extra, HttpUrl, SecretStr, validator
 
 
@@ -20,8 +20,7 @@ class CreateUser(BaseModel):
         orm_mode = True
 
 
-class InactivateUser(BaseModel):
-    id: UUID
+class InactivateUser(Base):
     is_active: bool
 
     class Config:
@@ -38,8 +37,7 @@ class GetUserByEmail(InactivateUser):
         orm_mode = True
 
 
-class BaseUser(BaseModel):
-    id: UUID
+class BaseUser(Base):
     name: str
     image_url: HttpUrl
 

@@ -1,4 +1,5 @@
-import { object } from "@storybook/addon-knobs";
+import { action } from "@storybook/addon-actions";
+import { boolean, number, object } from "@storybook/addon-knobs";
 import { storiesOf } from "@storybook/react-native";
 import faker from "faker";
 import React from "react";
@@ -24,5 +25,13 @@ const item: GetItemById = {
 };
 
 storiesOf("Templates", module).add("ItemDetailTemplate", () => (
-  <ItemDetailTemplate item={object("item", item)} />
+  <ItemDetailTemplate
+    isSold={boolean("isSold", false)}
+    item={object("item", item)}
+    isItemLiked={boolean("isItemLiked", false)}
+    addLike={action("addLike")}
+    removeLike={action("removeLike")}
+    order={action("order")}
+    numLikes={number("numLikes", 35)}
+  />
 ));

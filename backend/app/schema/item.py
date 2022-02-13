@@ -1,4 +1,4 @@
-from app.schema.common import GetAllItem, LikedUser
+from app.schema.common import GetAllItem, Base
 from app.schema.user import BaseUser
 from pydantic import BaseModel, Extra, HttpUrl
 
@@ -34,7 +34,7 @@ class ReadItems(BaseModel):
 class GetItemById(GetAllItem):
     description: str
     user: BaseUser
-    liked_users: list[LikedUser]
+    liked_users: list[Base]
 
     class Config:
         extra = Extra.forbid

@@ -1,4 +1,5 @@
 from app.schema.item import CreateItem
+from app.schema.query import QueryCreate
 from app.schema.user import CreateUser
 
 user_1_raw_get = {
@@ -42,5 +43,18 @@ item_2_typed = CreateItem(
         "price": 900,
         "description": "desc_2",
         "image_url": "http://image.com/item_2.jpg",
+    }
+)
+
+
+query_1_typed = QueryCreate(
+    **{
+        "query": "query_1",
+    }
+)
+
+query_2_typed = QueryCreate(
+    **{
+        "query": "query_2",
     }
 )

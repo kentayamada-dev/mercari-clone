@@ -27,12 +27,27 @@ export interface AddItem {
 
   /** Name */
   name: string;
+  order?: Base;
 
   /** Description */
   description: string;
 }
 
 export interface AddLike {
+  /**
+   * Item Id
+   * @format uuid
+   */
+  item_id: string;
+
+  /**
+   * User Id
+   * @format uuid
+   */
+  user_id: string;
+}
+
+export interface AddOrder {
   /**
    * Item Id
    * @format uuid
@@ -67,6 +82,14 @@ export interface AddUser {
    * @format email
    */
   email: string;
+}
+
+export interface Base {
+  /**
+   * Id
+   * @format uuid
+   */
+  id: string;
 }
 
 export interface BaseUser {
@@ -175,6 +198,7 @@ export interface GetAllItem {
 
   /** Name */
   name: string;
+  order?: Base;
 }
 
 export interface GetAllQuery {
@@ -206,13 +230,14 @@ export interface GetItemById {
 
   /** Name */
   name: string;
+  order?: Base;
 
   /** Description */
   description: string;
   user: BaseUser;
 
   /** Liked Users */
-  liked_users: LikedUser[];
+  liked_users: Base[];
 }
 
 export interface GetUserById {
@@ -267,17 +292,17 @@ export interface LikeCreate {
   item_id: string;
 }
 
-export interface LikedUser {
-  /**
-   * Id
-   * @format uuid
-   */
-  id: string;
-}
-
 export interface Message {
   /** Message */
   message: string;
+}
+
+export interface OrderCreate {
+  /**
+   * Item Id
+   * @format uuid
+   */
+  item_id: string;
 }
 
 export interface QueryCreate {
@@ -307,30 +332,6 @@ export interface ReadUsers {
 
   /** Skip */
   skip?: number;
-}
-
-export interface RemoveItem {
-  /**
-   * Id
-   * @format uuid
-   */
-  id: string;
-}
-
-export interface RemoveLike {
-  /**
-   * Id
-   * @format uuid
-   */
-  id: string;
-}
-
-export interface RemoveQuery {
-  /**
-   * Id
-   * @format uuid
-   */
-  id: string;
 }
 
 export interface Secret {
@@ -661,7 +662,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     deleteItemItemsItemIdDelete: (itemId: string, params: RequestParams = {}) =>
-      this.request<RemoveItem, Message | HTTPValidationError>({
+      this.request<Base, Message | HTTPValidationError>({
         path: `/items/${itemId}`,
         method: "DELETE",
         secure: true,
@@ -799,7 +800,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     deleteQueryQueriesQueryIdDelete: (queryId: string, params: RequestParams = {}) =>
-      this.request<RemoveQuery, Message | HTTPValidationError>({
+      this.request<Base, Message | HTTPValidationError>({
         path: `/queries/${queryId}`,
         method: "DELETE",
         secure: true,
@@ -830,16 +831,36 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
-     * @name DeleteLikeLikesLikeIdDelete
+     * @name DeleteLikeLikesItemIdDelete
      * @summary Delete Like
-     * @request DELETE:/likes/{like_id}
+     * @request DELETE:/likes/{item_id}
      * @secure
      */
-    deleteLikeLikesLikeIdDelete: (likeId: string, params: RequestParams = {}) =>
-      this.request<RemoveLike, Message | HTTPValidationError>({
-        path: `/likes/${likeId}`,
+    deleteLikeLikesItemIdDelete: (itemId: string, params: RequestParams = {}) =>
+      this.request<Base, Message | HTTPValidationError>({
+        path: `/likes/${itemId}`,
         method: "DELETE",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  orders = {
+    /**
+     * No description
+     *
+     * @name CreateOrderOrdersPost
+     * @summary Create Order
+     * @request POST:/orders
+     * @secure
+     */
+    createOrderOrdersPost: (data: OrderCreate, params: RequestParams = {}) =>
+      this.request<AddOrder, Message | HTTPValidationError>({
+        path: `/orders`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

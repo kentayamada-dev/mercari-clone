@@ -2,8 +2,11 @@ import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import {
   Box,
   Button,
+  Center,
   HStack,
   Image,
+  Modal,
+  Pressable,
   ScrollView,
   Skeleton,
   Text,
@@ -17,13 +20,16 @@ import {
   typedUseColorToken,
 } from "../../../theme/modules";
 import { ItemDetailTemplateProps } from "./types";
+import { Entypo } from "@expo/vector-icons";
 
 export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
+  isSold,
   item,
   isItemLiked,
   numLikes,
   addLike,
   removeLike,
+  order,
 }) => {
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
@@ -45,7 +51,15 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
     "brand.secondary.light",
     "brand.secondary.dark"
   );
-
+  const colorToken = typedUseColorToken(
+    "brand.secondary.light",
+    "brand.secondary.light"
+  );
+  const modalBgColor = typedUseColorModeValue(
+    "brand.quaternary.dark:alpha.80",
+    "brand.quaternary.light:alpha.30"
+  );
+  const [modalVisible, setModalVisible] = React.useState(false);
   const buttonColor = typedUseColorModeValue("buttonLight", "buttonDark");
   const { t } = useTranslation("itemDetail");
   const [isLoading, setIsLoading] = React.useState(false);
@@ -66,20 +80,49 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
     <Box flex={1}>
       <ScrollView>
         {item?.image_url ? (
-          <Image
-            _android={{
-              size: 400,
-            }}
-            _ios={{
-              size: 500,
-            }}
-            resizeMode="contain"
-            source={{
-              uri: item.image_url,
-            }}
-            backgroundColor={backgroundColor}
-            alt="image"
-          />
+          <Box position="relative">
+            <Image
+              _android={{
+                size: 400,
+              }}
+              _ios={{
+                size: 500,
+              }}
+              resizeMode="contain"
+              source={{
+                uri: item.image_url,
+              }}
+              backgroundColor={backgroundColor}
+              alt="image"
+            />
+            {isSold && (
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                width="40"
+                height="24"
+                bg={color}
+                position="absolute"
+                top="-30"
+                left="-60"
+                style={[
+                  {
+                    transform: [{ rotate: "-45deg" }],
+                  },
+                ]}
+              >
+                <Text
+                  color="white"
+                  fontWeight="bold"
+                  margin="0.5"
+                  fontSize="2xl"
+                >
+                  SOLD
+                </Text>
+              </Box>
+            )}
+          </Box>
         ) : (
           <Skeleton
             width="full"
@@ -150,65 +193,48 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
       </ScrollView>
       <HStack
         justifyContent="center"
-        space="5"
         safeAreaBottom
-        _android={{
-          height: "20",
-        }}
-        _ios={{
-          height: "32",
-        }}
         bgColor={bgColor}
         alignItems="center"
       >
         <Button
-          width="30%"
-          _android={{
-            height: "12",
-          }}
-          _ios={{
-            height: "16",
-          }}
-          variant="outline"
+          width="96"
           colorScheme={`${buttonColor}`}
-        >
-          <Text
-            _android={{
-              fontSize: "sm",
-            }}
-            _ios={{
-              fontSize: "lg",
-            }}
-            bold
-            color={iconColor}
-          >
-            あと払いする
-          </Text>
-        </Button>
-        <Button
-          width="50%"
-          _android={{
-            height: "12",
+          disabled={isSold}
+          opacity={isSold ? "0.4" : "1"}
+          onPress={async () => {
+            order();
+            setModalVisible(true);
           }}
-          _ios={{
-            height: "16",
-          }}
-          colorScheme={`${buttonColor}`}
         >
-          <Text
-            _android={{
-              fontSize: "lg",
-            }}
-            _ios={{
-              fontSize: "2xl",
-            }}
-            bold
-            color="brand.secondary.light"
-          >
-            {t("buyNow")}
+          <Text fontSize="2xl" bold color="brand.secondary.light">
+            {isSold ? t("sold") : t("buyNow")}
           </Text>
         </Button>
       </HStack>
+      <Modal isOpen={modalVisible} animationPreset="slide" safeAreaTop>
+        <Box bg={modalBgColor} width="full" height="full">
+          <Pressable
+            justifyContent="center"
+            alignItems="center"
+            width="20"
+            height="20"
+            onPress={() => setModalVisible(false)}
+            _pressed={{
+              opacity: "0.3",
+            }}
+          >
+            <Entypo name="cross" size={80} color={colorToken} />
+          </Pressable>
+          <Center height="80%">
+            <VStack space={4}>
+              <Text fontSize="4xl" bold color={colorToken}>
+                {t("purchaseCompleted")}
+              </Text>
+            </VStack>
+          </Center>
+        </Box>
+      </Modal>
     </Box>
   );
 };

@@ -50,10 +50,15 @@
   "itemDetail": {
     "like": "いいね!",
     "comment": "コメント",
-    "buyNow": "購入手続きへ"
+    "buyNow": "購入手続きへ",
+    "sold": "売り切れました",
+    "purchaseCompleted": "購入が完了しました"
   },
   "selling": {
-    "upload": "出品する"
+    "upload": "出品する",
+    "uploaded": "出品が完了しました!",
+    "continueUploading": "続けて出品する",
+    "seeUploadedItems": "出品した商品を見る"
   },
   "sellingDetail": {
     "inputItemDetail": "商品の情報を入力",

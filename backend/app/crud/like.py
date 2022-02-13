@@ -2,10 +2,10 @@ from uuid import UUID
 
 from app.crud.item import check_item_existence
 from app.model.like import Like
-from app.schema.like import AddLike, LikeCreate, RemoveLike
+from app.schema.common import Base
+from app.schema.like import AddLike, LikeCreate
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
-
 
 item_not_exists_exception = HTTPException(
     status_code=status.HTTP_400_BAD_REQUEST,
@@ -45,7 +45,7 @@ def add_like(db: Session, dto: LikeCreate, user_id: UUID) -> AddLike:
     return AddLike(item_id=dto.item_id, user_id=user_id)
 
 
-def remove_like(db: Session, item_id: UUID, user_id: UUID) -> RemoveLike:
+def remove_like(db: Session, item_id: UUID, user_id: UUID) -> Base:
     if (
         db.query(Like)
         .filter(Like.item_id == item_id, Like.user_id == user_id)
@@ -55,4 +55,4 @@ def remove_like(db: Session, item_id: UUID, user_id: UUID) -> RemoveLike:
         raise like_not_found_exception
     db.commit()
 
-    return RemoveLike(id=item_id)
+    return Base(id=item_id)

@@ -2,11 +2,12 @@ from uuid import UUID
 
 from app.model.item import Item
 from app.model.user import User
-from app.schema.common import GetAllItem, RemoveItem
+from app.model.order import Order
+from app.schema.common import GetAllItem, Base
 from app.schema.item import CreateItem, GetItemById, AddItem
 from fastapi import HTTPException, status
 from sqlalchemy import desc
-from sqlalchemy.orm import Session, load_only, joinedload
+from sqlalchemy.orm import Session, load_only, joinedload, contains_eager
 
 item_not_found_exception = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND, detail="item not found"
@@ -45,7 +46,11 @@ def get_all_items(
     db_data: list[GetAllItem] = (
         db.query(Item)
         .filter(Item.name.like(f"%{query}%") if query else True)
-        .options(load_only(Item.id, Item.price, Item.image_url, Item.name))
+        .outerjoin(Item.order)
+        .options(
+            load_only(Item.id, Item.price, Item.image_url, Item.name),
+            contains_eager(Item.order).load_only(Order.id),
+        )
         .order_by(desc(Item.created_at))
         .offset(skip)
         .limit(limit)
@@ -68,6 +73,7 @@ def get_item_by_id(db: Session, item_id: UUID) -> GetItemById:
                 load_only(User.id, User.name, User.image_url)
             ),
             joinedload(Item.liked_users).options(load_only(User.id)),
+            joinedload(Item.order).options(load_only(Order.id)),
         )
         .one_or_none()
     )
@@ -78,7 +84,7 @@ def get_item_by_id(db: Session, item_id: UUID) -> GetItemById:
     return db_data
 
 
-def remove_item(db: Session, item_id: UUID, user_id: UUID) -> RemoveItem:
+def remove_item(db: Session, item_id: UUID, user_id: UUID) -> Base:
     if (
         db.query(Item)
         .filter(Item.id == item_id, Item.user_id == user_id)
@@ -88,7 +94,7 @@ def remove_item(db: Session, item_id: UUID, user_id: UUID) -> RemoveItem:
         raise item_not_found_exception
     db.commit()
 
-    return RemoveItem(id=item_id)
+    return Base(id=item_id)
 
 
 def check_item_existence(db: Session, item_id: UUID) -> bool:

@@ -4,6 +4,7 @@ from app.db.database import Base
 from app.model.item import Item  # pylint: disable=unused-import
 from app.model.query import Query  # pylint: disable=unused-import
 from app.model.like import Like  # pylint: disable=unused-import
+from app.model.order import Order  # pylint: disable=unused-import
 from pydantic import EmailStr, HttpUrl
 from sqlalchemy import Boolean, Column, DateTime, String, func
 from sqlalchemy.dialects.postgresql import UUID
@@ -20,6 +21,7 @@ class User(Base):  # type: ignore
     image_url = Column(String)
     items = relationship("Item", back_populates="user")
     saved_queries = relationship("Query", back_populates="user")
+    orders = relationship("Order", back_populates="user")
     is_active = Column(Boolean, default=True)
     created_at = Column(
         "created_at", DateTime, default=func.now(), nullable=False

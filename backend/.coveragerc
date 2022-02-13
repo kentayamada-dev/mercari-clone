@@ -3,3 +3,8 @@ omit = app/test/*
        app/db/*
        */__init__.py
        app/main.py
+       app/router/image.py
+       app/router/root.py
+       app/core/utils/log.py
+       app/core/error/validation.py
+       

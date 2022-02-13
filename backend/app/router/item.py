@@ -4,7 +4,7 @@ from app.core.schema.message import Message
 from app.crud.item import add_item, get_all_items, get_item_by_id, remove_item
 from app.crud.user import get_current_user
 from app.db.database import get_db
-from app.schema.common import GetAllItem, RemoveItem
+from app.schema.common import GetAllItem, Base
 from app.schema.item import AddItem, GetItemById, CreateItem, ReadItems
 from app.schema.user import GetUserByEmail
 from fastapi import APIRouter, Depends, status
@@ -64,7 +64,7 @@ def read_item(item_id: UUID, db: Session = Depends(get_db)) -> GetItemById:
 
 @router.delete(
     "/items/{item_id}",
-    response_model=RemoveItem,
+    response_model=Base,
     responses={
         status.HTTP_404_NOT_FOUND: {"model": Message},
         status.HTTP_401_UNAUTHORIZED: {"model": Message},
@@ -75,8 +75,8 @@ def delete_item(
     item_id: UUID,
     db: Session = Depends(get_db),
     current_user: GetUserByEmail = Depends(get_current_user),
-) -> RemoveItem:
+) -> Base:
     db_item = remove_item(db, item_id, current_user.id)
-    db_item_model = RemoveItem.from_orm(db_item)
+    db_item_model = Base.from_orm(db_item)
 
     return db_item_model

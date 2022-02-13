@@ -4,6 +4,7 @@ from app.core.utils.auth import auth
 from app.db.database import SessionLocal, init_db
 from app.model.item import Item
 from app.model.like import Like
+from app.model.order import Order
 from app.model.query import Query
 from app.model.user import User
 from faker import Faker
@@ -54,10 +55,14 @@ def seed() -> None:
         .all()
     )
 
-    for user in users:
-        for item in user.items:
-            for i in range(random.randint(0, 9)):
+    for (j, _) in enumerate(users):
+        for item in users[j].items:
+            rand_num = random.randint(0, 8)
+            if rand_num != j and rand_num % 2 != 0:
+                objects.append(Order(item.id, users[rand_num].id))
+            for i in range(random.randint(0, 8)):
                 objects.append(Like(users[i].id, item.id))
+
     db.add_all(objects)
     db.commit()
     print("Seeding done!")

@@ -50,10 +50,15 @@
   "itemDetail": {
     "like": "Like",
     "comment": "Comment",
-    "buyNow": "Buy now"
+    "buyNow": "Buy now",
+    "sold": "SOLD",
+    "purchaseCompleted": "Purchase completed"
   },
   "selling": {
-    "upload": "Upload"
+    "upload": "Upload",
+    "uploaded": "Your item has been uploaded",
+    "continueUploading": "Continue uploading",
+    "seeUploadedItems": "See uploaded items"
   },
   "sellingDetail": {
     "inputItemDetail": "Input Item Detail",

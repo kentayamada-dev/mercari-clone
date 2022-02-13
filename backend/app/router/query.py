@@ -1,19 +1,11 @@
 from uuid import UUID
 
 from app.core.schema.message import Message
-from app.crud.query import (
-    add_query,
-    get_all_queries,
-    remove_query,
-)
+from app.crud.query import add_query, get_all_queries, remove_query
 from app.crud.user import get_current_user
 from app.db.database import get_db
-from app.schema.query import (
-    QueryCreate,
-    RemoveQuery,
-    ReadQueries,
-    GetAllQuery,
-)
+from app.schema.common import Base
+from app.schema.query import GetAllQuery, QueryCreate, ReadQueries
 from app.schema.user import GetUserByEmail
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
@@ -44,7 +36,7 @@ def create_query(
 
 @router.delete(
     "/queries/{query_id}",
-    response_model=RemoveQuery,
+    response_model=Base,
     responses={
         status.HTTP_404_NOT_FOUND: {"model": Message},
         status.HTTP_401_UNAUTHORIZED: {"model": Message},
@@ -55,9 +47,9 @@ def delete_query(
     query_id: UUID,
     db: Session = Depends(get_db),
     current_user: GetUserByEmail = Depends(get_current_user),
-) -> RemoveQuery:
+) -> Base:
     query = remove_query(db, query_id, current_user.id)
-    query_model = RemoveQuery.from_orm(query)
+    query_model = Base.from_orm(query)
 
     return query_model
 

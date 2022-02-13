@@ -26,11 +26,3 @@ class ReadQueries(BaseModel):
     class Config:
         extra = Extra.forbid
         orm_mode = True
-
-
-class RemoveQuery(BaseModel):
-    id: UUID
-
-    class Config:
-        extra = Extra.forbid
-        orm_mode = True

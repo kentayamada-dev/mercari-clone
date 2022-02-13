@@ -4,7 +4,8 @@ from app.core.schema.message import Message
 from app.crud.like import add_like, remove_like
 from app.crud.user import get_current_user
 from app.db.database import get_db
-from app.schema.like import AddLike, RemoveLike, LikeCreate
+from app.schema.common import Base
+from app.schema.like import AddLike, LikeCreate
 from app.schema.user import GetUserByEmail
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
@@ -35,7 +36,7 @@ def create_like(
 
 @router.delete(
     "/likes/{item_id}",
-    response_model=RemoveLike,
+    response_model=Base,
     responses={
         status.HTTP_404_NOT_FOUND: {"model": Message},
         status.HTTP_401_UNAUTHORIZED: {"model": Message},
@@ -46,8 +47,8 @@ def delete_like(
     item_id: UUID,
     db: Session = Depends(get_db),
     current_user: GetUserByEmail = Depends(get_current_user),
-) -> RemoveLike:
+) -> Base:
     like = remove_like(db, item_id, current_user.id)
-    like_model = RemoveLike.from_orm(like)
+    like_model = Base.from_orm(like)
 
     return like_model
