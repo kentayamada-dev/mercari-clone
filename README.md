@@ -1,17 +1,17 @@
 # 📱 Mercari App Clone
 <div>
   <div>
-    <a align="center" href="https://expo.dev/artifacts/eas/deHHZoP2y1g1uUwqVWyezD.tar.gz">
+    <a align="center" href="https://expo.dev/artifacts/eas/cw99tkTTeRcPydcWSWLT73.tar.gz">
       <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/Download iOS App-4630EB.svg?style=for-the-badge&logo=APPLE&labelColor=999999&logoColor=fff" />
     </a>
   </div>
   <div>
-    <a align="center" href="https://expo.dev/artifacts/eas/ij2CdEBDcP9Tso1Rw6ogst.apk">
-      <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/Download Android App-4630EB.svg?style=for-the-badge&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
+    <a align="center" href="https://expo.dev/artifacts/eas/eGDYF2sTcttkP37KEUQX91.apk">
+      <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Download Android App-4630EB.svg?style=for-the-badge&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
     </a>
   </div>
 </div>
-<span>Last Updated: 5 February 2022 (JST)</span>
+<span>Last Updated: 14 February 2022 (JST)</span>
 
 ### ℹ️  Info
   - The app is built for Android device/emulator or iOS simulator.
@@ -53,6 +53,6 @@
 
 |ERD|Notations|
 |---|---|
-|![ERD](assets/db/erd_20220205.png)|![Notations](assets/db/relationship_notation.png)|
+|![ERD](assets/db/erd.png)|![Notations](assets/db/relationship_notation.png)|
 
-<span>Last Updated: 5 February 2022 (JST)</span>
+<span>Last Updated: 14 February 2022 (JST)</span>
