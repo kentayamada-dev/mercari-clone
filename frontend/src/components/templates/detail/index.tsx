@@ -23,6 +23,7 @@ import { ItemDetailTemplateProps } from "./types";
 import { Entypo } from "@expo/vector-icons";
 
 export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
+  isModalVisible,
   isSold,
   item,
   isItemLiked,
@@ -30,6 +31,7 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
   addLike,
   removeLike,
   order,
+  closeModal,
 }) => {
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
@@ -59,7 +61,6 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
     "brand.quaternary.dark:alpha.80",
     "brand.quaternary.light:alpha.30"
   );
-  const [modalVisible, setModalVisible] = React.useState(false);
   const buttonColor = typedUseColorModeValue("buttonLight", "buttonDark");
   const { t } = useTranslation("itemDetail");
   const [isLoading, setIsLoading] = React.useState(false);
@@ -202,24 +203,21 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
           colorScheme={`${buttonColor}`}
           disabled={isSold}
           opacity={isSold ? "0.4" : "1"}
-          onPress={async () => {
-            order();
-            setModalVisible(true);
-          }}
+          onPress={order}
         >
           <Text fontSize="2xl" bold color="brand.secondary.light">
             {isSold ? t("sold") : t("buyNow")}
           </Text>
         </Button>
       </HStack>
-      <Modal isOpen={modalVisible} animationPreset="slide" safeAreaTop>
+      <Modal isOpen={isModalVisible} animationPreset="slide" safeAreaTop>
         <Box bg={modalBgColor} width="full" height="full">
           <Pressable
             justifyContent="center"
             alignItems="center"
             width="20"
             height="20"
-            onPress={() => setModalVisible(false)}
+            onPress={closeModal}
             _pressed={{
               opacity: "0.3",
             }}

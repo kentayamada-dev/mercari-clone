@@ -1,6 +1,7 @@
 import { GetItemById } from "../../../../types/generated";
 
 export type ItemDetailTemplateProps = {
+  isModalVisible: boolean;
   isSold: boolean;
   item?: GetItemById;
   isItemLiked: boolean;
@@ -8,4 +9,5 @@ export type ItemDetailTemplateProps = {
   addLike: () => void;
   removeLike: () => void;
   order: () => void;
+  closeModal: () => void;
 };

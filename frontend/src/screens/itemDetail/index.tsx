@@ -19,6 +19,7 @@ export const ItemDetail: React.VFC<Props> = ({
     params: { itemId },
   },
 }) => {
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
   const queryClient = useQueryClient();
   const { token } = useAuth();
   const { data: item } = useQueryItem(itemId);
@@ -72,11 +73,14 @@ export const ItemDetail: React.VFC<Props> = ({
     await mutatePostOrder({
       item_id: itemId,
     });
+    setIsModalVisible(true);
     queryClient.invalidateQueries({
       queryKey: `${BASE_PATH.ITEMS}/${itemId}`,
     });
     invalidateQueriesWrapper(queryClient, BASE_PATH.ITEMS);
   }, []);
+
+  const closeModal = React.useCallback(() => setIsModalVisible(false), []);
 
   return (
     <ItemDetailTemplate
@@ -87,6 +91,8 @@ export const ItemDetail: React.VFC<Props> = ({
       addLike={addLike}
       removeLike={removeLike}
       order={order}
+      isModalVisible={isModalVisible}
+      closeModal={closeModal}
     />
   );
 };
