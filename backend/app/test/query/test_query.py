@@ -1,5 +1,5 @@
 from app.test.client import client, temp_db
-from app.test.common_functions import create_user_1, create_user_1_token
+from app.test.common_functions import create_user_1
 from app.test.query.functions import (
     create_query_1,
     delete_query,
@@ -12,8 +12,7 @@ from fastapi import status
 
 @temp_db
 def test_create_query_with_already_exists() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     create_query_1(secret)
     response = client.post(
         "/queries",
@@ -27,8 +26,7 @@ def test_create_query_with_already_exists() -> None:
 
 @temp_db
 def test_create_query() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     response, created_query_1 = create_query_1(secret)
 
     assert response.status_code == status.HTTP_201_CREATED
@@ -37,8 +35,7 @@ def test_create_query() -> None:
 
 @temp_db
 def test_delete_query() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     _, created_query = create_query_1(secret)
     response, _ = delete_query(f"{created_query.id}", secret)
 
@@ -47,8 +44,7 @@ def test_delete_query() -> None:
 
 @temp_db
 def test_delete_query_with_not_found() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     response = client.delete(
         "/queries/3fa85f64-5717-4562-b3fc-2c963f66afa6",
         headers={"Authorization": f"{secret.token_type} {secret.access_token}"},
@@ -60,8 +56,7 @@ def test_delete_query_with_not_found() -> None:
 
 @temp_db
 def test_read_queries() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     create_query_1(secret)
     create_query_2(secret)
     response, created_queries = read_queries(secret)

@@ -24,15 +24,16 @@ export const ItemsList: React.VFC<ItemsListProps> = React.memo<ItemsListProps>(
           </Box>
         )}
         {items.map((item, index) => (
-          <Pressable onPress={item.onPressHandler} key={index}>
-            {({ isPressed }) => (
-              <Box
-                padding="4"
-                backgroundColor={isPressed ? backgroundColor : bgColor}
-              >
-                <Text fontSize="lg">{item.label}</Text>
-              </Box>
-            )}
+          <Pressable
+            onPress={item.onPressHandler}
+            key={index}
+            _pressed={{
+              opacity: 0.5,
+            }}
+          >
+            <Box padding="4" backgroundColor={bgColor}>
+              <Text fontSize="lg">{item.label}</Text>
+            </Box>
           </Pressable>
         ))}
       </>

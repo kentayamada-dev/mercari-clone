@@ -7,7 +7,6 @@ from app.db.database import get_db
 from app.model.item import Item
 from app.model.user import User
 from app.schema.user import (
-    AddUser,
     BaseUser,
     CreateUser,
     GetUserByEmail,
@@ -98,7 +97,7 @@ def check_email_existence(db: Session, email: str) -> bool:
     return bool(db.query(User.id).filter(User.email == email).one_or_none())
 
 
-def add_user(db: Session, dto: CreateUser) -> AddUser:
+def add_user(db: Session, dto: CreateUser) -> None:
     if check_email_existence(db, dto.email) is True:
         raise email_already_exists_exception
 
@@ -116,12 +115,7 @@ def add_user(db: Session, dto: CreateUser) -> AddUser:
     db.refresh(data)
 
     # print("\033[34m" + str(data) + "\033[0m")
-    return AddUser(
-        id=data.id,
-        name=data.name,
-        image_url=data.image_url,
-        email=data.email,
-    )
+    return
 
 
 def inactivate_user(

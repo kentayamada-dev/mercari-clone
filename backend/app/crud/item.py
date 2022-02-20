@@ -36,7 +36,6 @@ def add_item(db: Session, dto: CreateItem, user_id: UUID) -> AddItem:
         price=data.price,
         image_url=data.image_url,
         name=data.name,
-        description=data.description,
     )
 
 

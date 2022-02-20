@@ -2,8 +2,7 @@ from uuid import UUID
 
 from app.crud.item import check_item_existence
 from app.model.like import Like
-from app.schema.common import Base
-from app.schema.like import AddLike, LikeCreate
+from app.schema.like import LikeResponse, LikeCreate
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -31,7 +30,7 @@ def check_like_existence(db: Session, item_id: UUID, user_id: UUID) -> bool:
     )
 
 
-def add_like(db: Session, dto: LikeCreate, user_id: UUID) -> AddLike:
+def add_like(db: Session, dto: LikeCreate, user_id: UUID) -> LikeResponse:
     if check_item_existence(db, dto.item_id) is False:
         raise item_not_exists_exception
     if check_like_existence(db, dto.item_id, user_id) is True:
@@ -42,10 +41,10 @@ def add_like(db: Session, dto: LikeCreate, user_id: UUID) -> AddLike:
     db.refresh(data)
 
     # print("\033[32m" + str(data) + "\033[0m")
-    return AddLike(item_id=dto.item_id, user_id=user_id)
+    return LikeResponse(item_id=dto.item_id, user_id=user_id)
 
 
-def remove_like(db: Session, item_id: UUID, user_id: UUID) -> Base:
+def remove_like(db: Session, item_id: UUID, user_id: UUID) -> LikeResponse:
     if (
         db.query(Like)
         .filter(Like.item_id == item_id, Like.user_id == user_id)
@@ -55,4 +54,4 @@ def remove_like(db: Session, item_id: UUID, user_id: UUID) -> Base:
         raise like_not_found_exception
     db.commit()
 
-    return Base(id=item_id)
+    return LikeResponse(item_id=item_id, user_id=user_id)

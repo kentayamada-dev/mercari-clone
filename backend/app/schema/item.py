@@ -14,8 +14,10 @@ class CreateItem(BaseModel):
         orm_mode = True
 
 
-class AddItem(GetAllItem):
-    description: str
+class AddItem(Base):
+    price: int
+    image_url: HttpUrl
+    name: str
 
     class Config:
         extra = Extra.forbid

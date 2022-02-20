@@ -37,4 +37,4 @@ def add_order(db: Session, dto: OrderCreate, user_id: UUID) -> AddOrder:
     db.refresh(data)
 
     # print("\033[32m" + str(data) + "\033[0m")
-    return AddOrder(item_id=dto.item_id, user_id=user_id)
+    return AddOrder(id=data.id, item_id=dto.item_id)

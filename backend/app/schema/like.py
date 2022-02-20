@@ -2,7 +2,7 @@ from pydantic import BaseModel, Extra
 from uuid import UUID
 
 
-class AddLike(BaseModel):
+class LikeResponse(BaseModel):
     item_id: UUID
     user_id: UUID
 

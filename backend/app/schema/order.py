@@ -3,8 +3,8 @@ from uuid import UUID
 
 
 class AddOrder(BaseModel):
+    id: UUID
     item_id: UUID
-    user_id: UUID
 
     class Config:
         extra = Extra.forbid

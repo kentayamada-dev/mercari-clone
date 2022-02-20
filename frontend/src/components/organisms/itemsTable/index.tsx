@@ -11,15 +11,15 @@ export const ItemsTable: React.VFC<ItemsTableProps> =
           <Pressable
             onPress={() => itemNavigationHandler(item.id, item.name)}
             key={item.id}
+            _pressed={{
+              opacity: 0.5,
+            }}
           >
-            {({ isPressed }) => (
-              <ItemCard
-                isSold={!!item.order}
-                isPressed={isPressed}
-                price={item.price}
-                imageUrl={item.image_url}
-              />
-            )}
+            <ItemCard
+              isSold={!!item.order}
+              price={item.price}
+              imageUrl={item.image_url}
+            />
           </Pressable>
         ))}
       </SimpleGrid>

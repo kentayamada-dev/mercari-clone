@@ -10,6 +10,7 @@ import { useDeleteLike, usePostLike } from "../../hooks/likes/mutation";
 import { usePostOrder } from "../../hooks/order/mutation";
 import { useQueryMe } from "../../hooks/users/query";
 import { ItemDetailStackParamList } from "../../types";
+import { GetItemById } from "../../types/generated";
 
 type Props = NativeStackScreenProps<ItemDetailStackParamList, "ItemDetail">;
 
@@ -22,17 +23,51 @@ export const ItemDetail: React.VFC<Props> = ({
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const queryClient = useQueryClient();
   const { token } = useAuth();
-  const { data: item } = useQueryItem(itemId);
+  const { data: item, isLoading: isItemLoading } = useQueryItem(itemId);
   const { data: me } = useQueryMe(token);
   const likedItem = item?.liked_users.find((user) => user.id === me?.id);
   const numLikes = item?.liked_users.length;
-  const { mutateAsync: mutatePostLike } = usePostLike({ token });
+  const closeModal = React.useCallback(() => setIsModalVisible(false), []);
+
+  const { mutateAsync: mutatePostLike } = usePostLike({
+    token,
+    onSuccess: (data) => {
+      if (item) {
+        queryClient.setQueryData<GetItemById>(`${BASE_PATH.ITEMS}/${itemId}`, {
+          ...item,
+          liked_users: [...item.liked_users, { id: data.user_id }],
+        });
+      }
+    },
+  });
+
   const { mutateAsync: mutateDeleteLike } = useDeleteLike({
     itemId,
     token,
+    onSuccess: (data) => {
+      if (item) {
+        queryClient.setQueryData<GetItemById>(`${BASE_PATH.ITEMS}/${itemId}`, {
+          ...item,
+          liked_users: item.liked_users.filter(
+            (user) => user.id != data.user_id
+          ),
+        });
+      }
+    },
   });
+
   const { mutateAsync: mutatePostOrder } = usePostOrder({
     token,
+    onSuccess: (data) => {
+      if (item) {
+        queryClient.setQueryData<GetItemById>(`${BASE_PATH.ITEMS}/${itemId}`, {
+          ...item,
+          order: {
+            id: data.id,
+          },
+        });
+      }
+    },
   });
 
   const addLike = React.useCallback(async () => {
@@ -45,9 +80,6 @@ export const ItemDetail: React.VFC<Props> = ({
     await mutatePostLike({
       item_id: itemId,
     });
-    queryClient.invalidateQueries({
-      queryKey: `${BASE_PATH.ITEMS}/${itemId}`,
-    });
   }, []);
 
   const removeLike = React.useCallback(async () => {
@@ -58,12 +90,9 @@ export const ItemDetail: React.VFC<Props> = ({
       return;
     }
     await mutateDeleteLike();
-    queryClient.invalidateQueries({
-      queryKey: `${BASE_PATH.ITEMS}/${itemId}`,
-    });
   }, []);
 
-  const order = React.useCallback(async () => {
+  const placeOrder = React.useCallback(async () => {
     if (!token) {
       navigate("AuthStackNavigator", {
         screen: "Signup",
@@ -74,24 +103,20 @@ export const ItemDetail: React.VFC<Props> = ({
       item_id: itemId,
     });
     setIsModalVisible(true);
-    queryClient.invalidateQueries({
-      queryKey: `${BASE_PATH.ITEMS}/${itemId}`,
-    });
     invalidateQueriesWrapper(queryClient, BASE_PATH.ITEMS);
   }, []);
 
-  const closeModal = React.useCallback(() => setIsModalVisible(false), []);
-
   return (
     <ItemDetailTemplate
+      isItemLoading={isItemLoading}
       isSold={!!item?.order}
       item={item}
       isItemLiked={!!likedItem}
       numLikes={numLikes}
+      isModalVisible={isModalVisible}
       addLike={addLike}
       removeLike={removeLike}
-      order={order}
-      isModalVisible={isModalVisible}
+      placeOrder={placeOrder}
       closeModal={closeModal}
     />
   );

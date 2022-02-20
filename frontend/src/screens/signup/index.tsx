@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { AuthStackParamList } from "../../types";
 import { SignupTemplate } from "../../components/templates/singup";
-import { usePostToken, usePostImage } from "../../hooks/common/mutation";
+import { usePostImage } from "../../hooks/common/mutation";
 import { usePostUser } from "../../hooks/users/mutation";
 import { CreateUser } from "../../types/generated";
 import * as SecureStore from "expo-secure-store";
@@ -21,19 +21,6 @@ export const Signup: React.VFC<Props> = ({ navigation }) => {
 
   const { mutateAsync: mutateAsyncUser, isLoading: isLoadingUser } =
     usePostUser({
-      onError: () =>
-        getAlert(
-          toast,
-          <CustomAlert
-            status="error"
-            onPressCloseButton={() => toast.closeAll()}
-            text={t("emailError")}
-          />
-        ),
-    });
-
-  const { mutateAsync: mutateAsyncSecret, isLoading: isLoadingSecret } =
-    usePostToken({
       onSuccess: (data) => {
         SecureStore.setItemAsync("userToken", data.access_token);
         Updates.reloadAsync();
@@ -44,7 +31,7 @@ export const Signup: React.VFC<Props> = ({ navigation }) => {
           <CustomAlert
             status="error"
             onPressCloseButton={() => toast.closeAll()}
-            text={t("tokenError")}
+            text={t("emailError")}
           />
         ),
     });
@@ -66,10 +53,6 @@ export const Signup: React.VFC<Props> = ({ navigation }) => {
   const addUser = React.useCallback(async (data: CreateUser) => {
     data.email = data.email.toLowerCase();
     await mutateAsyncUser(data);
-    await mutateAsyncSecret({
-      password: data.password,
-      username: data.email,
-    });
   }, []);
 
   const uploadImage = React.useCallback(async (formData: FormData) => {
@@ -83,7 +66,7 @@ export const Signup: React.VFC<Props> = ({ navigation }) => {
 
   return (
     <SignupTemplate
-      isLoading={isLoadingUser || isLoadingSecret}
+      isLoading={isLoadingUser}
       isLoadingImage={isLoadingImage}
       imageUrl={imageUrl}
       addUser={addUser}

@@ -3,30 +3,26 @@ from app.test.common_functions import (
     create_item_1,
     create_item_2,
     create_user_1,
-    create_user_1_token,
 )
 from app.test.item.functions import delete_item, read_item, read_items
-from app.test.sample_data import item_1_typed, item_2_typed
+from app.test.sample_data import item_1_typed, item_2_typed, user_1_typed
 from fastapi import status
 
 
 @temp_db
 def test_create_item() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     response, created_item_1 = create_item_1(secret)
 
     assert response.status_code == status.HTTP_201_CREATED
     assert created_item_1.price == item_1_typed.price
     assert created_item_1.image_url == item_1_typed.image_url
     assert created_item_1.name == item_1_typed.name
-    assert created_item_1.description == item_1_typed.description
 
 
 @temp_db
 def test_create_item_with_invalid_price() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     response = client.post(
         "/items",
         json={
@@ -44,8 +40,7 @@ def test_create_item_with_invalid_price() -> None:
 
 @temp_db
 def test_read_items() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     create_item_1(secret)
     create_item_2(secret)
     response, created_items = read_items()
@@ -64,8 +59,7 @@ def test_read_items() -> None:
 
 @temp_db
 def test_read_item() -> None:
-    _, user = create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     _, created_item_1 = create_item_1(secret)
     response, item = read_item(f"{created_item_1.id}")
 
@@ -74,9 +68,8 @@ def test_read_item() -> None:
     assert item.image_url == item_1_typed.image_url
     assert item.name == item_1_typed.name
     assert item.description == item_1_typed.description
-    assert item.user.id == user.id
-    assert item.user.name == user.name
-    assert item.user.image_url == user.image_url
+    assert item.user.name == user_1_typed.name
+    assert item.user.image_url == user_1_typed.image_url
     assert not item.liked_users
     assert not item.order
 
@@ -91,8 +84,7 @@ def test_read_not_existing_item() -> None:
 
 @temp_db
 def test_delete_item() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     _, created_item_1 = create_item_1(secret)
     response, _ = delete_item(f"{created_item_1.id}", secret)
 
@@ -101,8 +93,7 @@ def test_delete_item() -> None:
 
 @temp_db
 def test_delete_not_existing_item() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     response = client.delete(
         "/items/67fc14fa-b152-47dc-8872-3054d539a811",
         headers={"Authorization": f"{secret.token_type} {secret.access_token}"},

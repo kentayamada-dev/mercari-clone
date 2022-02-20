@@ -31,7 +31,10 @@ storiesOf("Templates", module).add("ItemDetailTemplate", () => (
     isItemLiked={boolean("isItemLiked", false)}
     addLike={action("addLike")}
     removeLike={action("removeLike")}
-    order={action("order")}
+    isItemLoading={boolean("isItemLoading", false)}
+    placeOrder={action("placeOrder")}
     numLikes={number("numLikes", 35)}
+    closeModal={action("closeModal")}
+    isModalVisible={boolean("isModalVisible", false)}
   />
 ));

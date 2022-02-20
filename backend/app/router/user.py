@@ -1,8 +1,11 @@
 from uuid import UUID
 
+from app.core.schema.jwt import Secret
 from app.core.schema.message import Message
+from app.core.utils.auth import auth
 from app.crud.user import (
     add_user,
+    authenticate_user,
     get_all_users,
     get_current_user,
     get_user_by_id,
@@ -10,13 +13,12 @@ from app.crud.user import (
 )
 from app.db.database import get_db
 from app.schema.user import (
-    AddUser,
     BaseUser,
+    CreateUser,
     GetUserByEmail,
     GetUserById,
-    ReadUsers,
-    CreateUser,
     InactivateUser,
+    ReadUsers,
 )
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
@@ -27,15 +29,18 @@ router = APIRouter()
 
 @router.post(
     "/users",
-    response_model=AddUser,
+    response_model=Secret,
     status_code=status.HTTP_201_CREATED,
     responses={status.HTTP_400_BAD_REQUEST: {"model": Message}},
 )
-def create_user(user_dto: CreateUser, db: Session = Depends(get_db)) -> AddUser:
-    user = add_user(db, user_dto)
-    user_model = AddUser.from_orm(user)
+def create_user(user_dto: CreateUser, db: Session = Depends(get_db)) -> Secret:
+    add_user(db, user_dto)
+    user = authenticate_user(
+        db, user_dto.email, user_dto.password.get_secret_value()
+    )
+    token = auth.create_jwt_token(user.email)
 
-    return user_model
+    return Secret(access_token=token, token_type="Bearer")
 
 
 @router.get("/users", response_model=ReadUsers)

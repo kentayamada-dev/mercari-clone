@@ -27,61 +27,20 @@ export interface AddItem {
 
   /** Name */
   name: string;
-  order?: Base;
-
-  /** Description */
-  description: string;
-}
-
-export interface AddLike {
-  /**
-   * Item Id
-   * @format uuid
-   */
-  item_id: string;
-
-  /**
-   * User Id
-   * @format uuid
-   */
-  user_id: string;
 }
 
 export interface AddOrder {
-  /**
-   * Item Id
-   * @format uuid
-   */
-  item_id: string;
-
-  /**
-   * User Id
-   * @format uuid
-   */
-  user_id: string;
-}
-
-export interface AddUser {
   /**
    * Id
    * @format uuid
    */
   id: string;
 
-  /** Name */
-  name: string;
-
   /**
-   * Image Url
-   * @format uri
+   * Item Id
+   * @format uuid
    */
-  image_url: string;
-
-  /**
-   * Email
-   * @format email
-   */
-  email: string;
+  item_id: string;
 }
 
 export interface Base {
@@ -290,6 +249,20 @@ export interface LikeCreate {
    * @format uuid
    */
   item_id: string;
+}
+
+export interface LikeResponse {
+  /**
+   * Item Id
+   * @format uuid
+   */
+  item_id: string;
+
+  /**
+   * User Id
+   * @format uuid
+   */
+  user_id: string;
 }
 
 export interface Message {
@@ -695,7 +668,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/users
      */
     createUserUsersPost: (data: CreateUser, params: RequestParams = {}) =>
-      this.request<AddUser, Message | HTTPValidationError>({
+      this.request<Secret, Message | HTTPValidationError>({
         path: `/users`,
         method: "POST",
         body: data,
@@ -818,7 +791,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     createLikeLikesPost: (data: LikeCreate, params: RequestParams = {}) =>
-      this.request<AddLike, Message | HTTPValidationError>({
+      this.request<LikeResponse, Message | HTTPValidationError>({
         path: `/likes`,
         method: "POST",
         body: data,
@@ -837,7 +810,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     deleteLikeLikesItemIdDelete: (itemId: string, params: RequestParams = {}) =>
-      this.request<Base, Message | HTTPValidationError>({
+      this.request<LikeResponse, Message | HTTPValidationError>({
         path: `/likes/${itemId}`,
         method: "DELETE",
         secure: true,

@@ -78,6 +78,7 @@ export const SellingDetailTemplate: React.VFC<SellingDetailTemplateProps> =
                 overflow="hidden"
                 alignSelf="center"
                 key={productUri}
+                backgroundColor={bgColor}
                 onPress={async () => await uploadImageHandler(uploadImage)}
                 _pressed={{
                   opacity: 0.5,
@@ -103,6 +104,7 @@ export const SellingDetailTemplate: React.VFC<SellingDetailTemplateProps> =
                           width="full"
                           height="full"
                           borderRadius="none"
+                          backgroundColor="transparent"
                         >
                           <Ionicons
                             name="camera"

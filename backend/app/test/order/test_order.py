@@ -1,18 +1,12 @@
 from app.test.client import client, temp_db
-from app.test.common_functions import (
-    create_item_1,
-    create_user_1,
-    create_user_1_token,
-)
-from fastapi import status
-
+from app.test.common_functions import create_item_1, create_user_1
 from app.test.order.functions import create_order
+from fastapi import status
 
 
 @temp_db
 def test_create_order_with_ordered_item() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     _, created_item_1 = create_item_1(secret)
     create_order(f"{created_item_1.id}", secret)
     response = client.post(
@@ -29,8 +23,7 @@ def test_create_order_with_ordered_item() -> None:
 
 @temp_db
 def test_create_like_with_not_found_item() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     response = client.post(
         "/orders",
         json={
@@ -45,8 +38,7 @@ def test_create_like_with_not_found_item() -> None:
 
 @temp_db
 def test_create_order() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     _, created_item_1 = create_item_1(secret)
     response, _ = create_order(f"{created_item_1.id}", secret)
 

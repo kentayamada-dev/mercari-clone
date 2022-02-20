@@ -6,7 +6,7 @@ import {
   Pressable,
   ScrollView,
   Text,
-  Image,
+  Avatar,
 } from "native-base";
 import React from "react";
 import { typedUseColorToken } from "../../../theme/modules";
@@ -58,38 +58,30 @@ export const MyPageTemplate: React.VFC<MyPageTemplateProps> = ({
   return (
     <Box flex={1}>
       <ScrollView>
-        <Pressable onPress={signupNavigationHandler}>
-          {({ isPressed }) => (
-            <Center
-              backgroundColor={isPressed ? backgroundColor : bgColor}
-              padding="5"
-              opacity="1"
-            >
-              {avaterUrl ? (
-                <Box
-                  width="20"
-                  height="20"
-                  rounded="full"
-                  overflow="hidden"
-                  alignSelf="center"
-                >
-                  <Image
-                    source={{
-                      uri: avaterUrl,
-                    }}
-                    alt="image"
-                    width="full"
-                    height="full"
-                  />
-                </Box>
-              ) : (
-                <Icon as={Ionicons} name="person-circle-outline" size="20" />
-              )}
-              <Text fontSize="xl" bold>
-                {userName ? userName : "会員登録・ログインへ"}
-              </Text>
-            </Center>
-          )}
+        <Pressable
+          onPress={signupNavigationHandler}
+          _pressed={{
+            opacity: 0.5,
+          }}
+        >
+          <Center backgroundColor={bgColor} padding="5">
+            {avaterUrl ? (
+              <Avatar
+                size="lg"
+                backgroundColor="transparent"
+                source={{
+                  uri: avaterUrl,
+                }}
+              >
+                avatar
+              </Avatar>
+            ) : (
+              <Icon as={Ionicons} name="person-circle-outline" size="20" />
+            )}
+            <Text fontSize="xl" bold>
+              {userName ? userName : "会員登録・ログインへ"}
+            </Text>
+          </Center>
         </Pressable>
         <Box height="10" width="full" backgroundColor={backgroundColor} />
         <ItemsList items={items} />

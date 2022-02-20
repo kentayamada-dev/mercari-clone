@@ -17,7 +17,6 @@ export const App = () => {
     const userToken = (await SecureStore.getItemAsync("userToken")) || "";
     await prefetchInfiniteQueryItems(queryClient);
     await prefetchQueryMe({
-      onError: () => setToken(""),
       onSuccess: () => {
         setToken(userToken);
         prefetchInfiniteSavedQueries(userToken, queryClient);

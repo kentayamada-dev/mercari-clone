@@ -9,10 +9,11 @@ import { usePostItem } from "../../hooks/items/mutation";
 import { usePostImage } from "../../hooks/common/mutation";
 import { getAlert } from "../../modules";
 import { OverrideType, SellingStackParamList } from "../../types";
-import { CreateItem } from "../../types/generated";
+import { CreateItem, GetUserById } from "../../types/generated";
 import { invalidateQueriesWrapper } from "../../hooks/common/query";
 import { useQueryClient } from "react-query";
 import { BASE_PATH } from "../../hooks/common/constants";
+import { useQueryMe } from "../../hooks/users/query";
 
 type Props = NativeStackScreenProps<SellingStackParamList, "SellingDetail">;
 
@@ -26,8 +27,29 @@ export const SellingDetail: React.VFC<Props> = ({ navigation }) => {
   const { token } = useAuth();
   const queryClient = useQueryClient();
   const { t } = useTranslation(["signup", "sellingDetail"]);
+  const { data: me } = useQueryMe(token);
   const { mutateAsync: mutateAsyncItem, isLoading: isLoadingItem } =
-    usePostItem({ token });
+    usePostItem({
+      token,
+      onSuccess: (data) => {
+        if (me) {
+          queryClient.setQueryData<GetUserById>(BASE_PATH.ME, {
+            ...me,
+            ...(me.items && {
+              items: [
+                ...me.items,
+                {
+                  id: data.id,
+                  image_url: data.image_url,
+                  name: data.name,
+                  price: data.price,
+                },
+              ],
+            }),
+          });
+        }
+      },
+    });
 
   const { mutateAsync: mutateAsyncImage, isLoading: isLoadingImage } =
     usePostImage({
@@ -59,7 +81,6 @@ export const SellingDetail: React.VFC<Props> = ({ navigation }) => {
         price: Number(data.price),
       });
       invalidateQueriesWrapper(queryClient, BASE_PATH.ITEMS);
-      invalidateQueriesWrapper(queryClient, BASE_PATH.ME);
       navigation.navigate("Selling", {
         itemId: responseData.id,
         itemName: responseData.name,

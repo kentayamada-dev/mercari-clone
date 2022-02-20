@@ -5,7 +5,7 @@ import { typedUseColorModeValue } from "../../../theme/modules";
 import { ItemCardProps } from "./types";
 
 export const ItemCard: React.VFC<ItemCardProps> = React.memo<ItemCardProps>(
-  ({ isPressed, price, imageUrl, isSold }) => {
+  ({ price, imageUrl, isSold }) => {
     const { width } = useWindowDimensions();
     const bgColor = typedUseColorModeValue(
       "brand.primary.light",
@@ -14,7 +14,6 @@ export const ItemCard: React.VFC<ItemCardProps> = React.memo<ItemCardProps>(
 
     return (
       <Box
-        opacity={isPressed ? 0.8 : 1}
         position="relative"
         width={width / 3.1}
         height={width / 3.1}

@@ -64,11 +64,11 @@ def test_read_user_with_invalid_email() -> None:
 
 @temp_db
 def test_read_user() -> None:
-    _, created_user_1 = create_user_1()
-    created_user_1_id = created_user_1.id
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     create_item_1(secret)
-    response, created_user = read_user(f"{created_user_1_id}")
+    _, users = read_users()
+    user_1 = users.data[0]
+    response, created_user = read_user(f"{user_1.id}")
 
     assert response.status_code == status.HTTP_200_OK
     assert created_user.name == user_1_typed.name
@@ -88,8 +88,7 @@ def test_read_not_existing_user() -> None:
 
 @temp_db
 def test_inactivate_user() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     response, user = inactivate_user(secret)
 
     assert response.status_code == status.HTTP_200_OK
@@ -98,8 +97,7 @@ def test_inactivate_user() -> None:
 
 @temp_db
 def test_read_inactivate_me() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     inactivate_user(secret)
     response = client.get(
         "/users/me/",
@@ -112,8 +110,7 @@ def test_read_inactivate_me() -> None:
 
 @temp_db
 def test_read_me() -> None:
-    create_user_1()
-    _, secret = create_user_1_token()
+    _, secret = create_user_1()
     create_item_1(secret)
     response, created_me = read_me(secret)
 

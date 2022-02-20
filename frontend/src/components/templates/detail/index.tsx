@@ -1,5 +1,6 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import {
+  Avatar,
   Box,
   Button,
   Center,
@@ -21,16 +22,18 @@ import {
 } from "../../../theme/modules";
 import { ItemDetailTemplateProps } from "./types";
 import { Entypo } from "@expo/vector-icons";
+import { ItemDetailLabel } from "../../molecules/itemDetailLabel";
 
 export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
   isModalVisible,
+  isItemLoading,
   isSold,
   item,
   isItemLiked,
   numLikes,
   addLike,
   removeLike,
-  order,
+  placeOrder,
   closeModal,
 }) => {
   const backgroundColor = typedUseColorToken(
@@ -80,8 +83,18 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
   return (
     <Box flex={1}>
       <ScrollView>
-        {item?.image_url ? (
-          <Box position="relative">
+        {isItemLoading ? (
+          <Skeleton
+            width="full"
+            _android={{
+              height: 400,
+            }}
+            _ios={{
+              height: 500,
+            }}
+          />
+        ) : (
+          <Box position="relative" overflow="hidden">
             <Image
               _android={{
                 size: 400,
@@ -91,7 +104,7 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
               }}
               resizeMode="contain"
               source={{
-                uri: item.image_url,
+                uri: item?.image_url,
               }}
               backgroundColor={backgroundColor}
               alt="image"
@@ -124,91 +137,136 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
               </Box>
             )}
           </Box>
-        ) : (
-          <Skeleton
-            width="full"
-            _android={{
-              height: 400,
-            }}
-            _ios={{
-              height: 500,
-            }}
-          />
         )}
         <VStack space="3" padding="5">
-          {item?.name ? (
-            <Text fontSize="xl">{item.name}</Text>
-          ) : (
+          {isItemLoading ? (
             <VStack space={1}>
-              <Skeleton width="full" height="20px" />
-              <Skeleton width="50%" height="20px" />
+              <Skeleton width="full" height="8" />
             </VStack>
-          )}
-          {item?.price ? (
-            <Text fontSize="4xl" color={color}>
-              ¥{item.price}
-            </Text>
           ) : (
-            <Skeleton width="30%" height="40px" />
+            <Text fontSize="xl">{item?.name}</Text>
+          )}
+          {isItemLoading ? (
+            <Skeleton width="30%" height="16" />
+          ) : (
+            <Text fontSize="4xl" color={color}>
+              ¥{item?.price}
+            </Text>
           )}
           <HStack space="12">
-            <HStack alignItems="center" space="2">
-              <Button
-                onPress={onPressHandler}
-                backgroundColor={backgroundColor}
-                width="32"
-                height="12"
-                borderRadius="full"
-                leftIcon={
-                  <FontAwesome
-                    name={isItemLiked ? "heart" : "heart-o"}
-                    size={24}
-                    color={isItemLiked ? iconColor : textColor}
-                  />
-                }
-              >
-                <Text>{t("like")}</Text>
-              </Button>
-              <Text fontSize="lg">{numLikes}</Text>
-            </HStack>
-            <HStack alignItems="center" space="2">
-              <Button
-                backgroundColor={backgroundColor}
-                width="32"
-                height="12"
-                borderRadius="full"
-                leftIcon={
-                  <FontAwesome5
-                    name="comment-alt"
-                    size={24}
-                    color={textColor}
-                  />
-                }
-              >
-                <Text>{t("comment")}</Text>
-              </Button>
-              <Text fontSize="lg">{numLikes}</Text>
-            </HStack>
+            {isItemLoading ? (
+              <Skeleton width="40" height="12" />
+            ) : (
+              <HStack alignItems="center" space="2">
+                <Button
+                  onPress={onPressHandler}
+                  backgroundColor={backgroundColor}
+                  width="32"
+                  height="12"
+                  borderRadius="full"
+                  leftIcon={
+                    <FontAwesome
+                      name={isItemLiked ? "heart" : "heart-o"}
+                      size={24}
+                      color={isItemLiked ? iconColor : textColor}
+                    />
+                  }
+                >
+                  <Text>{t("like")}</Text>
+                </Button>
+                <Text fontSize="lg">{numLikes}</Text>
+              </HStack>
+            )}
+            {isItemLoading ? (
+              <Skeleton width="40" height="12" />
+            ) : (
+              <HStack alignItems="center" space="2">
+                <Button
+                  backgroundColor={backgroundColor}
+                  width="32"
+                  height="12"
+                  borderRadius="full"
+                  leftIcon={
+                    <FontAwesome5
+                      name="comment-alt"
+                      size={24}
+                      color={textColor}
+                    />
+                  }
+                >
+                  <Text>{t("comment")}</Text>
+                </Button>
+                <Text fontSize="lg">0</Text>
+              </HStack>
+            )}
           </HStack>
         </VStack>
+        <ItemDetailLabel label="商品の説明" />
+        <Box padding="5">
+          <Text fontSize="lg">{item?.description}</Text>
+        </Box>
+        <ItemDetailLabel label="出品者" />
+        <Pressable
+          _pressed={{
+            opacity: 0.5,
+          }}
+        >
+          <HStack padding="5" space={5} alignItems="center">
+            <Box width="16" height="16">
+              {isItemLoading ? (
+                <Skeleton
+                  width="full"
+                  height="full"
+                  borderRadius="full"
+                  alignSelf="center"
+                />
+              ) : (
+                <Avatar
+                  size="full"
+                  backgroundColor="transparent"
+                  source={{
+                    uri: item?.user.image_url,
+                  }}
+                >
+                  avatar
+                </Avatar>
+              )}
+            </Box>
+            {isItemLoading ? (
+              <Skeleton width="48" height="10" />
+            ) : (
+              <Text fontSize="2xl" bold>
+                {item?.user.name}
+              </Text>
+            )}
+          </HStack>
+        </Pressable>
       </ScrollView>
       <HStack
-        justifyContent="center"
-        safeAreaBottom
         bgColor={bgColor}
-        alignItems="center"
+        _android={{
+          margin: 5,
+        }}
+        _ios={{
+          margin: 8,
+        }}
       >
-        <Button
-          width="96"
-          colorScheme={`${buttonColor}`}
-          disabled={isSold}
-          opacity={isSold ? "0.4" : "1"}
-          onPress={order}
-        >
-          <Text fontSize="2xl" bold color="brand.secondary.light">
-            {isSold ? t("sold") : t("buyNow")}
-          </Text>
-        </Button>
+        {isItemLoading ? (
+          <Skeleton width="96" height="16" />
+        ) : (
+          <Button
+            width="full"
+            height="16"
+            colorScheme={`${buttonColor}`}
+            disabled={isSold}
+            opacity={isSold ? "0.4" : "1"}
+            onPress={placeOrder}
+          >
+            <Text fontSize="2xl" bold color="brand.secondary.light">
+              {isSold ? t("sold") : t("buyNow")}
+            </Text>
+          </Button>
+        )}
       </HStack>
       <Modal isOpen={isModalVisible} animationPreset="slide" safeAreaTop>
         <Box bg={modalBgColor} width="full" height="full">

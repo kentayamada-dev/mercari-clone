@@ -6,13 +6,13 @@ import {
   Input,
   useColorModeValue,
   VStack,
-  Image,
   Pressable,
   Skeleton,
   Box,
   HStack,
   Text,
   Link,
+  Avatar,
 } from "native-base";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -68,6 +68,7 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> =
         "brand.primary.light",
         "brand.primary.dark"
       );
+
       const isEmailInvalid = "email" in errors;
       const isNameInvalid = "name" in errors;
       const isPasswordInvalid = "password" in errors;
@@ -86,31 +87,30 @@ export const SignupTemplate: React.VFC<SignupTemplateProps> =
               _pressed={{
                 opacity: 0.5,
               }}
+              width="40"
+              height="40"
+              borderRadius="full"
+              alignSelf="center"
+              backgroundColor={backgroundColor}
             >
               {isLoadingImage ? (
                 <Skeleton
-                  width="40"
-                  height="40"
-                  borderRadius="full"
+                  width="full"
+                  height="full"
                   alignSelf="center"
+                  borderRadius="full"
                 />
               ) : (
-                <Box
-                  width="40"
-                  height="40"
-                  rounded="full"
-                  overflow="hidden"
+                <Avatar
                   alignSelf="center"
+                  size="full"
+                  backgroundColor="transparent"
+                  source={{
+                    uri: avatarUri,
+                  }}
                 >
-                  <Image
-                    source={{
-                      uri: avatarUri,
-                    }}
-                    alt="image"
-                    width="full"
-                    height="full"
-                  />
-                </Box>
+                  avatar
+                </Avatar>
               )}
             </Pressable>
             <FormControl isInvalid={isNameInvalid}>

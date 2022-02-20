@@ -4,9 +4,7 @@ import { GetUserById } from "../../../types/generated";
 import { BASE_PATH } from "../../common/constants";
 import { AxiosGetWrapper, axiosGetWrapper } from "../../common/query";
 
-type PrefetchQueryMe = Required<
-  Pick<AxiosGetWrapper, "onError" | "onSuccess">
-> & {
+type PrefetchQueryMe = Omit<AxiosGetWrapper, "path" | "config"> & {
   userToken: string;
   queryClient: QueryClient;
 };
@@ -41,7 +39,7 @@ export const prefetchQueryMe = ({
             Authorization: `Bearer ${userToken}`,
           },
         },
-        onError,
         onSuccess,
+        onError,
       }),
   });

@@ -23,8 +23,8 @@ export const HeaderBar: React.VFC<HeaderBarProps> = React.memo<HeaderBarProps>(
         <Box width={goBackHandler ? "15%" : "5%"}>
           {goBackHandler && (
             <IconButton
-              width={10}
-              height={10}
+              width="10"
+              height="10"
               _pressed={{
                 bg: backgroundColor,
               }}

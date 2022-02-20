@@ -61,7 +61,7 @@ export const AppBar: React.VFC<AppBarProps> = React.memo<AppBarProps>(
           )}
         />
         <IconButton
-          width="10%"
+          width="10"
           onPress={todoNavigationHandler}
           padding="0"
           justifyContent="center"

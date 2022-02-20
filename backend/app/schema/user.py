@@ -46,14 +46,6 @@ class BaseUser(Base):
         orm_mode = True
 
 
-class AddUser(BaseUser):
-    email: EmailStr
-
-    class Config:
-        extra = Extra.forbid
-        orm_mode = True
-
-
 class ReadUsers(BaseModel):
     data: list[BaseUser]
     skip: int | None
