@@ -9,6 +9,8 @@ import { prefetchInfiniteQueryItems } from "./hooks/items/query";
 import { useQueryClient } from "react-query";
 import { prefetchQueryMe } from "./hooks/users/query";
 import { prefetchInfiniteSavedQueries } from "./hooks/savedQueries/query";
+import { GetUserById } from "./types/generated";
+import { BASE_PATH } from "./hooks/common/constants";
 
 export const App = () => {
   const { setToken } = useAuth();
@@ -17,7 +19,10 @@ export const App = () => {
     const userToken = (await SecureStore.getItemAsync("userToken")) || "";
     await prefetchInfiniteQueryItems(queryClient);
     await prefetchQueryMe({
-      onSuccess: () => {
+      onSuccess: (data) => {
+        queryClient.setQueryData<GetUserById>(`${BASE_PATH.USERS}/${data.id}`, {
+          ...data,
+        });
         setToken(userToken);
         prefetchInfiniteSavedQueries(userToken, queryClient);
       },

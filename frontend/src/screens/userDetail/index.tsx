@@ -1,29 +1,38 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { MyPageStackParamList } from "../../types";
+import { ItemDetailStackParamList } from "../../types";
 import { UserDetailTemplate } from "../../components/templates/userDetail";
-import { useMe } from "../../hooks/users/useMe";
+import { useUser } from "../../hooks/users/useUser";
+import { StackActions } from "@react-navigation/native";
 
-type Props = NativeStackScreenProps<MyPageStackParamList, "UserDetail">;
+type Props = NativeStackScreenProps<ItemDetailStackParamList, "UserDetail">;
 
-export const UserDetail: React.VFC<Props> = ({ navigation: { navigate } }) => {
+export const UserDetail: React.VFC<Props> = ({
+  navigation: { dispatch },
+  route: {
+    params: { userId },
+  },
+}) => {
+  const { user, isFetchingUser, onRefetchUser } = useUser(userId);
+
   const itemNavigationHandler = React.useCallback(
     (itemId: string, itemName: string) => {
-      navigate("ItemDetailStackNavigator", {
-        screen: "ItemDetail",
-        params: { itemId: itemId, itemName: itemName },
-      });
+      dispatch(
+        StackActions.push("ItemDetailStackNavigator", {
+          screen: "ItemDetail",
+          params: { itemId, itemName },
+        })
+      );
     },
     []
   );
-  const { me, isFetchingMe, onRefetchMe } = useMe();
 
   return (
     <UserDetailTemplate
-      user={me}
+      user={user}
+      isUserFetching={isFetchingUser}
       itemNavigationHandler={itemNavigationHandler}
-      refetchUser={onRefetchMe}
-      isUserFetching={isFetchingMe}
+      refetchUser={onRefetchUser}
     />
   );
 };

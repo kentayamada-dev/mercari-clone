@@ -28,7 +28,14 @@ export const ItemDetail: React.VFC<Props> = ({
   const likedItem = item?.liked_users.find((user) => user.id === me?.id);
   const numLikes = item?.liked_users.length;
   const closeModal = React.useCallback(() => setIsModalVisible(false), []);
-
+  const userDetailNavigationHandler = React.useCallback(() => {
+    if (item) {
+      navigate("UserDetailStackNavigator", {
+        screen: "UserDetail",
+        params: { userId: item.user.id, userName: item.user.name },
+      });
+    }
+  }, [item]);
   const { mutateAsync: mutatePostLike } = usePostLike({
     token,
     onSuccess: (data) => {
@@ -118,6 +125,7 @@ export const ItemDetail: React.VFC<Props> = ({
       removeLike={removeLike}
       placeOrder={placeOrder}
       closeModal={closeModal}
+      userDetailNavigationHandler={userDetailNavigationHandler}
     />
   );
 };

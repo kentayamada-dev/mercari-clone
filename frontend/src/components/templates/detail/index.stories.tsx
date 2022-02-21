@@ -36,5 +36,6 @@ storiesOf("Templates", module).add("ItemDetailTemplate", () => (
     numLikes={number("numLikes", 35)}
     closeModal={action("closeModal")}
     isModalVisible={boolean("isModalVisible", false)}
+    userDetailNavigationHandler={action("userDetailNavigationHandler")}
   />
 ));

@@ -1,27 +1,27 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { QueryClient } from "react-query";
 import { CONSTANTS } from "../../../constants";
 import { QueryKeys } from "../constants";
 import { Axios } from "../types";
 
-export type AxiosGetWrapper = Axios & {
-  onError?: () => void;
-  onSuccess?: () => void;
+export type AxiosGetWrapper<T> = Axios & {
+  onError?: (error: AxiosError) => void;
+  onSuccess?: (data: T) => void;
 };
 
-export const axiosGetWrapper = async ({
+export const axiosGetWrapper = async <T>({
   path,
   config,
   onError,
   onSuccess,
-}: AxiosGetWrapper) => {
+}: AxiosGetWrapper<T>) => {
   const url = `${CONSTANTS.BASE_URL}${path}`;
   try {
     const { data }: AxiosResponse = await axios.get(url, config);
-    if (onSuccess) onSuccess();
+    if (onSuccess) onSuccess(data);
     return data;
-  } catch (e) {
-    if (onError) onError();
+  } catch (error) {
+    if (onError && axios.isAxiosError(error)) onError(error);
   }
 };
 

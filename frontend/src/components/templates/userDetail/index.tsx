@@ -19,11 +19,12 @@ import { RefreshControl, useWindowDimensions } from "react-native";
 import { useTranslation } from "react-i18next";
 
 export const UserDetailTemplate: React.VFC<UserDetailTemplateProps> = ({
-  itemNavigationHandler,
   user,
   isUserFetching,
   refetchUser,
+  itemNavigationHandler,
 }) => {
+  const [visibleRefreshing, setVisibleRefreshing] = React.useState(false);
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
     "brand.quaternary.dark"
@@ -40,8 +41,11 @@ export const UserDetailTemplate: React.VFC<UserDetailTemplateProps> = ({
       <ScrollView
         refreshControl={
           <RefreshControl
-            refreshing={isUserFetching}
-            onRefresh={refetchUser}
+            refreshing={visibleRefreshing && isUserFetching}
+            onRefresh={() => {
+              setVisibleRefreshing(true);
+              refetchUser();
+            }}
             tintColor={`${tintColor}`}
           />
         }

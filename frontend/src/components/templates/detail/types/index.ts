@@ -10,5 +10,6 @@ export type ItemDetailTemplateProps = {
   addLike: () => void;
   removeLike: () => void;
   placeOrder: () => void;
+  userDetailNavigationHandler: () => void;
   closeModal: () => void;
 };

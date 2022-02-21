@@ -32,8 +32,8 @@ export type AuthStackParamList = {
 export type MyPageStackParamList = {
   MyPage: undefined;
   AuthStackNavigator: NavigatorScreenParams<AuthStackParamList>;
-  UserDetail: { userName?: string };
   ItemDetailStackNavigator: NavigatorScreenParams<ItemDetailStackParamList>;
+  UserDetailStackNavigator: NavigatorScreenParams<UserDetailStackParamList>;
 };
 
 export type SettingsStackParamList = {
@@ -43,6 +43,12 @@ export type SettingsStackParamList = {
 export type ItemDetailStackParamList = {
   AuthStackNavigator: NavigatorScreenParams<AuthStackParamList>;
   ItemDetail: { itemId: string; itemName: string };
+  UserDetail: { userName: string; userId: string };
+  UserDetailStackNavigator: NavigatorScreenParams<UserDetailStackParamList>;
+};
+
+export type UserDetailStackParamList = {
+  UserDetail: { userName: string; userId: string };
 };
 
 export type AppStackParamList = {
@@ -57,6 +63,7 @@ export type RootParamList = {
   AppStackNavigator: undefined;
   AuthStackNavigator: undefined;
   ItemDetailStackNavigator: undefined;
+  UserDetailStackNavigator: undefined;
 };
 
 export type Extra = {

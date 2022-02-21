@@ -3,7 +3,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { HeaderBar } from "../../components/organisms/headerBar";
 import { MyPage } from "../../screens/myPage";
-import { UserDetail } from "../../screens/userDetail";
 import { MyPageStackParamList } from "../../types";
 
 const MyPageStack = createStackNavigator<MyPageStackParamList>();
@@ -29,18 +28,6 @@ export const MyPageStackNavigator: React.VFC = () => {
         })}
         name="MyPage"
         component={MyPage}
-      />
-      <MyPageStack.Screen
-        options={({ route }) => ({
-          header: (props) => (
-            <HeaderBar
-              goBackHandler={props.back ? props.navigation.goBack : undefined}
-              title={route.params.userName || ""}
-            />
-          ),
-        })}
-        name="UserDetail"
-        component={UserDetail}
       />
     </MyPageStack.Navigator>
   );

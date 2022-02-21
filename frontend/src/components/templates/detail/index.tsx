@@ -35,6 +35,7 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
   removeLike,
   placeOrder,
   closeModal,
+  userDetailNavigationHandler,
 }) => {
   const backgroundColor = typedUseColorToken(
     "brand.quaternary.light",
@@ -210,6 +211,7 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
           _pressed={{
             opacity: 0.5,
           }}
+          onPress={userDetailNavigationHandler}
         >
           <HStack padding="5" space={5} alignItems="center">
             <Box width="16" height="16">

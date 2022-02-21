@@ -4,7 +4,7 @@ import { GetUserById } from "../../../types/generated";
 import { BASE_PATH } from "../../common/constants";
 import { AxiosGetWrapper, axiosGetWrapper } from "../../common/query";
 
-type PrefetchQueryMe = Omit<AxiosGetWrapper, "path" | "config"> & {
+type PrefetchQueryMe = Omit<AxiosGetWrapper<GetUserById>, "path" | "config"> & {
   userToken: string;
   queryClient: QueryClient;
 };
@@ -43,3 +43,15 @@ export const prefetchQueryMe = ({
         onError,
       }),
   });
+
+export const useQueryUser = (userId: string) => {
+  const path = BASE_PATH.USERS.concat(`/${userId}`);
+
+  return useQuery<GetUserById, AxiosError>({
+    queryKey: path,
+    queryFn: () =>
+      axiosGetWrapper({
+        path,
+      }),
+  });
+};
