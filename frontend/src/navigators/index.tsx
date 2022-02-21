@@ -6,25 +6,31 @@ import { AppStackNavigator } from "./appStack";
 import { AuthStackNavigator } from "./authStack";
 import { ItemDetailStackNavigator } from "./itemDetailStack";
 
-const Tab = createStackNavigator<RootParamList>();
+const RootStack = createStackNavigator<RootParamList>();
 
 export const RootNavigator: React.VFC = () => {
   const { token } = useAuth();
 
   return (
-    <Tab.Navigator
+    <RootStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Tab.Screen name="AppStackNavigator" component={AppStackNavigator} />
-      <Tab.Screen
+      <RootStack.Screen
+        name="AppStackNavigator"
+        component={AppStackNavigator}
+      />
+      <RootStack.Screen
         name="ItemDetailStackNavigator"
         component={ItemDetailStackNavigator}
       />
       {!token && (
-        <Tab.Screen name="AuthStackNavigator" component={AuthStackNavigator} />
+        <RootStack.Screen
+          name="AuthStackNavigator"
+          component={AuthStackNavigator}
+        />
       )}
-    </Tab.Navigator>
+    </RootStack.Navigator>
   );
 };

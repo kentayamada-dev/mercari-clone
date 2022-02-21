@@ -6,10 +6,10 @@ import { useMe } from "../../hooks/users/useMe";
 
 type Props = NativeStackScreenProps<MyPageStackParamList, "UserDetail">;
 
-export const UserDetail: React.VFC<Props> = ({ navigation }) => {
+export const UserDetail: React.VFC<Props> = ({ navigation: { navigate } }) => {
   const itemNavigationHandler = React.useCallback(
     (itemId: string, itemName: string) => {
-      navigation.navigate("ItemDetailStackNavigator", {
+      navigate("ItemDetailStackNavigator", {
         screen: "ItemDetail",
         params: { itemId: itemId, itemName: itemName },
       });

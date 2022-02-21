@@ -6,11 +6,11 @@ import { useTranslation } from "react-i18next";
 import { ColorSchemeName, useColorScheme } from "react-native";
 import { ToggleButtonGroup } from "../../components/organisms/toggleButtonGroup";
 import { typedUseColorToken } from "../../theme/modules";
-import { HomeStackParamList } from "../../types";
+import { SettingsStackParamList } from "../../types";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-type Props = NativeStackScreenProps<HomeStackParamList, "Settings">;
+type Props = NativeStackScreenProps<SettingsStackParamList, "Settings">;
 
 type Locale = "ja" | "en" | null;
 

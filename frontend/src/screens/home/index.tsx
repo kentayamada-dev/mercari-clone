@@ -1,8 +1,11 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { HomeTemplate } from "../../components/templates/home";
 import { useItems } from "../../hooks/items/useItems";
 import { useSavedQueries } from "../../hooks/savedQueries/useSavedQueries";
-import { HomeProps } from "./types";
+import { HomeStackParamList } from "../../types";
+
+type HomeProps = NativeStackScreenProps<HomeStackParamList, "Home">;
 
 export const Home: React.VFC<HomeProps> = ({ navigation: { navigate } }) => {
   const onSubmitQuery = React.useCallback((query: string) => {

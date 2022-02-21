@@ -25,7 +25,7 @@ const getTabBarStyle = (
   return "flex";
 };
 
-const Tab = createBottomTabNavigator<AppStackParamList>();
+const BottomTab = createBottomTabNavigator<AppStackParamList>();
 
 export const AppStackNavigator: React.VFC = () => {
   const { t } = useTranslation("common");
@@ -39,7 +39,7 @@ export const AppStackNavigator: React.VFC = () => {
   );
 
   return (
-    <Tab.Navigator
+    <BottomTab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarInactiveTintColor: color,
@@ -50,7 +50,7 @@ export const AppStackNavigator: React.VFC = () => {
         },
       }}
     >
-      <Tab.Screen
+      <BottomTab.Screen
         name="HomeStackNavigator"
         component={HomeStackNavigator}
         options={({ route }) => ({
@@ -70,7 +70,7 @@ export const AppStackNavigator: React.VFC = () => {
           ),
         })}
       />
-      <Tab.Screen
+      <BottomTab.Screen
         name="NotificationsStackNavigator"
         component={NotificationsStackNavigator}
         options={{
@@ -84,7 +84,7 @@ export const AppStackNavigator: React.VFC = () => {
           ),
         }}
       />
-      <Tab.Screen
+      <BottomTab.Screen
         name="SellingStackNavigator"
         component={SellingStackNavigator}
         options={{
@@ -98,7 +98,7 @@ export const AppStackNavigator: React.VFC = () => {
           ),
         }}
       />
-      <Tab.Screen
+      <BottomTab.Screen
         name="MyPageStackNavigator"
         component={MyPageStackNavigator}
         options={({ route }) => ({
@@ -118,7 +118,7 @@ export const AppStackNavigator: React.VFC = () => {
           ),
         })}
       />
-      <Tab.Screen
+      <BottomTab.Screen
         name="SettingsStackNavigator"
         component={SettingsStackNavigator}
         options={{
@@ -132,6 +132,6 @@ export const AppStackNavigator: React.VFC = () => {
           ),
         }}
       />
-    </Tab.Navigator>
+    </BottomTab.Navigator>
   );
 };

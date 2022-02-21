@@ -7,13 +7,9 @@ export type OverrideType<T, K extends keyof T> = {
 
 export type HomeStackParamList = {
   AuthStackNavigator: NavigatorScreenParams<AuthStackParamList>;
-  Home: undefined;
   ItemDetailStackNavigator: NavigatorScreenParams<ItemDetailStackParamList>;
+  Home: undefined;
   Todo: { userId: string };
-  Notifications: undefined;
-  Selling: undefined;
-  MyPage: undefined;
-  Settings: undefined;
   SearchResults: { query: string };
 };
 
