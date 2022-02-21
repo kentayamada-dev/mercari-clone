@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { HeaderBar } from "../../components/organisms/headerBar";
-import { UserDetail } from "../../screens/userDetailHoge";
+import { UserDetail } from "../../screens/userDetail";
 import { UserDetailStackParamList } from "../../types";
 
 const UserDetailStack = createStackNavigator<UserDetailStackParamList>();
