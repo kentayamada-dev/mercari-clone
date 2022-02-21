@@ -65,19 +65,22 @@ export const MyPageTemplate: React.VFC<MyPageTemplateProps> = ({
           }}
         >
           <Center backgroundColor={bgColor} padding="5">
-            {avaterUrl ? (
-              <Avatar
-                size="lg"
-                backgroundColor="transparent"
-                source={{
-                  uri: avaterUrl,
-                }}
-              >
-                avatar
-              </Avatar>
-            ) : (
-              <Icon as={Ionicons} name="person-circle-outline" size="20" />
-            )}
+            <Box width="24" height="24">
+              {avaterUrl ? (
+                <Avatar
+                  width="full"
+                  height="full"
+                  backgroundColor="transparent"
+                  source={{
+                    uri: avaterUrl,
+                  }}
+                >
+                  avatar
+                </Avatar>
+              ) : (
+                <Icon as={Ionicons} name="person-circle-outline" size="24" />
+              )}
+            </Box>
             <Text fontSize="xl" bold>
               {userName ? userName : "会員登録・ログインへ"}
             </Text>

@@ -11,7 +11,7 @@ class CreateUser(BaseModel):
     image_url: HttpUrl
 
     @validator("email", pre=True, always=True)
-    def username_alphanumeric(cls: Any, v: Any) -> Any:
+    def email_validator(cls: Any, v: Any) -> Any:
         assert v.islower(), "must be lowercase"
         return v
 

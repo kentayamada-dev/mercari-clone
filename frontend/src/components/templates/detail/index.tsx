@@ -243,6 +243,7 @@ export const ItemDetailTemplate: React.VFC<ItemDetailTemplateProps> = ({
             )}
           </HStack>
         </Pressable>
+        <Box height="8" width="full" backgroundColor={backgroundColor} />
       </ScrollView>
       <HStack
         bgColor={bgColor}

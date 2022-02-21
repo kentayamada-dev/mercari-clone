@@ -1,6 +1,8 @@
-from app.schema.common import GetAllItem, Base
+from typing import Any
+
+from app.schema.common import Base, GetAllItem
 from app.schema.user import BaseUser
-from pydantic import BaseModel, Extra, HttpUrl
+from pydantic import BaseModel, Extra, HttpUrl, validator
 
 
 class CreateItem(BaseModel):
@@ -8,6 +10,12 @@ class CreateItem(BaseModel):
     name: str
     price: int
     image_url: HttpUrl
+
+    @validator("price", pre=True, always=True)
+    def price_validator(cls: Any, v: Any) -> Any:
+        if not 300 <= v <= 9999999:
+            raise ValueError("price must be between 300 and 9999999")
+        return v
 
     class Config:
         extra = Extra.forbid
