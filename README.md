@@ -1,12 +1,12 @@
 # 📱 Mercari App Clone
 <div>
   <h3>
-    <a align="center" href="https://github.com/kentayamada-dev/mercari-clone/releases/download/1.0.0/ios_simulator_build.tar.gz">
+    <a align="center" href="https://github.com/kentayamada-dev/mercari-clone/releases/download/v1.0.0/ios_simulator_build.tar.gz">
       <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/Download iOS App-4630EB.svg?style=for-the-badge&logo=APPLE&labelColor=999999&logoColor=fff" />
     </a>
   </h3>
   <h3>
-    <a align="center" href="https://github.com/kentayamada-dev/mercari-clone/releases/download/1.0.0/android_internal_distribution_build.apk">
+    <a align="center" href="https://github.com/kentayamada-dev/mercari-clone/releases/download/v1.0.0/android_internal_distribution_build.apk">
       <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Download Android App-4630EB.svg?style=for-the-badge&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
     </a>
   </h3>
