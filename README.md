@@ -1,15 +1,20 @@
 # 📱 Mercari App Clone
 <div>
-  <div>
+  <h3>
     <a align="center" href="https://expo.dev/artifacts/eas/h44qKHx5fHyHASDrnouf8s.tar.gz">
       <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/Download iOS App-4630EB.svg?style=for-the-badge&logo=APPLE&labelColor=999999&logoColor=fff" />
     </a>
-  </div>
-  <div>
+  </h3>
+  <h3>
     <a align="center" href="https://turtle-v2-artifacts.s3.amazonaws.com/android/aa098768-8f7a-4e9e-b269-946aa72dde42-c08d618bc4874da6a54d66578c5a8bbd.apk">
       <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Download Android App-4630EB.svg?style=for-the-badge&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
     </a>
-  </div>
+  </h3>
+   <h3>
+    <a href="https://mercari-clone-api-server.herokuapp.com/">
+      API is here!
+    </a>
+  </h3>
 </div>
 <span>Last Updated: 21 February 2022 (JST)</span>
 
