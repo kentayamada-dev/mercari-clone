@@ -12,7 +12,7 @@
   </h3>
    <h3>
     <a href="https://mercari-clone-api-server.herokuapp.com/">
-      API is here!
+      API is here! (Sometimes, it will take a while to open)
     </a>
   </h3>
 </div>
