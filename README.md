@@ -23,7 +23,7 @@
   - If you haven't installed or run the iOS simulator before, follow the [iOS simulator guide](https://docs.expo.dev/workflow/ios-simulator/) before test the app.
   - If you haven't installed or run an Android emulator before, follow the [Android Studio emulator guide](https://docs.expo.dev/workflow/android-studio-emulator/) before test the app.
 
-## 🛠️ Tech stack
+## 🛠️ Tech Stack
 
 - Frontend
   - React Native (Fully Optimized Performance)
