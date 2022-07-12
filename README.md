@@ -16,7 +16,6 @@
     </a>
   </h3>
 </div>
-<span>Last Updated: 21 February 2022 (JST)</span>
 
 ### ℹ️  Info
   - The app is built for Android device/emulator or iOS simulator.
@@ -59,5 +58,3 @@
 |ERD|Notations|
 |---|---|
 |![ERD](assets/db/erd.png)|![Notations](assets/db/relationship_notation.png)|
-
-<span>Last Updated: 14 February 2022 (JST)</span>
