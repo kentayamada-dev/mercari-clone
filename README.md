@@ -1,7 +1,7 @@
 # 📱 Mercari App Clone
 
 <p align="center">  
-  <strong>🚨 Announcement: Mercari App Clone is now closed ⚠️</strong>
+  <strong>🚨 Mercari App Clone is now closed ⚠️</strong>
   <br>
   As of January 1, 2023, the mobile apps and API have been permanently shut down. Thank you for your support.
 </p>
