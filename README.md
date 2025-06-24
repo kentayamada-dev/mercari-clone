@@ -1,4 +1,11 @@
 # 📱 Mercari App Clone
+
+<p align="center">  
+  <strong>🚨 Announcement: Mercari App Clone is now closed ⚠️</strong>
+  <br>
+  As of January 1, 2023, the mobile apps and API have been permanently shut down. Thank you for your support.
+</p>
+
 <div>
   <h3>
     <a align="center" href="https://github.com/kentayamada-dev/mercari-clone/releases/download/v1.0.0/ios_simulator_build.tar.gz">
