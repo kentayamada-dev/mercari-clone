@@ -1,7 +1,7 @@
 # 📱 Mercari App Clone
 
 > [!IMPORTANT]
-> As of January 1, 2023, the mobile apps and API have been permanently shut down. Thank you for your support.
+> **As of January 1, 2023, the mobile apps and API have been permanently shut down. Thank you for your support.**
 
 <div>
   <h3>
